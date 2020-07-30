@@ -204,13 +204,26 @@
     
         {% if 'meetings' in craft.app.request.segments(1) %}
 
+
         <!-- Leaflet JS -->
         <script src="/lib/js/leaflet.js"></script>
         <script src="/lib/js/leaflet-providers.js"></script>
         <script src="/lib/js/leaflet.smoothmarkerbouncing.js"></script>
         <script src="/lib/js/leaflet.ajax.min.js"></script>
 
-        <script src="/src/js/meetings-map.js"></script>
+        <!-- Geolocation -->
+
+        <script src="https://unpkg.com/esri-leaflet@2.4.1/dist/esri-leaflet.js"
+            integrity="sha512-xY2smLIHKirD03vHKDJ2u4pqeHA7OQZZ27EjtqmuhDguxiUvdsOuXMwkg16PQrm9cgTmXtoxA6kwr8KBy3cdcw=="
+            crossorigin=""></script>
+
+        <script
+            src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js"
+            integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA=="
+            crossorigin="">
+        </script>
+        
+        <script defer src="/src/js/meetings-map.js"></script>
         
         {% endif %}
 
