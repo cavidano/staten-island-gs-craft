@@ -108,10 +108,9 @@ function createMarker(
             geoLng = AddressGeoResults[0][0].latlng.lng;
 
             coords = [geoLat, geoLng];
-
-
         }
-            marker = L.marker(coords, { icon: meetingType }).addTo(markerLayer);
+        
+        marker = L.marker(coords, { icon: meetingType }).addTo(markerLayer);
 
         var contentPopUp = '<a href="#1" class="text-primary"><strong>' + meetingTitle + '</strong></a>' + 
                            '<p class="meeting__address">' + meetingAddress + '</p>';
@@ -119,7 +118,6 @@ function createMarker(
         var contentSidebar = '<p class="meeting__title">' + meetingTitle + '</p>' +
                              '<p class="meeting__type">' + meeting + ' Discussion' + '</p>' +
                              '<p class="meeting__address">' + meetingAddress + '</p>';
-        
         
         marker.bindPopup(contentPopUp);
 
@@ -194,21 +192,6 @@ function createMarker(
     });
     
 }
-
-createMarker(
-    openMeeting, 
-    "The Crossroads",
-    "26 Bay St",
-    "10301"
-);
-
-
-createMarker(
-    closedMeeting,
-    "Carl's House",
-    "471 Broadway",
-    "10310"
-);
 
 // createMarker(
 //     [40.628910, -74.114570],

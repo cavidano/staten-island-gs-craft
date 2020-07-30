@@ -223,7 +223,25 @@
             crossorigin="">
         </script>
         
-        <script defer src="/src/js/meetings-map.js"></script>
+        <script src="/src/js/meetings-map.js"></script>
+
+        <script defer>
+
+            createMarker(
+                openMeeting, 
+                "The Crossroads",
+                "26 Bay St",
+                "10301"
+            );
+
+            createMarker(
+                closedMeeting,
+                "Carl's House",
+                "471 Broadway",
+                "10310"
+            );
+
+        </script>
         
         {% endif %}
 
