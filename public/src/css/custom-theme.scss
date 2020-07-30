@@ -30,7 +30,7 @@ In this file:
     --base-font-weight-bold: 900;
 
     --primary: hsl(220, 70%, 40%);
-    --primary-link: var(primary);
+    --white-link: var(--primary);
 
     --secondary: hsl(174, 100%, 33%);
     --dark: hsl(215, 61%, 15%);
@@ -38,7 +38,9 @@ In this file:
 
     --border-radius: 0.375em;
 
-   --dropdown-z-index: 15000;
+    --dropdown-z-index: 15000;
+
+    --modal-overlay-opacity: 0.5;
 }
 
 //////////////////////////////////////////////
