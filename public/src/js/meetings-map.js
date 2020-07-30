@@ -84,6 +84,7 @@ function createMarker(
 ) {
 
     var meeting;
+
     var geoLat, geoLng, coords, marker;
 
     if( meetingType === closedMeeting ){
@@ -92,13 +93,14 @@ function createMarker(
         meeting = 'Open';
     }
 
-    var meetingAddress = streetAddress + " Staten Island, NY " + zipCode;
-    console.log(meetingAddress);
+    var cityState = "Staten Island, NY";
+
+    var locationAddress = streetAddress + " " + cityState + " " + zipCode;
+    console.log(locationAddress);
     
-    L.esri.Geocoding.geocode().address(meetingAddress).run( function (err, results) {
+    L.esri.Geocoding.geocode().address(locationAddress).run( function (err, results) {
 
         if (err) {
-            console.log(err);
             return;
         } else {
 
@@ -113,11 +115,11 @@ function createMarker(
         marker = L.marker(coords, { icon: meetingType }).addTo(markerLayer);
 
         var contentPopUp = '<a href="#1" class="text-primary"><strong>' + meetingTitle + '</strong></a>' + 
-                           '<p class="meeting__address">' + meetingAddress + '</p>';
+                           '<p class="meeting__address">' + streetAddress + '<br>' + cityState + ' ' + zipCode + '</p>'
 
         var contentSidebar = '<p class="meeting__title">' + meetingTitle + '</p>' +
                              '<p class="meeting__type">' + meeting + ' Discussion' + '</p>' +
-                             '<p class="meeting__address">' + meetingAddress + '</p>';
+                             '<p class="meeting__address">' + streetAddress + '<br>' + cityState +' ' + zipCode + '</p>';
         
         marker.bindPopup(contentPopUp);
 
