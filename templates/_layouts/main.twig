@@ -34,6 +34,8 @@
 
     </head>
 
+    {% import '_macros' as siteMacros %}
+
     <body>
 
         <!-- For keyboard users -->
@@ -96,7 +98,7 @@
         
                 <ul>
                     <li>
-                        <a href="#1" data-toggle="dropdown">
+                        <a href="#1" data-toggle="dropdown" {{ siteMacros.isActive("about") }}>
                           <strong>About</strong>  
                         </a>
                         <ul class="box-shadow-1--lg font-size-md padding-2">
@@ -118,17 +120,17 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="/meetings">
+                        <a href="/meetings" {{ siteMacros.isActive("meetings") }}>
                             <strong>Meetings</strong>
                         </a>
                     </li>
                     <li>
-                        <a href="events.html">
+                        <a href="events.html" {{ siteMacros.isActive("events") }}>
                             <strong>Events</strong>
                         </a>
                     </li>
                     <li>
-                        <a href="#1">
+                        <a href="#1" {{ siteMacros.isActive("resources") }}>
                             <strong>Resources</strong>
                         </a>
                     </li>
@@ -157,6 +159,28 @@
 
         {% endblock %}
 
+        <div class="modal text-primary" id="global-language">
+
+            <div class="modal__content medium box-shadow-3 rounded" aria-labelledby="modal-language-title">
+
+                <header class="modal__content__head border-bottom">
+                    <h2 class="h5" id="modal-language-title">Website Translation</h2>
+                    <button class="btn btn--icon-only" data-modal-close>
+                        <span class="screen-reader-only">Close Modal</span>
+                        <span class="fas fa-times"></span>
+                    </button>
+                </header>
+
+                <div class="modal__content__body sans" id="modal-language-content">
+                    <div id="google_translate_element"></div>
+                </div>
+
+            </div>
+            <!-- .modal__content -->
+
+        </div>
+        <!-- #global-language -->
+
         <footer class="theme-primary padding-y-2 display-none" role="contentinfo">
             <div class="container">
                 <p>footer</p>
@@ -178,7 +202,7 @@
         <script src="https://cdn.jsdelivr.net/gh/CityOfNewYork/nyc-core-framework@new-version/dist/js/nyc_core.js"></script>
     
         {% if 'meetings' in craft.request.getSegment(1) %}
-        
+
         <!-- Leaflet JS -->
         <script src="/lib/js/leaflet.js"></script>
         <script src="/lib/js/leaflet-providers.js"></script>
