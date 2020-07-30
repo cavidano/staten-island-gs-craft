@@ -71,6 +71,85 @@
         </section>
         <!-- backdrop -->
 
+        <section class="theme-light">
+
+            <div class="container narrow medium--md margin-y-5">
+
+                <header class="text-align-center">
+                    <h2>
+                        Today's Meetings
+                    </h2>
+                </header>
+
+                <div class="theme-white margin-y-4 box-shadow-1 rounded">
+
+                    <table class="table font-size-md" id="sigs-daily-meetings">
+
+                        <caption id="table-caption-01" class="screen-reader-only">
+                            Staten Island Meetings Today
+                        </caption>
+
+                        <thead>
+
+                            <tr>
+                                <th scope="col">Time</th>
+                                <th scope="col" class="width-40">Name</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">
+                                    <span class="screen-reader-only">Action</span>
+                                </th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {# Create an entry query with the 'section' and 'limit' parameters #}
+                            {% set myEntryQuery = craft.entries().section('meetings') %}
+
+                            {# Fetch the entries #}
+                            {% set entries = myEntryQuery.all() %}
+
+                            {# Display the entries #}
+                            {% for entry in entries %}
+
+                            {% if entry.weekday == 'Monday' %}
+                            
+                            <tr>
+                                <td>{{ entry.startTime }}</td>
+                                <td>{{ entry.title }}</td>
+                                <td>{{ entry.weekday }}</td>
+                                <td class="text-align-right">
+                                    <a href="#1">Details</a>
+                                </td>
+                            </tr>
+                            
+                            {% endif %}
+                            
+                            {% endfor %}
+
+
+                                
+                        </tbody>
+
+                        <tfoot>
+                            <!-- -->
+                        </tfoot>
+
+                    </table>
+
+                </div>
+
+                <div class="text-align-center">
+                    <a class="btn theme-dark rounded" href="#1">All Meetings</a>
+                </div>
+
+
+            </div>
+            <!-- .container -->
+
+        </section>
+
     </main>
 
 {% endblock %}
