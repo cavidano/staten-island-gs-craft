@@ -1,0 +1,75 @@
+{% extends "_layouts/main" %}
+
+{% block main %}
+
+    <main id="skip-header-content">
+
+        <div class="theme-primary padding-y-2 padding-y-3--lg">
+
+            <div class="container text-align-center">
+
+                <h1 class="screen-reader-only">Staten Island Meeting List</h1>
+
+                <div class="narrow font-size-md">
+                    <ul class="nav nav--divider nav--horizontal border rounded">
+                        <li>
+                            <a href="#1" aria-current="page">Map</a>
+                        </li>
+                        <li>
+                            <a href="#1">List</a>
+                        </li>
+                        <li>
+                            <a href="#1">Filter</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <section class="theme-light" id="map-view">
+
+            <h2 class="screen-reader-only">Map view of Data</h2>
+
+            <div id="map-view__map-container">
+
+                <ul class="nav font-size-md" id="map-controls">
+
+                    <li>
+                        <button class="btn btn--icon-only toggle background-blur box-shadow-1"
+                            title="Zoom In" type="button" data-map-zoom-in>
+                            <span class="screen-reader-only">Toggle</span>
+                            <span class="fas fa-plus" aria-hidden="true"></span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn--icon-only toggle background-blur box-shadow-1"
+                            title="Zoom Out" type="button" data-map-zoom-out>
+                            <span class="screen-reader-only">Toggle</span>
+                            <span class="fas fa-minus" aria-hidden="true"></span>
+                        </button>
+                    </li>
+                    <li class="display-none display-block--lg">
+                        <button class="btn btn--icon-only toggle background-blur box-shadow-1"
+                            title="Toggle Sidebar" type="button" data-toggle-locations>
+                            <span class="screen-reader-only">Toggle</span>
+                            <span class="fas fa-map-marker-alt" aria-hidden="true"></span>
+                        </button>
+                    </li>
+
+                </ul>
+
+                <div id="map-loader"></div>
+
+            </div>
+            <!-- .map__map-container -->
+
+            <div class="box-shadow-2" id="map-view__data-container">
+                <div id="data-loader"></div>
+            </div>
+
+        </section>
+
+    </main>
+
+{% endblock %}

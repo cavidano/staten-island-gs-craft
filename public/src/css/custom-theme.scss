@@ -1,0 +1,300 @@
+/*
+
+In this file:
+
+// A. Imports
+// B. Variables
+// C. Text Shadows
+// D. I.E. 11 Support
+
+*/
+
+//////////////////////////////////////////////
+// A. Imports
+//////////////////////////////////////////////
+
+@import "partials/breakpoints";
+
+//////////////////////////////////////////////
+// B. Variables
+//////////////////////////////////////////////
+
+:root{
+
+    --body-max-width: 2200px;
+    --base-font-family: 'Montserrat', sans-serif;
+
+    --base-font-size: 22px;
+
+    --base-font-weight-normal: 400;
+    --base-font-weight-bold: 900;
+
+    --primary: hsl(220, 70%, 40%);
+    --primary-link: var(primary);
+
+    --secondary: hsl(174, 100%, 33%);
+    --dark: hsl(215, 61%, 15%);
+    --light: #F7F8F9;
+
+    --border-radius: 0.375em;
+}
+
+//////////////////////////////////////////////
+// C. Global Elements
+//////////////////////////////////////////////
+
+%serif{
+    font-family:'EB Garamond', serif;
+}
+
+.background-blur{
+    backdrop-filter: blur(0.24rem) brightness(108%);
+    color: (var(--primary));
+}
+
+p:not([class]) {
+    @extend %serif !optional;
+}
+
+.card{
+    h6, .h6{
+        margin-bottom: var(--s1);
+    }
+}
+
+//////////////////////////////////////////////
+// D. Map
+//////////////////////////////////////////////
+
+#map-view{
+    --map-max-size: 350px;
+    
+    display: grid;
+
+    grid-template-areas: 
+        "map"
+        "sidebar";
+        
+    grid-template-rows: 1fr 0;
+
+    #map-view__map-container {
+        position: relative;
+        z-index: 8000;
+
+        grid-area: "map";
+    }
+
+    #map-controls {
+        position: absolute;
+        top: var(--s1);
+        left: var(--s1);
+        z-index: 8500;
+
+        button[disabled] {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    }
+
+    #map-view__data-container {
+        position: relative;
+        z-index: 12000;
+
+        grid-area: 'sidebar';
+
+        overflow-y: scroll;
+    }
+
+    #data-loader {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: flex-end;
+    }
+    
+    @include breakpoints-up(lg) {
+
+        #map-view__data-container {
+            overflow-y: scroll;
+        }
+
+        grid-template-rows: unset !important;
+        
+        grid-template-areas: 
+            "map sidebar";
+
+        grid-template-columns: 1fr 0;
+
+        &.data-shown {
+            grid-template-columns: 1fr var(--map-max-size);
+        }
+
+    }
+
+}
+
+.leaflet-popup-tip,
+.leaflet-popup-content-wrapper {
+    box-shadow: unset;
+    background-color: rgba( #ffffff, 0.5);
+    backdrop-filter: blur(0.24rem);
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: calc( var(--border-radius) * 1) ;
+    box-shadow: 0 0 1em rgba( #000000, 0.125);
+    
+}
+
+.leaflet-popup-content {
+    color: var(--dark);
+    margin: calc( var(--s1) * 0.75) var(--s1);
+
+    font-size: var(--font-size-sm);
+
+    > h6 {
+        font-size: inherit;
+        margin-bottom: unset;
+    }
+
+    p {
+        margin: unset;
+    }
+}
+
+.leaflet-popup-close-button{
+    display: none;
+}
+
+a[class*="leaflet-control-zoom"],
+a[class*="leaflet-control-zoom"]:hover,
+a[class*="leaflet-control-zoom"]:focus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--btn--icon-only-size);
+    height: var(--btn--icon-only-size);
+    text-decoration: none;
+}
+
+.meeting-detail {
+    position: relative;
+    padding: var(--s2);
+    cursor: pointer;
+
+    &::before{
+        position: absolute;
+        content: "";
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+
+        transition: opacity 0.5s ease-in-out;
+        background-color: white;
+    }
+
+    &[data-highlight="true"]::before {
+        opacity: 1;
+    }
+
+    &[data-highlight="false"]::before {
+        opacity: 0;
+    }
+
+    > button {
+        position: absolute;
+        top: var(--s1);
+        right: var(--s1);
+    }
+
+    > p {
+        margin-bottom: 0;
+        font-size: var(--font-size-md);
+    }
+    
+    .meeting__title {
+        font-size: var(--font-size-md);
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.5em;
+    }
+
+    .meeting__type{
+        font-size: var(--font-size-sm);
+        margin-bottom: 0.5em;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        opacity: 0.75;
+
+        &::before {
+            content: "";
+            height: 1.5em;
+            width: 1.5em;
+            background-color: currentColor;
+            mask-size: contain;
+            mask-repeat: no-repeat;
+        }
+    }
+
+    &.open .meeting__type::before {
+        mask-image: url("../../images/icon-meeting-open.svg");
+    }
+
+    &.closed .meeting__type::before  {
+        mask-image: url("../../images/icon-meeting-closed.svg") !important;
+    }
+
+    .meeting__address{
+        @extend %serif !optional;
+    }
+}
+
+.leaflet-marker-icon,
+.meeting-detail {
+
+    &:focus {
+        outline: unset;
+        outline-color: currentColor;
+        outline-style: dotted;
+        outline-width: calc(var(--default-border-width) * 2);
+        outline-offset: calc(var(--default-border-width) * -2);
+    }
+
+}
+
+#map-loader { 
+    height: 100%; 
+    width:100% 
+}
+
+svg.current-color{
+    fill: currentColor;
+}
+
+.banner-headline {
+    font-weight: var(--base-font-weight-bold) !important;
+}
+
+.wrap-triangle {
+    --my-size: 100px;
+    --my-padding: var(--s2);
+
+    --my-real-size: calc( var(--my-size) + var(--my-padding));
+
+    background-color: var(--primary);
+    padding: var(--s1);
+    border-radius: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: calc( var(--my-real-size) / 2 * -1);
+    width: var(--my-real-size);
+    height: var(--my-real-size);;
+}
+
+footer{
+    padding-top: 0.1px;
+}
