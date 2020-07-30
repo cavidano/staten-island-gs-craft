@@ -126,7 +126,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="events.html" {{ siteMacros.isActive("events") }}>
+                        <a href="#1" {{ siteMacros.isActive("events") }}>
                             <strong>Events</strong>
                         </a>
                     </li>
@@ -210,19 +210,14 @@
         <script src="/lib/js/leaflet.smoothmarkerbouncing.js"></script>
         <script src="/lib/js/leaflet.ajax.min.js"></script>
 
-        <!-- Geolocation -->
+        <!-- Geolocation Plugin -->
+        <script src="https://unpkg.com/esri-leaflet@2.4.1/dist/esri-leaflet.js"></script>
+        <script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js"></script>
 
-        <script src="https://unpkg.com/esri-leaflet@2.4.1/dist/esri-leaflet.js"
-            integrity="sha512-xY2smLIHKirD03vHKDJ2u4pqeHA7OQZZ27EjtqmuhDguxiUvdsOuXMwkg16PQrm9cgTmXtoxA6kwr8KBy3cdcw=="
-            crossorigin=""></script>
-
-        <script
-            src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js"
-            integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA=="
-            crossorigin="">
-        </script>
-        
+        <!-- Meeting Map -->
         <script src="/src/js/meetings-map.js"></script>
+
+        <!-- Create Markers -->
 
         <script defer>
 
