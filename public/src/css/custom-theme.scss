@@ -37,17 +37,19 @@ In this file:
     --light: #F7F8F9;
 
     --border-radius: 0.375em;
+
+   --dropdown-z-index: 15000;
 }
 
 //////////////////////////////////////////////
 // C. Global Elements
 //////////////////////////////////////////////
 
-%serif{
+%serif {
     font-family:'EB Garamond', serif;
 }
 
-.background-blur{
+.background-blur {
     backdrop-filter: blur(0.24rem) brightness(108%);
     color: (var(--primary));
 }
