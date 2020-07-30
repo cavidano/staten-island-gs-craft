@@ -1,5 +1,5 @@
 {# Primary Navigation Active State #}
 
 {% macro isActive(segment) %}
-    {% if craft.request.segments | first == segment %} aria-current="page" {% endif %}
+    {% if craft.app.request.segments | first == segment %} aria-current="page" {% endif %}
 {% endmacro %}
