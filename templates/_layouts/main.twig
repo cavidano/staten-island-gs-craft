@@ -210,33 +210,42 @@
         <script src="/lib/js/leaflet.smoothmarkerbouncing.js"></script>
         <script src="/lib/js/leaflet.ajax.min.js"></script>
 
-        <!-- Geolocation Plugin -->
-        <script src="https://unpkg.com/esri-leaflet@2.4.1/dist/esri-leaflet.js"></script>
-        <script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js"></script>
+        <!-- Geolocation Plugin -->        
+        <script src="/lib/js/esri-leaflet-v2.4.1.js"></script>
+        <script src="/lib/js/esri-leaflet-geocoder-v2.3.3.js"></script>
 
         <!-- Meeting Map -->
         <script src="/src/js/meetings-map.js"></script>
 
         <!-- Create Markers -->
 
-        <script defer>
+        {% js at endBody %}
 
-            createMarker(
-                openMeeting, 
-                "The Crossroads",
-                "26 Bay St",
-                "10301"
-            );
+            {% set myEntryQuery = craft.entries().section('meetings') %}
 
-            createMarker(
-                closedMeeting,
-                "Carl's House",
-                "471 Broadway",
-                "10310"
-            );
+            {# Fetch the entries #}
+            {% set entries = myEntryQuery.all() %}
 
-        </script>
-        
+            var i = 0;
+
+            {# Display the entries #}
+            {% for entry in entries %}
+
+            i++;
+
+                createMarker(
+                    openMeeting, 
+                    "{{ entry.meetingName }}",
+                    "{{ entry.locationStreetAddress }}",
+                    "{{ entry.locationZipCode }}"
+                );
+
+            console.log(i);
+
+            {% endfor %}
+
+        {% endjs %}
+
         {% endif %}
 
     </body>
