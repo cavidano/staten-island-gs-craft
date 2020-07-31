@@ -83,7 +83,7 @@
 
                 <div class="theme-white margin-y-4 box-shadow-1 rounded">
 
-                    <table class="table font-size-md" id="sigs-daily-meetings">
+                    <table class="table table--stack--md font-size-md" id="sigs-daily-meetings">
 
                         <caption id="table-caption-01" class="screen-reader-only">
                             Staten Island Meetings Today
@@ -92,10 +92,10 @@
                         <thead>
 
                             <tr>
-                                <th scope="col">Time</th>
-                                <th scope="col" class="width-30">Name</th>
-                                <th scope="col">Address</th>
-                                <th scope="col">
+                                <th scope="col" style="width: 20%;">Time</th>
+                                <th scope="col" style="width: 30%;">Name</th>
+                                <th scope="col" style="width: 30%;">Address</th>
+                                <th scope="col" style="width: 20%;">
                                     <span class="screen-reader-only">Action</span>
                                 </th>
                             </tr>
@@ -104,19 +104,23 @@
 
                         <tbody>
 
-                            {# Create an entry query with the 'section' and 'limit' parameters #}
+                            {# Create an entry query with the 'section' #}
                             {% set myEntryQuery = craft.entries().section('meetings') %}
 
                             {# Fetch the entries #}
-                            {% set entries = myEntryQuery.weekday([currentDay]).all() %}
+                            {% set entries = myEntryQuery.meetingWeekday([currentDay]).all() %}
 
                             {# Display the entries #}
                             {% for entry in entries %}
                             
                             <tr>
-                                <td><strong>{{ entry.startTime }}</strong></td>
-                                <td>{{ entry.title }}</td>
-                                <td>{{ entry.meetingAddress }}</td>
+                                <td><strong>{{ entry.meetingStartTime }}</strong></td>
+                                <td>{{ entry.meetingName }}</td>
+                                <td>
+                                   <span>{{ entry.locationStreetAddress }}</span>
+                                   <span>Staten Island, NY</span>
+                                   <span>{{ entry.locationZipCode }}</span>
+                                </td>
                                 <td class="text-align-right font-size-sm">
                                     <a href="#1"><strong>Details</strong></a>
                                 </td>
