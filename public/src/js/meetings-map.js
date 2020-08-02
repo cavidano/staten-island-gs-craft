@@ -74,7 +74,7 @@ var closedMeeting = new Icon( { iconUrl: myPath + '/images/map-pin-closed.svg'} 
 
 // Create Markers
 
-markerLayer = L.layerGroup([]).addTo(map);
+var markerLayer = L.layerGroup([]).addTo(map);
 
 function createMarker(
     meetingType,
@@ -85,7 +85,7 @@ function createMarker(
 
     var meeting;
 
-    var geoLat, geoLng, coords, marker;
+    var coords, marker;
 
     if( meetingType === closedMeeting ){
         meeting = 'Closed';
@@ -96,132 +96,96 @@ function createMarker(
     var cityState = "Staten Island, NY";
 
     var locationAddress = streetAddress + " " + cityState + " " + zipCode;
-    console.log(locationAddress);
     
-    L.esri.Geocoding.geocode().address(locationAddress).run( function (err, results) {
+    L.esri.Geocoding.geocode().address(locationAddress).run((err, results, response) => {
 
         if (err) {
             return;
         } else {
-
-            var AddressGeoResults = Object.values(results);
-
-            geoLat = AddressGeoResults[0][0].latlng.lat;
-            geoLng = AddressGeoResults[0][0].latlng.lng;
-
-            coords = [geoLat, geoLng];
-        }
+            coords = results.results[0].latlng;
+        }   
         
-        marker = L.marker(coords, { icon: meetingType }).addTo(markerLayer);
-
+    marker = L.marker(coords, { icon: meetingType }).addTo(markerLayer);
         var contentPopUp = '<a href="#1" class="text-primary"><strong>' + meetingTitle + '</strong></a>' + 
                            '<p class="meeting__address">' + streetAddress + '<br>' + cityState + ' ' + zipCode + '</p>'
 
         var contentSidebar = '<p class="meeting__title">' + meetingTitle + '</p>' +
                              '<p class="meeting__type">' + meeting + ' Discussion' + '</p>' +
-                             '<p class="meeting__address">' + streetAddress + '<br>' + cityState +' ' + zipCode + '</p>';
-        
+                             '<p class="meeting__address">' + streetAddress + '<br>' + cityState + ' ' + zipCode + '</p>';
+
         marker.bindPopup(contentPopUp);
-
-        // Desktop Marker Functionality
-
-        var mediaQuery = window.matchMedia('( max-width: 1000px )');
-
-        function watchMediaQuery(event) {
-
-            if (event.matches) {
-                return;
-            } else {
-
-                marker.on('click', function (event) {
-
-                    if (sidebarShown === false) {
-                        mapTarget.classList.add('data-shown');
-                        sidebarShown = true;
-                        map.invalidateSize(true);
-                    }
-
-                    var id = L.Util.stamp(event.target);
-
-                    if (document.getElementById(id) != null) return;
-
-                    var dataLoader = L.DomUtil.create('div', 'dataLoader', document.getElementById('data-loader'));
-
-                    dataLoader.id = id;
-                    
-                    var meetingDetail = L.DomUtil.create('div', 'meeting-detail' + ' ' + meeting.toLowerCase() + ' ' + 'border-bottom', dataLoader);
-                    meetingDetail.innerHTML = contentSidebar;
-                    
-                    meetingDetail.setAttribute("tabindex", 0);
-
-                    meetingDetail.setAttribute("data-highlight", "true");
-
-                    setTimeout( function() {
-                        meetingDetail.setAttribute("data-highlight", "false");
-                    }, 2000)
-                    
-                    L.DomEvent.on( meetingDetail, 'click', function (event) {
-
-                        if( event.target.classList.contains('btn')) {
-                            event.preventDefault();
-                        } else {
-                            var marker = markerLayer.getLayer(this.id);
-                            marker.closePopup();
-                            map.panTo(marker.getLatLng());
-                            marker.bounce(2);
-                        }
-
-                    }, dataLoader);
-                    
-                    var unpinMeeting = L.DomUtil.create('button', 'btn btn--icon-only', meetingDetail);
-                    
-                    unpinMeeting.innerHTML = '<span class="screen-reader-only">Remove</span>' +
-                                            '<span class="fas fa-times btn__icon"></span>';
-
-                    unpinMeeting.setAttribute("title", "Remove");
-                    
-                    L.DomEvent.on(unpinMeeting, 'click', function () {
-                        markerLayer.getLayer(this.id).closePopup();
-                        this.parentNode.removeChild(this);
-                    }, dataLoader);
-                });
-            }
-        }
-
-        watchMediaQuery(mediaQuery);
-        mediaQuery.addListener(watchMediaQuery);
-
     });
     
+
+        // var mediaQuery = window.matchMedia('( max-width: 1000px )');
+
+        // function watchMediaQuery(event) {
+
+        //     if (event.matches) {
+        //         return;
+        //     } else {
+
+        //         marker.on('click', function (event) {
+
+        //             if (sidebarShown === false) {
+        //                 mapTarget.classList.add('data-shown');
+        //                 sidebarShown = true;
+        //                 map.invalidateSize(true);
+        //             }
+
+        //             var id = L.Util.stamp(event.target);
+
+        //             if (document.getElementById(id) != null) return;
+
+        //             var dataLoader = L.DomUtil.create('div', 'dataLoader', document.getElementById('data-loader'));
+
+        //             dataLoader.id = id;
+                    
+        //             var meetingDetail = L.DomUtil.create('div', 'meeting-detail' + ' ' + meeting.toLowerCase() + ' ' + 'border-bottom', dataLoader);
+        //             meetingDetail.innerHTML = contentSidebar;
+                    
+        //             meetingDetail.setAttribute("tabindex", 0);
+
+        //             meetingDetail.setAttribute("data-highlight", "true");
+
+        //             setTimeout( function() {
+        //                 meetingDetail.setAttribute("data-highlight", "false");
+        //             }, 2000)
+                    
+        //             L.DomEvent.on( meetingDetail, 'click', function (event) {
+
+        //                 if( event.target.classList.contains('btn')) {
+        //                     event.preventDefault();
+        //                 } else {
+        //                     var marker = markerLayer.getLayer(this.id);
+        //                     marker.closePopup();
+        //                     map.panTo(marker.getLatLng());
+        //                     marker.bounce(2);
+        //                 }
+
+        //             }, dataLoader);
+                    
+        //             var unpinMeeting = L.DomUtil.create('button', 'btn btn--icon-only', meetingDetail);
+                    
+        //             unpinMeeting.innerHTML = '<span class="screen-reader-only">Remove</span>' +
+        //                                     '<span class="fas fa-times btn__icon"></span>';
+
+        //             unpinMeeting.setAttribute("title", "Remove");
+                    
+        //             L.DomEvent.on(unpinMeeting, 'click', function () {
+        //                 markerLayer.getLayer(this.id).closePopup();
+        //                 this.parentNode.removeChild(this);
+        //             }, dataLoader);
+        //         });
+        //     }
+        // }
+
+        // watchMediaQuery(mediaQuery);
+        // mediaQuery.addListener(watchMediaQuery);
+        
+
+    
 }
-
-// createMarker(
-//     [40.628910, -74.114570],
-//     closedMeeting, 
-//     "Carl's House",
-//     "471 Broadway,<br>Staten Island, NY 10301"
-// );
-
-// createMarker(
-//     [40.632000, -74.132060],
-//     closedMeeting, 
-//     "Jaywalker Club",
-//     "945 Post Ave,<br>Staten Island, NY 10302"
-// );
-
-// createMarker(
-//     [40.639150, -74.076800],
-//     openMeeting, 
-//     "Project Hospitality Cafe",
-//     "100 Central Ave,<br>Staten Island, NY 10301"
-// );
-
-// createMarker(
-//     [40.533780, -74.189230],
-//     openMeeting, 
-//     "Steps to the Stars",
-//     "5371 Amboy Rd,<br>Staten Island, NY 10312"
-// );
 
 window.addEventListener('resize', setMapHeight);
 
