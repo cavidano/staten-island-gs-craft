@@ -21,7 +21,7 @@ function setMapHeight() {
 setMapHeight();
 
 //////////////////////////////////////////////
-// B. Create Leaflet Map
+// B. Leaflet Map
 //////////////////////////////////////////////
 
 var map = L.map('map-loader', {
@@ -55,11 +55,17 @@ var siGeo = new L.GeoJSON.AJAX('./lib/geojson/statenIsland.geojson');
 
 siGeo.on('data:loaded', function() {
     centerMap(siGeo);
-    L.tileLayer.provider('CartoDB.VoyagerNoLabels').addTo(map);
+    
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        id: 'mapbox/streets-v11',
+        accessToken: 'pk.eyJ1IjoiY2F2aWRhbm8iLCJhIjoiY2tkY3ZzdHUyMTB3azJ6b2JtbTNhODkybSJ9.zor-mM9NBBaRSuJKhwPh7g',
+        tileSize: 512,
+        zoomOffset: -1
+    }).addTo(map);
 });
 
 function centerMap(myBounds){
-    map.fitBounds(myBounds.getBounds(), { padding: [20, 20] });
+    map.fitBounds(myBounds.getBounds());
 }
 
 // Custom popup options
@@ -76,116 +82,178 @@ var closedMeeting = new Icon( { iconUrl: myPath + '/images/map-pin-closed.svg'} 
 
 var markerLayer = L.layerGroup([]).addTo(map);
 
-function createMarker(
-    meetingType,
-    meetingTitle,
-    streetAddress,
-    zipCode
-) {
+function init() {
+    gapi.client.init({
+        'apiKey': 'AIzaSyAa12ysdSNieKzVAb_jsAy_pV6gH9phlOs',
+    }).then(function () {
+        return gapi.client.request({
+            'path': 'https://sheets.googleapis.com/v4/spreadsheets/18q9JqQbP_d8_27c9yePyixkhFsUAiJ9yOlkhTmfu-v4/values/sigsMeetingList',
+        })
+    }).then(function (response) {
 
-    var meeting;
+        // console.log(response.result);
 
-    var coords, marker;
+        const columnHeaderList = new Array();
 
-    if( meetingType === closedMeeting ){
-        meeting = 'Closed';
-    } else if ( meetingType === openMeeting ) {
-        meeting = 'Open';
-    }
+        // Create Column Headers Array
+        for (const columnHeader of response.result.values[0]) {
+            columnHeaderList.push(columnHeader);
+        }
 
-    var cityState = "Staten Island, NY";
+        let addressIndex = columnHeaderList.indexOf('locationStreetAddress');
+        let zipCodeIndex = columnHeaderList.indexOf('locationZipCode');
+        let meetingNameIndex = columnHeaderList.indexOf('meetingName');
 
-    var locationAddress = streetAddress + " " + cityState + " " + zipCode;
-    
-    L.esri.Geocoding.geocode().address(locationAddress).run((err, results, response) => {
+        console.log(addressIndex, zipCodeIndex);
 
-        if (err) {
-            return;
-        } else {
-            coords = results.results[0].latlng;
-        }   
-        
-    marker = L.marker(coords, { icon: meetingType }).addTo(markerLayer);
-        var contentPopUp = '<a href="#1" class="text-primary"><strong>' + meetingTitle + '</strong></a>' + 
-                           '<p class="meeting__address">' + streetAddress + '<br>' + cityState + ' ' + zipCode + '</p>'
+        let cityState = 'Staten Island, NY';
 
-        var contentSidebar = '<p class="meeting__title">' + meetingTitle + '</p>' +
-                             '<p class="meeting__type">' + meeting + ' Discussion' + '</p>' +
-                             '<p class="meeting__address">' + streetAddress + '<br>' + cityState + ' ' + zipCode + '</p>';
+        for (const locationData of response.result.values) {
 
-        marker.bindPopup(contentPopUp);
+            var coords, marker;
+
+            let locationAddress = locationData[addressIndex] + ' ' + cityState + ' ' + locationData[zipCodeIndex];
+
+            let meetingName = locationData[meetingNameIndex];
+
+            L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
+
+                if (err) {
+                    return;
+                } else {
+                    coords = results.results[0].latlng;
+                }
+
+                marker = L.marker(coords, { icon: openMeeting }).addTo(map);
+
+                var contentPopUp = '<a href="#1" class="text-primary"><strong>' + meetingName + '</strong></a>' + 
+                                   '<p class="meeting__address">' + locationData[addressIndex] + '<br>' + cityState + ' ' + locationData[zipCodeIndex] + '</p>'
+
+                marker.bindPopup(contentPopUp);
+
+            });
+
+        }
+
+    }, function (reason) {
+        console.log('Error: ' + reason.result.error.message);
     });
+};
+
+gapi.load('client', init);
+
+
+
+// function createMarker(
+//     meetingType,
+//     meetingTitle,
+//     streetAddress,
+//     zipCode
+// ) {
+
+//     var meeting;
+
+//     var coords, marker;
+
+//     if( meetingType === closedMeeting ){
+//         meeting = 'Closed';
+//     } else if ( meetingType === openMeeting ) {
+//         meeting = 'Open';
+//     }
+
+//     var cityState = "Staten Island, NY";
+
+//     var locationAddress = streetAddress + " " + cityState + " " + zipCode;
+    
+//     L.esri.Geocoding.geocode().address(locationAddress).run((err, results, response) => {
+
+//         if (err) {
+//             return;
+//         } else {
+//             coords = results.results[0].latlng;
+//         }   
+        
+//     marker = L.marker(coords, { icon: meetingType }).addTo(markerLayer);
+//         var contentPopUp = '<a href="#1" class="text-primary"><strong>' + meetingTitle + '</strong></a>' + 
+//                            '<p class="meeting__address">' + streetAddress + '<br>' + cityState + ' ' + zipCode + '</p>'
+
+//         var contentSidebar = '<p class="meeting__title">' + meetingTitle + '</p>' +
+//                              '<p class="meeting__type">' + meeting + ' Discussion' + '</p>' +
+//                              '<p class="meeting__address">' + streetAddress + '<br>' + cityState + ' ' + zipCode + '</p>';
+
+//         marker.bindPopup(contentPopUp);
+//     });
     
 
-        // var mediaQuery = window.matchMedia('( max-width: 1000px )');
+//         // var mediaQuery = window.matchMedia('( max-width: 1000px )');
 
-        // function watchMediaQuery(event) {
+//         // function watchMediaQuery(event) {
 
-        //     if (event.matches) {
-        //         return;
-        //     } else {
+//         //     if (event.matches) {
+//         //         return;
+//         //     } else {
 
-        //         marker.on('click', function (event) {
+//         //         marker.on('click', function (event) {
 
-        //             if (sidebarShown === false) {
-        //                 mapTarget.classList.add('data-shown');
-        //                 sidebarShown = true;
-        //                 map.invalidateSize(true);
-        //             }
+//         //             if (sidebarShown === false) {
+//         //                 mapTarget.classList.add('data-shown');
+//         //                 sidebarShown = true;
+//         //                 map.invalidateSize(true);
+//         //             }
 
-        //             var id = L.Util.stamp(event.target);
+//         //             var id = L.Util.stamp(event.target);
 
-        //             if (document.getElementById(id) != null) return;
+//         //             if (document.getElementById(id) != null) return;
 
-        //             var dataLoader = L.DomUtil.create('div', 'dataLoader', document.getElementById('data-loader'));
+//         //             var dataLoader = L.DomUtil.create('div', 'dataLoader', document.getElementById('data-loader'));
 
-        //             dataLoader.id = id;
+//         //             dataLoader.id = id;
                     
-        //             var meetingDetail = L.DomUtil.create('div', 'meeting-detail' + ' ' + meeting.toLowerCase() + ' ' + 'border-bottom', dataLoader);
-        //             meetingDetail.innerHTML = contentSidebar;
+//         //             var meetingDetail = L.DomUtil.create('div', 'meeting-detail' + ' ' + meeting.toLowerCase() + ' ' + 'border-bottom', dataLoader);
+//         //             meetingDetail.innerHTML = contentSidebar;
                     
-        //             meetingDetail.setAttribute("tabindex", 0);
+//         //             meetingDetail.setAttribute("tabindex", 0);
 
-        //             meetingDetail.setAttribute("data-highlight", "true");
+//         //             meetingDetail.setAttribute("data-highlight", "true");
 
-        //             setTimeout( function() {
-        //                 meetingDetail.setAttribute("data-highlight", "false");
-        //             }, 2000)
+//         //             setTimeout( function() {
+//         //                 meetingDetail.setAttribute("data-highlight", "false");
+//         //             }, 2000)
                     
-        //             L.DomEvent.on( meetingDetail, 'click', function (event) {
+//         //             L.DomEvent.on( meetingDetail, 'click', function (event) {
 
-        //                 if( event.target.classList.contains('btn')) {
-        //                     event.preventDefault();
-        //                 } else {
-        //                     var marker = markerLayer.getLayer(this.id);
-        //                     marker.closePopup();
-        //                     map.panTo(marker.getLatLng());
-        //                     marker.bounce(2);
-        //                 }
+//         //                 if( event.target.classList.contains('btn')) {
+//         //                     event.preventDefault();
+//         //                 } else {
+//         //                     var marker = markerLayer.getLayer(this.id);
+//         //                     marker.closePopup();
+//         //                     map.panTo(marker.getLatLng());
+//         //                     marker.bounce(2);
+//         //                 }
 
-        //             }, dataLoader);
+//         //             }, dataLoader);
                     
-        //             var unpinMeeting = L.DomUtil.create('button', 'btn btn--icon-only', meetingDetail);
+//         //             var unpinMeeting = L.DomUtil.create('button', 'btn btn--icon-only', meetingDetail);
                     
-        //             unpinMeeting.innerHTML = '<span class="screen-reader-only">Remove</span>' +
-        //                                     '<span class="fas fa-times btn__icon"></span>';
+//         //             unpinMeeting.innerHTML = '<span class="screen-reader-only">Remove</span>' +
+//         //                                     '<span class="fas fa-times btn__icon"></span>';
 
-        //             unpinMeeting.setAttribute("title", "Remove");
+//         //             unpinMeeting.setAttribute("title", "Remove");
                     
-        //             L.DomEvent.on(unpinMeeting, 'click', function () {
-        //                 markerLayer.getLayer(this.id).closePopup();
-        //                 this.parentNode.removeChild(this);
-        //             }, dataLoader);
-        //         });
-        //     }
-        // }
+//         //             L.DomEvent.on(unpinMeeting, 'click', function () {
+//         //                 markerLayer.getLayer(this.id).closePopup();
+//         //                 this.parentNode.removeChild(this);
+//         //             }, dataLoader);
+//         //         });
+//         //     }
+//         // }
 
-        // watchMediaQuery(mediaQuery);
-        // mediaQuery.addListener(watchMediaQuery);
+//         // watchMediaQuery(mediaQuery);
+//         // mediaQuery.addListener(watchMediaQuery);
         
 
     
-}
+// }
 
 window.addEventListener('resize', setMapHeight);
 

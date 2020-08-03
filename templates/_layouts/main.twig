@@ -277,42 +277,16 @@
         <script src="/lib/js/leaflet.smoothmarkerbouncing.js"></script>
         <script src="/lib/js/leaflet.ajax.min.js"></script>
 
+        <!-- Google Sheets API -->
+        <script src="https://apis.google.com/js/api.js"></script>
+
         <!-- Geolocation Plugin -->        
         <script src="/lib/js/esri-leaflet-v2.4.1.js"></script>
         <script src="/lib/js/esri-leaflet-geocoder-v2.3.3.js"></script>
 
         <!-- Meeting Map -->
         <script src="/src/js/meetings-map.js"></script>
-
-        <!-- Create Markers -->
-
-        {% js at endBody %}
-
-            {% set myEntryQuery = craft.entries().section('meetings') %}
-
-            {# Fetch the entries #}
-            {% set entries = myEntryQuery.all() %}
-
-            var i = 0;
-
-            {# Display the entries #}
-            {% for entry in entries %}
-
-            i++;
-
-                createMarker(
-                    openMeeting, 
-                    "{{ entry.meetingName }}",
-                    "{{ entry.locationStreetAddress }}",
-                    "{{ entry.locationZipCode }}"
-                );
-
-            console.log(i);
-
-            {% endfor %}
-
-        {% endjs %}
-
+        
         {% endif %}
 
     </body>

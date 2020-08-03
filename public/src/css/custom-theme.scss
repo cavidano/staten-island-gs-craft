@@ -52,7 +52,8 @@ In this file:
 }
 
 .background-blur {
-    backdrop-filter: blur(0.24rem) brightness(108%);
+    background-color: transparent;
+    backdrop-filter: blur(1rem) brightness(120%);
     color: (var(--primary));
 }
 
@@ -139,8 +140,7 @@ p:not([class]) {
 .leaflet-popup-tip,
 .leaflet-popup-content-wrapper {
     box-shadow: unset;
-    background-color: rgba( #ffffff, 0.5);
-    backdrop-filter: blur(0.24rem);
+    @extend .background-blur !optional;
 }
 
 .leaflet-popup-content-wrapper {
