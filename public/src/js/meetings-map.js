@@ -70,11 +70,6 @@ function centerMap(myBounds){
 
 // Custom popup options
 
-var markerOptions = {
-    riseOnHover: true,
-    icon: Icon
-};
-
 var openMeeting = new Icon( { iconUrl: myPath + '/images/map-pin-open.svg'} );
 var closedMeeting = new Icon( { iconUrl: myPath + '/images/map-pin-closed.svg'} );
 
@@ -103,6 +98,7 @@ function init() {
         let addressIndex = columnHeaderList.indexOf('locationStreetAddress');
         let zipCodeIndex = columnHeaderList.indexOf('locationZipCode');
         let meetingNameIndex = columnHeaderList.indexOf('meetingName');
+        let meetingTypesIndex = columnHeaderList.indexOf('meetingTypes');
 
         console.log(addressIndex, zipCodeIndex);
 
@@ -116,6 +112,16 @@ function init() {
 
             let meetingName = locationData[meetingNameIndex];
 
+            let meetingTypesList = locationData[meetingTypesIndex].toString();
+
+            let primaryMeetingType = meetingTypesList.trim().split(';')[0];
+
+            console.log(primaryMeetingType);
+
+
+
+            
+            
             L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
 
                 if (err) {
@@ -124,10 +130,11 @@ function init() {
                     coords = results.results[0].latlng;
                 }
 
-                marker = L.marker(coords, { icon: openMeeting }).addTo(map);
+                marker = L.marker(coords, { icon: openMeeting, riseOnHover: true }).addTo(map);
 
                 var contentPopUp = '<a href="#1" class="text-primary"><strong>' + meetingName + '</strong></a>' + 
-                                   '<p class="meeting__address">' + locationData[addressIndex] + '<br>' + cityState + ' ' + locationData[zipCodeIndex] + '</p>'
+                                   '<p class="meeting__address">' + locationData[addressIndex] + '<br>' + cityState + ' ' + locationData[zipCodeIndex] + '</p>' +
+                                   '<p class="meeting__type">' + primaryMeetingType + '</p>'
 
                 marker.bindPopup(contentPopUp);
 
