@@ -29,13 +29,6 @@
         <!-- Font Awesome Kit -->
         <script data-search-pseudo-elements defer src="https://kit.fontawesome.com/d0e9d4ccb2.js" crossorigin="anonymous"></script>
 
-        {% if 'meetings' in craft.app.request.segments(1) %}
-
-        <link rel="stylesheet" href="/lib/css/leaflet.markercluster.css">
-        <link rel="stylesheet" href="/lib/css/leaflet.markercluster.default.css">
-
-        {% endif %}
-
         <!-- NYC Core Stylesheet -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CityOfNewYork/nyc-core-framework@new-version/dist/css/nyc_core.css">
         
@@ -290,9 +283,6 @@
         <!-- Geolocation Plugin -->        
         <script src="/lib/js/esri-leaflet-v2.4.1.js"></script>
         <script src="/lib/js/esri-leaflet-geocoder-v2.3.3.js"></script>
-
-        <!-- Leaflet Marker Cluster -->
-        <script src="/lib/js/leaflet.markercluster.js"></script>
 
         <!-- Meeting Map -->
         <script src="/src/js/meetings-map.js"></script>

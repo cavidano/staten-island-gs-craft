@@ -76,7 +76,27 @@ var closedMeeting = new Icon( { iconUrl: myPath + '/images/map-pin-closed.svg'} 
 // Create Markers
 
 var markerGroup = L.markerClusterGroup({ 
-    maxClusterRadius: 1
+    maxClusterRadius: 1,
+    singleMarkerMode: true, 
+    unspiderfy: true
+    // spiderfyDistanceMultiplier: 1,
+
+    // spiderfyShapePositions: function (count, centerPt) {
+    //     var distanceFromCenter = 35,
+    //         markerDistance = 45,
+    //         lineLength = markerDistance * (count - 1),
+    //         lineStart = centerPt.y - lineLength / 2,
+    //         res = [],
+    //         i;
+
+    //     res.length = count;
+
+    //     for (i = count - 1; i >= 0; i--) {
+    //         res[i] = new Point(centerPt.x + distanceFromCenter, lineStart + markerDistance * i);
+    //     }
+
+    //     return res;
+    // }
 });
 
 
@@ -129,7 +149,14 @@ function init() {
                     coords = results.results[0].latlng;
                 }
 
-                marker = L.marker(coords, { icon: openMeeting, riseOnHover: true }).addTo(markerGroup);
+                marker = L.circle(coords, {
+                    color: 'var(--secondary)',
+                    fillColor: 'var(--secondary)',
+                    fillOpacity: 1,
+                    radius: 30
+                }).addTo(markerGroup);
+
+                // marker = L.marker(coords, { icon: openMeeting, riseOnHover: true }).addTo(markerGroup);
 
                 var contentPopUp = '<a href="#1" class="text-primary"><strong>' + meetingName + '</strong></a>' + 
                                    '<p class="meeting__address">' + locationData[addressIndex] + '<br>' + cityState + ' ' + locationData[zipCodeIndex] + '</p>' +
