@@ -75,7 +75,10 @@ var closedMeeting = new Icon( { iconUrl: myPath + '/images/map-pin-closed.svg'} 
 
 // Create Markers
 
-var markerLayer = L.layerGroup([]).addTo(map);
+var markerGroup = L.markerClusterGroup({ 
+    maxClusterRadius: 1
+});
+
 
 function init() {
     gapi.client.init({
@@ -118,10 +121,6 @@ function init() {
 
             console.log(primaryMeetingType);
 
-
-
-            
-            
             L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
 
                 if (err) {
@@ -130,7 +129,7 @@ function init() {
                     coords = results.results[0].latlng;
                 }
 
-                marker = L.marker(coords, { icon: openMeeting, riseOnHover: true }).addTo(map);
+                marker = L.marker(coords, { icon: openMeeting, riseOnHover: true }).addTo(markerGroup);
 
                 var contentPopUp = '<a href="#1" class="text-primary"><strong>' + meetingName + '</strong></a>' + 
                                    '<p class="meeting__address">' + locationData[addressIndex] + '<br>' + cityState + ' ' + locationData[zipCodeIndex] + '</p>' +
@@ -141,6 +140,9 @@ function init() {
             });
 
         }
+
+        //Add mar
+        map.addLayer(markerGroup);
 
     }, function (reason) {
         console.log('Error: ' + reason.result.error.message);
