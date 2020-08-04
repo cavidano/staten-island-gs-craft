@@ -53,7 +53,7 @@ In this file:
 
 .background-blur {
     background-color: transparent;
-    backdrop-filter: blur(1rem) brightness(150%) saturate(75%);
+    backdrop-filter: blur(1rem) brightness(125%) saturate(75%);
     color: (var(--primary));
 }
 
@@ -146,6 +146,7 @@ p:not([class]) {
 .leaflet-popup-content-wrapper {
     border-radius: calc( var(--border-radius) * 1) ;
     box-shadow: 0 0 1em rgba( #000000, 0.125);
+    max-width: 200px;
     
 }
 
