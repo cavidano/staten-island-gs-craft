@@ -75,30 +75,7 @@ var closedMeeting = new Icon( { iconUrl: myPath + '/images/map-pin-closed.svg'} 
 
 // Create Markers
 
-var markerGroup = L.markerClusterGroup({ 
-    maxClusterRadius: 1,
-    singleMarkerMode: true, 
-    unspiderfy: true
-    // spiderfyDistanceMultiplier: 1,
-
-    // spiderfyShapePositions: function (count, centerPt) {
-    //     var distanceFromCenter = 35,
-    //         markerDistance = 45,
-    //         lineLength = markerDistance * (count - 1),
-    //         lineStart = centerPt.y - lineLength / 2,
-    //         res = [],
-    //         i;
-
-    //     res.length = count;
-
-    //     for (i = count - 1; i >= 0; i--) {
-    //         res[i] = new Point(centerPt.x + distanceFromCenter, lineStart + markerDistance * i);
-    //     }
-
-    //     return res;
-    // }
-});
-
+var markerLayer = L.layerGroup([]).addTo(map);
 
 function init() {
     gapi.client.init({
@@ -109,64 +86,97 @@ function init() {
         })
     }).then(function (response) {
 
-        // console.log(response.result);
+        // Create Columns Array
 
-        const columnHeaderList = new Array();
+        let columnHeaderList = new Array();
 
         // Create Column Headers Array
         for (const columnHeader of response.result.values[0]) {
             columnHeaderList.push(columnHeader);
         }
+        
+        console.log("columnHeaderList:");
+        console.log(columnHeaderList);
 
-        let addressIndex = columnHeaderList.indexOf('locationStreetAddress');
-        let zipCodeIndex = columnHeaderList.indexOf('locationZipCode');
-        let meetingNameIndex = columnHeaderList.indexOf('meetingName');
-        let meetingTypesIndex = columnHeaderList.indexOf('meetingTypes');
+        // Associate Needed Value Indexes
 
-        console.log(addressIndex, zipCodeIndex);
+        const locationStreetAddressIndex = columnHeaderList.indexOf('locationStreetAddress');
+        const zipCodeIndex = columnHeaderList.indexOf('locationZipCode');
+        const meetingNameIndex = columnHeaderList.indexOf('meetingName');
+        const meetingTypesIndex = columnHeaderList.indexOf('meetingTypes');
 
-        let cityState = 'Staten Island, NY';
+
+
+
+            
+        let meetingLocations = new Array();
+
+        let meetingLocations = new Array();
+
+        const cityState = 'Staten Island, NY';
 
         for (const locationData of response.result.values) {
 
-            var coords, marker;
+            if (!meetingLocations.includes(locationData[locationStreetAddressIndex])){
+                console.log(locationData[locationStreetAddressIndex]);
+                meetingLocations.push(locationData[locationStreetAddressIndex]);
+            } 
 
-            let locationAddress = locationData[addressIndex] + ' ' + cityState + ' ' + locationData[zipCodeIndex];
-
-            let meetingName = locationData[meetingNameIndex];
-
-            let meetingTypesList = locationData[meetingTypesIndex].toString();
-
-            let primaryMeetingType = meetingTypesList.trim().split(';')[0];
-
-            console.log(primaryMeetingType);
-
-            L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
-
-                if (err) {
-                    return;
-                } else {
-                    coords = results.results[0].latlng;
-                }
-
-                marker = L.circle(coords, {
-                    color: 'var(--secondary)',
-                    fillColor: 'var(--secondary)',
-                    fillOpacity: 1,
-                    radius: 30
-                }).addTo(markerGroup);
-
-                // marker = L.marker(coords, { icon: openMeeting, riseOnHover: true }).addTo(markerGroup);
-
-                var contentPopUp = '<a href="#1" class="text-primary"><strong>' + meetingName + '</strong></a>' + 
-                                   '<p class="meeting__address">' + locationData[addressIndex] + '<br>' + cityState + ' ' + locationData[zipCodeIndex] + '</p>' +
-                                   '<p class="meeting__type">' + primaryMeetingType + '</p>'
-
-                marker.bindPopup(contentPopUp);
-
-            });
 
         }
+
+        // for (const meetingLocs of meetingLocations) {
+
+        //     var coords, marker;
+
+        //     const locationAddress = locationData[locationStreetAddressIndex] + ' ' + cityState + ' ' + locationData[zipCodeIndex];
+            
+        //     L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
+
+        //         if (err) {
+        //             return;
+        //         } else {
+        //             coords = results.results[0].latlng;
+        //         }
+
+        //         marker = L.marker(coords, { icon: openMeeting, riseOnHover: true }).addTo(markerLayer);
+
+        //     });
+
+        // }
+
+
+
+            // var coords, marker;
+
+            // const locationAddress = locationData[locationStreetAddressIndex] + ' ' + cityState + ' ' + locationData[zipCodeIndex];
+
+            // let meetingName = locationData[meetingNameIndex];
+
+            // let meetingTypesList = locationData[meetingTypesIndex].toString();
+
+            // let primaryMeetingType = meetingTypesList.trim().split(';')[0];
+
+            // console.log(primaryMeetingType);
+
+            // L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
+
+            //     if (err) {
+            //         return;
+            //     } else {
+            //         coords = results.results[0].latlng;
+            //     }
+
+            //     marker = L.marker(coords, { icon: openMeeting, riseOnHover: true }).addTo(markerLayer);
+
+            //     var contentPopUp = '<a href="#1" class="text-primary"><strong>' + meetingName + '</strong></a>' + 
+            //                        '<p class="meeting__address">' + locationData[addressIndex] + '<br>' + cityState + ' ' + locationData[zipCodeIndex] + '</p>' +
+            //                        '<p class="meeting__type">' + primaryMeetingType + '</p>'
+
+            //     marker.bindPopup(contentPopUp);
+
+            // });
+
 
         //Add mar
         map.addLayer(markerGroup);
