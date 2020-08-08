@@ -145,6 +145,7 @@ function init() {
         const items = itemContainer;
 
         const locations = new Array();
+        
         const meetings = new Array();
 
         // Separate Locations
@@ -152,16 +153,11 @@ function init() {
             constructor(
                 locationName,
                 locationAddress,
+                locationMeetings
             ) {
                 this.locationName = locationName;
                 this.locationAddress = locationAddress;
-                this.locationMeetings = function () {
-
-                    console.log("Cool!!!");
-
-                    
-
-                }
+                this.locationMeetings = locationMeetings;
             }
         }
 
@@ -188,17 +184,7 @@ function init() {
 
         for (const item of items) {
 
-            // Get Addresses First
-            if (item.hasOwnProperty("locationAddress")) {
-                const NewLocation = new Location(
-                    item.locationName,
-                    item.locationAddress,
-                    item.locationMeetings
-                );
-                
-                locations.push(NewLocation);
-            }
-
+            // Get Meetings
             const newMeeting = new Meeting(
                 item.locationAddress,
                 item.locationName,
@@ -210,6 +196,17 @@ function init() {
             );
 
             meetings.push(newMeeting);
+
+            // Get Addresses
+            if (item.hasOwnProperty("locationAddress")) {
+                const NewLocation = new Location(
+                    item.locationName,
+                    item.locationAddress,
+                );
+
+                locations.push(NewLocation);
+            }
+
         }
 
         console.log("locations =>", locations);
