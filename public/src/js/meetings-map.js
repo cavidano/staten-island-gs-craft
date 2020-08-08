@@ -70,116 +70,153 @@ function centerMap(myBounds){
 
 // Custom popup options
 
-var openMeeting = new Icon( { iconUrl: myPath + '/images/map-pin-open.svg'} );
+var meetingIcon = new Icon( { iconUrl: myPath + '/images/map-pin-open.svg'} );
 var closedMeeting = new Icon( { iconUrl: myPath + '/images/map-pin-closed.svg'} );
 
 // Create Markers
 
 var markerLayer = L.layerGroup([]).addTo(map);
 
+//////////////////////////////////////////////
+// A. Get Spreadsheet Data
+//////////////////////////////////////////////
+
 function init() {
     gapi.client.init({
         'apiKey': 'AIzaSyAa12ysdSNieKzVAb_jsAy_pV6gH9phlOs',
     }).then(function () {
         return gapi.client.request({
-            'path': 'https://sheets.googleapis.com/v4/spreadsheets/18q9JqQbP_d8_27c9yePyixkhFsUAiJ9yOlkhTmfu-v4/values/sigsMeetingList',
+            'path': 'https://sheets.googleapis.com/v4/spreadsheets/18q9JqQbP_d8_27c9yePyixkhFsUAiJ9yOlkhTmfu-v4/values/sigsMeetingListv2',
         })
     }).then(function (response) {
 
-        // Create Columns Array
+        // Set Response as Variable
+        const dataList = response.result.values;
 
-        let columnHeaderList = new Array();
+        // console.log("My Raw Data...", dataList);
+
+        // Create Columns Array
+        let columnHeaderList = [];
 
         // Create Column Headers Array
-        for (const columnHeader of response.result.values[0]) {
+        for (const columnHeader of dataList[0]) {
             columnHeaderList.push(columnHeader);
         }
-        
-        console.log("columnHeaderList:");
-        console.log(columnHeaderList);
 
-        // Associate Needed Value Indexes
+        // Print Column Headers Array
+        // console.log("columnHeaderList:", columnHeaderList);
 
-        const locationStreetAddressIndex = columnHeaderList.indexOf('locationStreetAddress');
-        const zipCodeIndex = columnHeaderList.indexOf('locationZipCode');
-        const meetingNameIndex = columnHeaderList.indexOf('meetingName');
-        const meetingTypesIndex = columnHeaderList.indexOf('meetingTypes');
+        let itemContainer = new Array();
 
+        let rowItemParent = new Object();
 
+        // Print Data Rows
+        for (const dataRow of dataList) {
 
+            // Get All Rows Excluding Column Headers
+            if (dataRow[0] !== columnHeaderList[0]) {
 
-            
-        let meetingLocations = new Array();
+                // Populate Object Prototype
+                if (Object.keys(rowItemParent).length === 0) {
+                    columnHeaderList.forEach((key, index) => {
+                        rowItemParent[key] = dataRow[index];
+                    });
+                }
 
-        let meetingLocations = new Array();
+                const rowItem = Object.create(rowItemParent);
 
-        const cityState = 'Staten Island, NY';
+                let n = 0;
 
-        for (const locationData of response.result.values) {
+                for (const dataCell of dataRow) {
 
-            if (!meetingLocations.includes(locationData[locationStreetAddressIndex])){
-                console.log(locationData[locationStreetAddressIndex]);
-                meetingLocations.push(locationData[locationStreetAddressIndex]);
-            } 
+                    if (dataCell !== "") {
+                        rowItem[columnHeaderList[n]] = dataRow[n];
+                    }
 
+                    n++;
+                }
+
+                itemContainer.push(rowItem);
+            }
+        }
+
+        // console.log("itemContainer =>", itemContainer);
+
+        const items = itemContainer;
+
+        const locations = new Array();
+
+        // Separate Locations
+        class Location {
+            constructor(
+                locationName,
+                locationAddress,
+            ) {
+                this.locationName = locationName;
+                this.locationAddress = locationAddress;
+            }
+        }
+
+        // Separate Locations
+        class Meeting {
+            constructor(
+                locationName,
+                locationAddress,
+            ) {
+                this.locationName = locationName;
+                this.locationAddress = locationAddress;
+            }
+        }
+
+        for (const item of items) {
+
+            // Get Addresses First
+            if (item.hasOwnProperty("locationAddress")) {
+
+                let NewLocation = new Location(item.locationName, item.locationAddress);
+                locations.push(NewLocation);
+            }
+
+            // if(whoa!!!!!!!){
+
+            // }
 
         }
 
-        // for (const meetingLocs of meetingLocations) {
+        console.log("locations =>", locations);
 
-        //     var coords, marker;
+        // var myJSON = JSON.stringify(locations);
+        // console.log(myJSON);
 
-        //     const locationAddress = locationData[locationStreetAddressIndex] + ' ' + cityState + ' ' + locationData[zipCodeIndex];
-            
-        //     L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
+        for (const location of locations) {
 
-        //         if (err) {
-        //             return;
-        //         } else {
-        //             coords = results.results[0].latlng;
-        //         }
+            var coords, marker;
 
-        //         marker = L.marker(coords, { icon: openMeeting, riseOnHover: true }).addTo(markerLayer);
+            let locationAddress = location.locationAddress;
+     
+            let locationName = location.locationName;
 
-        //     });
+            L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
 
-        // }
+                if (err) {
+                    return;
+                } else {
+                    coords = results.results[0].latlng;
+                }
 
+                marker = L.marker(coords, {
+                    icon: meetingIcon,
+                    riseOnHover: true
+                }).addTo(map);
 
+                var contentPopUp = '<a href="#1" class="text-primary"><strong>' + locationName + '</strong></a>' + '</p>' +
+                                   '<p class="meeting__address">' + locationAddress + '</p>'
 
-            // var coords, marker;
+                marker.bindPopup(contentPopUp);
 
-            // const locationAddress = locationData[locationStreetAddressIndex] + ' ' + cityState + ' ' + locationData[zipCodeIndex];
+            });
 
-            // let meetingName = locationData[meetingNameIndex];
-
-            // let meetingTypesList = locationData[meetingTypesIndex].toString();
-
-            // let primaryMeetingType = meetingTypesList.trim().split(';')[0];
-
-            // console.log(primaryMeetingType);
-
-            // L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
-
-            //     if (err) {
-            //         return;
-            //     } else {
-            //         coords = results.results[0].latlng;
-            //     }
-
-            //     marker = L.marker(coords, { icon: openMeeting, riseOnHover: true }).addTo(markerLayer);
-
-            //     var contentPopUp = '<a href="#1" class="text-primary"><strong>' + meetingName + '</strong></a>' + 
-            //                        '<p class="meeting__address">' + locationData[addressIndex] + '<br>' + cityState + ' ' + locationData[zipCodeIndex] + '</p>' +
-            //                        '<p class="meeting__type">' + primaryMeetingType + '</p>'
-
-            //     marker.bindPopup(contentPopUp);
-
-            // });
-
-
-        //Add mar
-        map.addLayer(markerGroup);
+        }
 
     }, function (reason) {
         console.log('Error: ' + reason.result.error.message);
