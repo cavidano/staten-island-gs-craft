@@ -27,8 +27,8 @@ setMapHeight();
 var map = L.map('map-loader', {
     center: [40.5795, -74.1502],
     setZoom: 14,
-    minZoom: 8,
-    maxZoom: 16,
+    minZoom: 10,
+    maxZoom: 17,
     scrollWheelZoom: false,
     attributionControl: false,
     zoomControl: false,
@@ -145,6 +145,7 @@ function init() {
         const items = itemContainer;
 
         const locations = new Array();
+        const meetings = new Array();
 
         // Separate Locations
         class Location {
@@ -154,17 +155,34 @@ function init() {
             ) {
                 this.locationName = locationName;
                 this.locationAddress = locationAddress;
+                this.locationMeetings = function () {
+
+                    console.log("Cool!!!");
+
+                    
+
+                }
             }
         }
 
-        // Separate Locations
+        // Separate Meeting
         class Meeting {
             constructor(
-                locationName,
                 locationAddress,
+                locationName,
+                meetingName,
+                meetingWeekday,
+                meetingStartTime,
+                meetingEndTime, 
+                meetingType
             ) {
-                this.locationName = locationName;
                 this.locationAddress = locationAddress;
+                this.locationName = locationName;
+                this.meetingName = meetingName;
+                this.meetingWeekday = meetingWeekday;
+                this.meetingStartTime = meetingStartTime;
+                this.meetingEndTime = meetingEndTime;
+                this.meetingType = meetingType;
             }
         }
 
@@ -172,21 +190,33 @@ function init() {
 
             // Get Addresses First
             if (item.hasOwnProperty("locationAddress")) {
-
-                let NewLocation = new Location(item.locationName, item.locationAddress);
+                const NewLocation = new Location(
+                    item.locationName,
+                    item.locationAddress,
+                    item.locationMeetings
+                );
+                
                 locations.push(NewLocation);
             }
 
-            // if(whoa!!!!!!!){
+            const newMeeting = new Meeting(
+                item.locationAddress,
+                item.locationName,
+                item.meetingName,
+                item.meetingWeekday,
+                item.meetingStartTime,
+                item.meetingEndTime,
+                item.meetingType
+            );
 
-            // }
-
+            meetings.push(newMeeting);
         }
 
         console.log("locations =>", locations);
+        console.log("meetings =>", meetings);
 
-        // var myJSON = JSON.stringify(locations);
-        // console.log(myJSON);
+        var allMeetingsJSON = JSON.stringify(meetings);
+        console.log(allMeetingsJSON);
 
         for (const location of locations) {
 
@@ -214,7 +244,7 @@ function init() {
 
                 marker.bindPopup(contentPopUp);
 
-            });
+            });            
 
         }
 
@@ -224,119 +254,6 @@ function init() {
 };
 
 gapi.load('client', init);
-
-
-
-// function createMarker(
-//     meetingType,
-//     meetingTitle,
-//     streetAddress,
-//     zipCode
-// ) {
-
-//     var meeting;
-
-//     var coords, marker;
-
-//     if( meetingType === closedMeeting ){
-//         meeting = 'Closed';
-//     } else if ( meetingType === openMeeting ) {
-//         meeting = 'Open';
-//     }
-
-//     var cityState = "Staten Island, NY";
-
-//     var locationAddress = streetAddress + " " + cityState + " " + zipCode;
-    
-//     L.esri.Geocoding.geocode().address(locationAddress).run((err, results, response) => {
-
-//         if (err) {
-//             return;
-//         } else {
-//             coords = results.results[0].latlng;
-//         }   
-        
-//     marker = L.marker(coords, { icon: meetingType }).addTo(markerLayer);
-//         var contentPopUp = '<a href="#1" class="text-primary"><strong>' + meetingTitle + '</strong></a>' + 
-//                            '<p class="meeting__address">' + streetAddress + '<br>' + cityState + ' ' + zipCode + '</p>'
-
-//         var contentSidebar = '<p class="meeting__title">' + meetingTitle + '</p>' +
-//                              '<p class="meeting__type">' + meeting + ' Discussion' + '</p>' +
-//                              '<p class="meeting__address">' + streetAddress + '<br>' + cityState + ' ' + zipCode + '</p>';
-
-//         marker.bindPopup(contentPopUp);
-//     });
-    
-
-//         // var mediaQuery = window.matchMedia('( max-width: 1000px )');
-
-//         // function watchMediaQuery(event) {
-
-//         //     if (event.matches) {
-//         //         return;
-//         //     } else {
-
-//         //         marker.on('click', function (event) {
-
-//         //             if (sidebarShown === false) {
-//         //                 mapTarget.classList.add('data-shown');
-//         //                 sidebarShown = true;
-//         //                 map.invalidateSize(true);
-//         //             }
-
-//         //             var id = L.Util.stamp(event.target);
-
-//         //             if (document.getElementById(id) != null) return;
-
-//         //             var dataLoader = L.DomUtil.create('div', 'dataLoader', document.getElementById('data-loader'));
-
-//         //             dataLoader.id = id;
-                    
-//         //             var meetingDetail = L.DomUtil.create('div', 'meeting-detail' + ' ' + meeting.toLowerCase() + ' ' + 'border-bottom', dataLoader);
-//         //             meetingDetail.innerHTML = contentSidebar;
-                    
-//         //             meetingDetail.setAttribute("tabindex", 0);
-
-//         //             meetingDetail.setAttribute("data-highlight", "true");
-
-//         //             setTimeout( function() {
-//         //                 meetingDetail.setAttribute("data-highlight", "false");
-//         //             }, 2000)
-                    
-//         //             L.DomEvent.on( meetingDetail, 'click', function (event) {
-
-//         //                 if( event.target.classList.contains('btn')) {
-//         //                     event.preventDefault();
-//         //                 } else {
-//         //                     var marker = markerLayer.getLayer(this.id);
-//         //                     marker.closePopup();
-//         //                     map.panTo(marker.getLatLng());
-//         //                     marker.bounce(2);
-//         //                 }
-
-//         //             }, dataLoader);
-                    
-//         //             var unpinMeeting = L.DomUtil.create('button', 'btn btn--icon-only', meetingDetail);
-                    
-//         //             unpinMeeting.innerHTML = '<span class="screen-reader-only">Remove</span>' +
-//         //                                     '<span class="fas fa-times btn__icon"></span>';
-
-//         //             unpinMeeting.setAttribute("title", "Remove");
-                    
-//         //             L.DomEvent.on(unpinMeeting, 'click', function () {
-//         //                 markerLayer.getLayer(this.id).closePopup();
-//         //                 this.parentNode.removeChild(this);
-//         //             }, dataLoader);
-//         //         });
-//         //     }
-//         // }
-
-//         // watchMediaQuery(mediaQuery);
-//         // mediaQuery.addListener(watchMediaQuery);
-        
-
-    
-// }
 
 window.addEventListener('resize', setMapHeight);
 
