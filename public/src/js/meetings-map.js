@@ -110,21 +110,23 @@ function init() {
 
         let rowItemParent = new Object();
 
+        i = 0;
+
         // Print Data Rows
         for (const dataRow of dataList) {
 
             // Get All Rows Excluding Column Headers
             if (dataRow[0] !== columnHeaderList[0]) {
-
+            
                 // Populate Object Prototype
                 if (Object.keys(rowItemParent).length === 0) {
                     columnHeaderList.forEach((key, index) => {
                         rowItemParent[key] = dataRow[index];
                     });
                 }
-
-                const rowItem = Object.create(rowItemParent);
-
+                
+                let rowItem = Object.create(rowItemParent);
+                
                 let n = 0;
 
                 for (const dataCell of dataRow) {
@@ -138,6 +140,8 @@ function init() {
 
                 itemContainer.push(rowItem);
             }
+
+            i++;
         }
 
         // console.log("itemContainer =>", itemContainer);
@@ -157,7 +161,9 @@ function init() {
             ) {
                 this.locationName = locationName;
                 this.locationAddress = locationAddress;
-                this.locationMeetings = locationMeetings;
+                this.locationMeetings = locationMeetings = function(){
+                    return meetings.filter(Meeting => Meeting.locationAddress == this.locationAddress)
+                };
             }
         }
 
@@ -197,16 +203,18 @@ function init() {
 
             meetings.push(newMeeting);
 
-            // Get Addresses
-            if (item.hasOwnProperty("locationAddress")) {
-                const NewLocation = new Location(
-                    item.locationName,
-                    item.locationAddress,
-                );
+        }
+        for (const item of items) {
 
-                locations.push(NewLocation);
-            }
+// Get Addresses
+if (item.hasOwnProperty("locationAddress")) {
+    const NewLocation = new Location(
+        item.locationName,
+        item.locationAddress,
+    );
 
+    locations.push(NewLocation);
+}
         }
 
         console.log("locations =>", locations);
@@ -223,6 +231,10 @@ function init() {
      
             let locationName = location.locationName;
 
+            let locationMeetings = location.locationMeetings();
+
+           console.log(locationMeetings);
+
             L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
 
                 if (err) {
@@ -237,7 +249,7 @@ function init() {
                 }).addTo(map);
 
                 var contentPopUp = '<a href="#1" class="text-primary"><strong>' + locationName + '</strong></a>' + '</p>' +
-                                   '<p class="meeting__address">' + locationAddress + '</p>'
+                                   '<p class="meeting__address">' + locationAddress + '</p>' 
 
                 marker.bindPopup(contentPopUp);
 
