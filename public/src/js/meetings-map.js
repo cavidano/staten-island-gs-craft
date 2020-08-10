@@ -110,7 +110,7 @@ function init() {
 
         let rowItemParent = new Object();
 
-        i = 0;
+        let i = 0;
 
         // Print Data Rows
         for (const dataRow of dataList) {
@@ -122,26 +122,27 @@ function init() {
                 if (Object.keys(rowItemParent).length === 0) {
                     columnHeaderList.forEach((key, index) => {
                         rowItemParent[key] = dataRow[index];
+                        console.log("rowItemParent => ", key, " = ", dataRow[index])
                     });
                 }
-                
+
                 let rowItem = Object.create(rowItemParent);
-                
-                let n = 0;
+            
+                console.log("rowItem", rowItem);
 
-                for (const dataCell of dataRow) {
-
+                for (const [index, dataCell] of dataRow.entries()) {
                     if (dataCell !== "") {
-                        rowItem[columnHeaderList[n]] = dataRow[n];
+                        rowItem[columnHeaderList[index]] = dataRow[index];
                     }
-
-                    n++;
                 }
 
                 itemContainer.push(rowItem);
+
+                // whoa!!!!
+
             }
 
-            i++;
+            i = i+1;
         }
 
         // console.log("itemContainer =>", itemContainer);
@@ -190,6 +191,16 @@ function init() {
 
         for (const item of items) {
 
+            // Get Addresses
+            if (item.hasOwnProperty("locationAddress")) {
+                const NewLocation = new Location(
+                    item.locationName,
+                    item.locationAddress,
+                );
+
+                locations.push(NewLocation);
+            }
+
             // Get Meetings
             const newMeeting = new Meeting(
                 item.locationAddress,
@@ -202,19 +213,6 @@ function init() {
             );
 
             meetings.push(newMeeting);
-
-        }
-        for (const item of items) {
-
-// Get Addresses
-if (item.hasOwnProperty("locationAddress")) {
-    const NewLocation = new Location(
-        item.locationName,
-        item.locationAddress,
-    );
-
-    locations.push(NewLocation);
-}
         }
 
         console.log("locations =>", locations);
