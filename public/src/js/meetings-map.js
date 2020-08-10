@@ -122,7 +122,6 @@ function init() {
                 if (Object.keys(rowItemParent).length === 0) {
                     columnHeaderList.forEach((key, index) => {
                         rowItemParent[key] = dataRow[index];
-                        console.log("rowItemParent => ", key, " = ", dataRow[index])
                     });
                 }
 
@@ -139,6 +138,7 @@ function init() {
                 itemContainer.push(rowItem);
 
                 // whoa!!!!
+
 
             }
 
