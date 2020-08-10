@@ -136,16 +136,10 @@ function init() {
                 }
 
                 itemContainer.push(rowItem);
-
-                // whoa!!!!
-
-
             }
 
             i = i+1;
         }
-
-        // console.log("itemContainer =>", itemContainer);
 
         const items = itemContainer;
 
