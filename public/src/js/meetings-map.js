@@ -147,8 +147,21 @@ function init() {
 
         for (const [index, item] of itemsContainer.entries()) {
 
-            console.log("location ==> ", item[0]);
+            // console.log("location ==> ", item[0], item[1]);
+
+
             locationsList.push(item[0]);
+
+            // const array1 = [5, 12, 8, 130, 44];
+
+            // const found = itemsContainer.find(element => element > 10);
+
+
+            // console.log(found);
+            // expected output: 12
+
+
+
 
         }
 
@@ -158,11 +171,19 @@ function init() {
 
         // Map it
 
-        for (const location of locations) {
+        for (const [index, location] of locations.entries()) {
+
+            console.log("location ==> ", index, location);
 
             let locationAddress = location;
 
-            // let locationName = location.locationName;
+            let locationMeetings = itemsContainer.filter(item => item.includes(location));
+
+            let locationName = locationMeetings[0][2];
+
+            console.log("locationName ==> ", index, locationName);
+
+            console.log("locationMeetings ==> ", index, locationMeetings);
 
             // location meetings
 
