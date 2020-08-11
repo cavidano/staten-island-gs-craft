@@ -145,7 +145,7 @@ function init() {
 
         var locationsList = [];
 
-        for (const [index, item] of itemsContainer.entries()) {
+        for (const item of itemsContainer.entries()) {
             console.log("location ==> ", item[0]);
             locationsList.push(item[0]);
         }
