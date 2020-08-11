@@ -93,7 +93,7 @@ function init() {
         // Set Response as Variable
         const dataList = response.result.values;
 
-        // console.log("My Raw Data...", dataList);
+        console.log("My Raw Data...", dataList);
 
         // Create Columns Array
         let columnHeaderList = [];
@@ -179,8 +179,10 @@ function init() {
                 }
 
                 if (locationMeetings.length > 1) {
+                    var meetingCountLabel = "Meetings";
                     meetingIcon = meetingIconMultiple;
                 } else {
+                    var meetingCountLabel = "Meeting";
                     meetingIcon = meetingIconSingle;
                 }
 
@@ -194,7 +196,7 @@ function init() {
 
                 var contentPopUp = '<a href="#1" class="text-primary"><strong>' + locationName + '</strong></a>' + '</p>' +
                                    '<p class="meeting__address">' + address1 + '<br>' + address2 + '</p>' +
-                                   '<p class="meeting__count">' + locationMeetings.length + " Meeting(s)" + '</p>'
+                                   '<p class="meeting__count">' + locationMeetings.length + ' ' + meetingCountLabel + '</p>'
                 
                 marker.bindPopup(contentPopUp);
 
