@@ -70,8 +70,8 @@ function centerMap(myBounds){
 
 // Custom popup options
 
-var meetingIconSingle = new Icon( { iconUrl: myPath + '/images/map-pin-single.svg'} );
-var meetingIconMultiple = new Icon( { iconUrl: myPath + '/images/map-pin-multi.svg'} );
+var meetingIconSingle = new Icon( { iconUrl: myPath + '/images/map-pin-single.svg' });
+var meetingIconMultiple = new Icon({ iconUrl: myPath + '/images/map-pin-multiple.svg' });
 
 // Create Markers
 
@@ -178,8 +178,14 @@ function init() {
                     coords = results.results[0].latlng;
                 }
 
+                if (locationMeetings.length > 1) {
+                    meetingIcon = meetingIconMultiple;
+                } else {
+                    meetingIcon = meetingIconSingle;
+                }
+
                 marker = L.marker(coords, {
-                    icon: meetingIconSingle,
+                    icon: meetingIcon,
                     riseOnHover: true
                 }).addTo(map);
 
