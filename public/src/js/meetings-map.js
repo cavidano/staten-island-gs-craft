@@ -145,9 +145,11 @@ function init() {
 
         var locationsList = [];
 
-        for (const item of itemsContainer.entries()) {
+        for (const [index, item] of itemsContainer.entries()) {
+
             console.log("location ==> ", item[0]);
             locationsList.push(item[0]);
+
         }
 
         locations = Array.from(new Set(locationsList));
@@ -158,13 +160,13 @@ function init() {
 
         for (const location of locations) {
 
-            var coords, marker;
-
             let locationAddress = location;
 
             // let locationName = location.locationName;
 
-            // console.log(locationMeetings);
+            // location meetings
+
+            var coords, marker;
 
             L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
 
