@@ -139,9 +139,6 @@ function init() {
         });
 
         console.log("itemsContainer ==> ", itemsContainer);
-        
-        // const myJSON = JSON.stringify(itemsContainer);
-        // console.log("JSON ==> ", myJSON);
 
         var locationsList = [];
 
@@ -198,6 +195,19 @@ function init() {
             });
 
         }
+
+        const myJSON = JSON.stringify(itemsContainer);
+        console.log("JSON ==> ", myJSON);
+
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("demo").innerHTML = this.responseText;
+            }
+        };
+
+        // xmlhttp.open("GET", "xmlhttp_info.txt", true); 
+        xmlhttp.send(myJSON);
+
 
     }, function (reason) {
         console.log('Error: ' + reason.result.error.message);
