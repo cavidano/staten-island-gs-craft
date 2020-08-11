@@ -93,7 +93,7 @@ function init() {
         // Set Response as Variable
         const dataList = response.result.values;
 
-        console.log("My Raw Data...", dataList);
+        // console.log("My Data...", dataList);
 
         // Create Columns Array
         let columnHeaderList = [];
@@ -102,41 +102,43 @@ function init() {
         for (const columnHeader of dataList[0]) {
             columnHeaderList.push(columnHeader);
         }
-
-        // Print Column Headers Array
-        console.log("columnHeaderList:", columnHeaderList);
-
-        let itemContainer = new Array();
+        
+        var itemContainer = [""];
+        
+        var i = 0;
 
         // Print Data Rows
-        dataList.forEach((dataRow, index) => {
-
+        dataList.forEach((dataRow) => {
+        
             // Get All Rows Excluding Column Headers
             if (dataRow[0] !== columnHeaderList[0]) {
 
                 let rowItem = dataRow;
 
-                console.log("rowItem", index, rowItem);
-
                 for (const [index, dataCell] of rowItem.entries()) {
+
                     if (dataCell !== "") {
                         rowItem[index] = dataCell;
                     } else {
-                        rowItem[index] = "NEAT"
+                        if (itemContainer.length > 1) {
+                            rowItem[index] = itemContainer[i-1][index]
+                        }
                     }
-
-                    console.log("dataCell =====> ", index, dataCell);
                 }
 
                 itemContainer.push(rowItem);
 
             } // end 
 
+            i++;
+
         });
 
-        for (const [index, item] of itemContainer.entries()) {
-            console.log("item...", index, item);
-        }
+        var itemContainer = itemContainer.filter(function (el) {
+            return el != "";
+        });
+
+        console.log("itemContainer ==> ", itemContainer);
 
     }, function (reason) {
         console.log('Error: ' + reason.result.error.message);
