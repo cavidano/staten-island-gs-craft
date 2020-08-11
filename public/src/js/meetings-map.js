@@ -93,7 +93,7 @@ function init() {
         // Set Response as Variable
         const dataList = response.result.values;
 
-        // console.log("My Data...", dataList);
+        // console.log("My Raw Data...", dataList);
 
         // Create Columns Array
         let columnHeaderList = [];
@@ -102,8 +102,8 @@ function init() {
         for (const columnHeader of dataList[0]) {
             columnHeaderList.push(columnHeader);
         }
-        
-        var itemContainer = [""];
+
+        var itemsContainer = [""];
         
         var i = 0;
 
@@ -120,13 +120,13 @@ function init() {
                     if (dataCell !== "") {
                         rowItem[index] = dataCell;
                     } else {
-                        if (itemContainer.length > 1) {
-                            rowItem[index] = itemContainer[i-1][index]
+                        if (itemsContainer.length > 1) {
+                            rowItem[index] = itemsContainer[i-1][index]
                         }
                     }
                 }
 
-                itemContainer.push(rowItem);
+                itemsContainer.push(rowItem);
 
             } // end 
 
@@ -134,16 +134,58 @@ function init() {
 
         });
 
-        var itemContainer = itemContainer.filter(function (el) {
+        var itemsContainer = itemsContainer.filter(function (el) {
             return el != "";
         });
 
-        console.log("itemContainer ==> ", itemContainer);
-
+        console.log("itemsContainer ==> ", itemsContainer);
         
-        const myJSON = JSON.stringify(itemContainer);
+        // const myJSON = JSON.stringify(itemsContainer);
+        // console.log("JSON ==> ", myJSON);
 
-        console.log("JSON ==> ", myJSON);
+        var locationsList = [];
+
+        for (const [index, item] of itemsContainer.entries()) {
+            console.log("location ==> ", item[0]);
+            locationsList.push(item[0]);
+        }
+
+        locations = Array.from(new Set(locationsList));
+        
+        console.log("locations ==> ", locations);
+
+        // Map it
+
+        for (const location of locations) {
+
+            var coords, marker;
+
+            let locationAddress = location;
+
+            // let locationName = location.locationName;
+
+            // console.log(locationMeetings);
+
+            L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
+
+                if (err) {
+                    return;
+                } else {
+                    coords = results.results[0].latlng;
+                }
+
+                marker = L.marker(coords, {
+                    icon: meetingIcon,
+                    riseOnHover: true
+                }).addTo(map);
+
+                var contentPopUp = '<p class="meeting__address">' + locationAddress + '</p>'
+
+                marker.bindPopup(contentPopUp);
+
+            });
+
+        }
 
 
 
