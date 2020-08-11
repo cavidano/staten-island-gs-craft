@@ -140,6 +140,13 @@ function init() {
 
         console.log("itemContainer ==> ", itemContainer);
 
+        
+        const myJSON = JSON.stringify(itemContainer);
+
+        console.log("JSON ==> ", myJSON);
+
+
+
     }, function (reason) {
         console.log('Error: ' + reason.result.error.message);
     });
