@@ -70,8 +70,8 @@ function centerMap(myBounds){
 
 // Custom popup options
 
-var meetingIcon = new Icon( { iconUrl: myPath + '/images/map-pin-open.svg'} );
-var closedMeeting = new Icon( { iconUrl: myPath + '/images/map-pin-closed.svg'} );
+var meetingIconSingle = new Icon( { iconUrl: myPath + '/images/map-pin-single.svg'} );
+var meetingIconMultiple = new Icon( { iconUrl: myPath + '/images/map-pin-multi.svg'} );
 
 // Create Markers
 
@@ -179,7 +179,7 @@ function init() {
                 }
 
                 marker = L.marker(coords, {
-                    icon: meetingIcon,
+                    icon: meetingIconSingle,
                     riseOnHover: true
                 }).addTo(map);
 
@@ -188,7 +188,7 @@ function init() {
 
                 var contentPopUp = '<a href="#1" class="text-primary"><strong>' + locationName + '</strong></a>' + '</p>' +
                                    '<p class="meeting__address">' + address1 + '<br>' + address2 + '</p>' +
-                                   '<p class="meeting__address font-size-sm">' + locationMeetings.length + " meeting(s)" + '</p>'
+                                   '<p class="meeting__count">' + locationMeetings.length + " Meeting(s)" + '</p>'
                 
                 marker.bindPopup(contentPopUp);
 
@@ -196,18 +196,8 @@ function init() {
 
         }
 
-        const myJSON = JSON.stringify(itemsContainer);
-        console.log("JSON ==> ", myJSON);
-
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("demo").innerHTML = this.responseText;
-            }
-        };
-
-        // xmlhttp.open("GET", "xmlhttp_info.txt", true); 
-        xmlhttp.send(myJSON);
-
+        // const myJSON = JSON.stringify(itemsContainer);
+        // console.log("JSON ==> ", myJSON);
 
     }, function (reason) {
         console.log('Error: ' + reason.result.error.message);

@@ -163,6 +163,11 @@ p:not([class]) {
     p {
         margin: unset;
     }
+
+    p.meeting__count{
+        font-size: 80%;
+        font-weight: 700;
+    }
 }
 
 .leaflet-popup-close-button{
