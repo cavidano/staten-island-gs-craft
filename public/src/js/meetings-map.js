@@ -225,6 +225,7 @@ const zoomOutButton = document.querySelector('[data-map-zoom-out]');
 const toggleLocationButton = document.querySelector('[data-toggle-locations]');
 
 map.on("zoomend", function () {
+cleaning up js    
     let currentZoom = map.getZoom();
     let maxZoom = map.options.maxZoom;
     let minZoom = map.options.minZoom;
