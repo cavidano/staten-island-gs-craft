@@ -146,23 +146,7 @@ function init() {
         var locationsList = [];
 
         for (const [index, item] of itemsContainer.entries()) {
-
-            // console.log("location ==> ", item[0], item[1]);
-
-
             locationsList.push(item[0]);
-
-            // const array1 = [5, 12, 8, 130, 44];
-
-            // const found = itemsContainer.find(element => element > 10);
-
-
-            // console.log(found);
-            // expected output: 12
-
-
-
-
         }
 
         locations = Array.from(new Set(locationsList));
@@ -202,15 +186,18 @@ function init() {
                     riseOnHover: true
                 }).addTo(map);
 
-                var contentPopUp = '<p class="meeting__address">' + locationAddress + '</p>'
+                let address1 = locationAddress.split(/,(.+)/)[0];
+                let address2 = locationAddress.split(/,(.+)/)[1];
 
+                var contentPopUp = '<a href="#1" class="text-primary"><strong>' + locationName + '</strong></a>' + '</p>' +
+                                   '<p class="meeting__address">' + address1 + '<br>' + address2 + '</p>' +
+                                   '<p class="meeting__address font-size-sm">' + locationMeetings.length + " meeting(s)" + '</p>'
+                
                 marker.bindPopup(contentPopUp);
 
             });
 
         }
-
-
 
     }, function (reason) {
         console.log('Error: ' + reason.result.error.message);
