@@ -273,6 +273,10 @@ a[class*="leaflet-control-zoom"]:focus {
 
 }
 
+.leaflet-tile {
+    filter: saturate(85%) brightness(105%);
+}
+
 #map-loader { 
     height: 100%; 
     width:100% 

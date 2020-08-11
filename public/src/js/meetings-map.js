@@ -204,8 +204,8 @@ function init() {
 
         }
 
-        // const myJSON = JSON.stringify(itemsContainer);
-        // console.log("JSON ==> ", myJSON);
+        const myJSON = JSON.stringify(itemsContainer);
+        console.log("JSON ==> ", myJSON);
 
     }, function (reason) {
         console.log('Error: ' + reason.result.error.message);
