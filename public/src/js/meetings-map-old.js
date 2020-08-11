@@ -93,7 +93,7 @@ function init() {
         // Set Response as Variable
         const dataList = response.result.values;
 
-        console.log("My Raw Data...", dataList);
+        // console.log("My Raw Data...", dataList);
 
         // Create Columns Array
         let columnHeaderList = [];
@@ -104,38 +104,154 @@ function init() {
         }
 
         // Print Column Headers Array
-        console.log("columnHeaderList:", columnHeaderList);
+        // console.log("columnHeaderList:", columnHeaderList);
 
         let itemContainer = new Array();
 
+        let rowItemParent = new Object();
+
+        let i = 0;
+
         // Print Data Rows
-        dataList.forEach((dataRow, index) => {
+        for (const dataRow of dataList) {
 
             // Get All Rows Excluding Column Headers
             if (dataRow[0] !== columnHeaderList[0]) {
+            
+                // Populate Object Prototype
+                if (Object.keys(rowItemParent).length === 0) {
+                    columnHeaderList.forEach((key, index) => {
+                        rowItemParent[key] = dataRow[index];
+                    });
+                }
 
-                let rowItem = dataRow;
+                let rowItem = Object.create(rowItemParent);
 
-                console.log("rowItem", index, rowItem);
-
-                for (const [index, dataCell] of rowItem.entries()) {
+                for (const [index, dataCell] of dataRow.entries()) {
                     if (dataCell !== "") {
-                        rowItem[index] = dataCell;
-                    } else {
-                        rowItem[index] = "NEAT"
-                    }
+                        rowItem[columnHeaderList[index]] = dataRow[index];
 
-                    console.log("dataCell =====> ", index, dataCell);
+                        // Object.defineProperty(rowItemParent, columnHeaderList[index], {
+                        //     value: dataCell
+                        // });
+                    
+                        // console.log("KEYS", columnHeaderList[index]);
+                        
+                    }
                 }
 
                 itemContainer.push(rowItem);
+            }
 
-            } // end 
+            i = i+1;
+        }
 
-        });
+        const items = itemContainer;
 
-        for (const [index, item] of itemContainer.entries()) {
-            console.log("item...", index, item);
+        const locations = new Array();
+        
+        const meetings = new Array();
+
+        // Separate Locations
+        class Location {
+            constructor(
+                locationName,
+                locationAddress,
+                locationMeetings
+            ) {
+                this.locationName = locationName;
+                this.locationAddress = locationAddress;
+                this.locationMeetings = locationMeetings = function(){
+                    return meetings.filter(Meeting => Meeting.locationAddress == this.locationAddress)
+                };
+            }
+        }
+
+        // Separate Meeting
+        class Meeting {
+            constructor(
+                locationAddress,
+                locationName,
+                meetingName,
+                meetingWeekday,
+                meetingStartTime,
+                meetingEndTime, 
+                meetingType
+            ) {
+                this.locationAddress = locationAddress;
+                this.locationName = locationName;
+                this.meetingName = meetingName;
+                this.meetingWeekday = meetingWeekday;
+                this.meetingStartTime = meetingStartTime;
+                this.meetingEndTime = meetingEndTime;
+                this.meetingType = meetingType;
+            }
+        }
+
+        for (const item of items) {
+
+            // Get Addresses
+            if (item.hasOwnProperty("locationAddress")) {
+                const NewLocation = new Location(
+                    item.locationName,
+                    item.locationAddress,
+                );
+
+                locations.push(NewLocation);
+            }
+
+            // Get Meetings
+            const newMeeting = new Meeting(
+                item.locationAddress,
+                item.locationName,
+                item.meetingName,
+                item.meetingWeekday,
+                item.meetingStartTime,
+                item.meetingEndTime,
+                item.meetingType
+            );
+
+            meetings.push(newMeeting);
+        }
+
+        console.log("locations =>", locations);
+        console.log("meetings =>", meetings);
+
+        var allMeetingsJSON = JSON.stringify(meetings);
+        console.log(allMeetingsJSON);
+
+        for (const location of locations) {
+
+            var coords, marker;
+
+            let locationAddress = location.locationAddress;
+     
+            let locationName = location.locationName;
+
+            let locationMeetings = location.locationMeetings();
+
+           console.log(locationMeetings);
+
+            L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
+
+                if (err) {
+                    return;
+                } else {
+                    coords = results.results[0].latlng;
+                }
+
+                marker = L.marker(coords, {
+                    icon: meetingIcon,
+                    riseOnHover: true
+                }).addTo(map);
+
+                var contentPopUp = '<a href="#1" class="text-primary"><strong>' + locationName + '</strong></a>' + '</p>' +
+                                   '<p class="meeting__address">' + locationAddress + '</p>' 
+
+                marker.bindPopup(contentPopUp);
+
+            });            
+
         }
 
     }, function (reason) {
