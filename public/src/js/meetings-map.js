@@ -55,13 +55,13 @@ var siGeo = new L.GeoJSON.AJAX('./lib/geojson/statenIsland.geojson');
 
 siGeo.on('data:loaded', function() {
     centerMap(siGeo);
-    
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-        id: 'mapbox/streets-v11',
+    L.tileLayer('https://api.mapbox.com/styles/v1/{user}/{id}/tiles/{tileSize}/{z}/{x}/{y}?access_token={accessToken}', {
+        user: 'cavidano',
+        id: 'ckdra9cus0rv11aqo0iawtcou',
         accessToken: 'pk.eyJ1IjoiY2F2aWRhbm8iLCJhIjoiY2tkY3ZzdHUyMTB3azJ6b2JtbTNhODkybSJ9.zor-mM9NBBaRSuJKhwPh7g',
-        tileSize: 512,
-        zoomOffset: -1
+        tileSize: 256
     }).addTo(map);
+    
 });
 
 function centerMap(myBounds){
@@ -200,7 +200,46 @@ function init() {
                 
                 marker.bindPopup(contentPopUp);
 
+                //////////////////////////////////////////////
+                // A. Desktop Markers
+                //////////////////////////////////////////////
+
+                var mediaQuery = window.matchMedia('( max-width: 1000px )');
+
+                function watchMediaQuery(event) {
+
+                    if (event.matches) {
+                        return;
+                    } else {
+
+                        marker.on('click', function (event) {
+
+                            if (sidebarShown === false) {
+                                mapTarget.classList.add('data-shown');
+                                sidebarShown = true;
+                                map.invalidateSize(true);
+                            }
+
+                            var id = L.Util.stamp(event.target);
+
+                            if (document.getElementById(id) != null) return;
+
+                            var dataLoader = L.DomUtil.create('div', 'dataLoader', document.getElementById('data-loader'));
+
+                            dataLoader.id = id;
+
+                        });
+                    }
+                }
+
+                watchMediaQuery(mediaQuery);
+                mediaQuery.addListener(watchMediaQuery);
+
             });
+
+            /// Marker Sidebar
+
+
 
         }
 
@@ -225,7 +264,7 @@ const zoomOutButton = document.querySelector('[data-map-zoom-out]');
 const toggleLocationButton = document.querySelector('[data-toggle-locations]');
 
 map.on("zoomend", function () {
-cleaning up js    
+
     let currentZoom = map.getZoom();
     let maxZoom = map.options.maxZoom;
     let minZoom = map.options.minZoom;
@@ -264,3 +303,4 @@ toggleLocationButton.addEventListener('click', function () {
     map.invalidateSize(true);
 
 });
+
