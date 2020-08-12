@@ -215,18 +215,24 @@ function init() {
                         <p class="meeting__title">
                             <strong>${locationName}</strong>
                         </p>
-                        <p class="meeting__address">
+                        <p class="meeting__address margin-bottom-1">
                             ${address1}<br>
                             ${address2}
                         </p>
+                        <a class="btn btn--has-icon background-light text-primary rounded font-size-sm" href="http://maps.google.com/?q=${locationAddress}" target="_blank">
+                            <span class="fas fa-directions fa-lg btn__icon"></span>
+                            <span class="btn__text">Directions</span>
+                        </a>
                     </div>
                     <hr>
                     <div class="data__meetings">
                         <ul class="nav">
-                            ${locationMeetings.map(element => `
-                            <li>
-                                <span class="display-block"><a class="text-primary" href="#1"><strong>${element[2]}</strong></a></span> 
-                                <span class="display-block">${element[3]}</span>
+                            ${locationMeetings.map(element =>
+                           `<li>
+                                <span class="display-block">
+                                    <strong>${element[3]}</strong>
+                                </span> 
+                                <span class="display-block"><a class="text-primary" href="#1">${element[2]}</a></span>
                                 <span class="display-block">${element[4]} - ${element[5]}</span>
                                 <span class="display-block">${element[6]}</span>   
                             </li>`).join('')}
