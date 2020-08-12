@@ -1,0 +1,50 @@
+dateModified: 1597255502
+email:
+  fromEmail: cavidano@gmail.com
+  fromName: 'Staten Island General Services'
+  transportType: craft\mail\transportadapters\Sendmail
+graphql:
+  publicToken:
+    enabled: false
+    expiryDate: null
+plugins:
+  feed-me:
+    edition: standard
+    enabled: true
+    schemaVersion: 2.1.2
+    settings:
+      assetDownloadCurl: false
+      backupLimit: 100
+      cache: '60'
+      compareContent: true
+      csvColumnDelimiter: ','
+      dataDelimiter: '-|-'
+      enabledTabs: '*'
+      logging: true
+      pluginName: 'Feed Me'
+      queueMaxRetry: null
+      queueTtr: null
+      requestOptions:
+        __assoc__:
+          -
+            - headers
+            -
+              __assoc__:
+                -
+                  - User-Agent
+                  - 'Feed Me'
+      runGcBeforeFeed: false
+      skipUpdateFieldHandle: ''
+      sleepTime: 0
+system:
+  edition: solo
+  live: true
+  name: 'Staten Island General Services'
+  schemaVersion: 3.5.12
+  timeZone: America/New_York
+users:
+  allowPublicRegistration: false
+  defaultGroup: null
+  photoSubpath: ''
+  photoVolumeUid: null
+  requireEmailVerification: true

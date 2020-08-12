@@ -1,0 +1,11 @@
+enableVersioning: true
+handle: meetings
+name: Meetings
+propagationMethod: all
+siteSettings:
+  b41a012a-37b0-462e-82b6-a2cd3d8cf090:
+    enabledByDefault: true
+    hasUrls: true
+    template: meetings
+    uriFormat: 'meetings/{slug}'
+type: channel

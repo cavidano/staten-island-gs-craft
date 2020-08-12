@@ -1,0 +1,17 @@
+contentColumnType: text
+fieldGroup: 3fd20431-b1f5-4026-8f6d-2e75d24d8332
+handle: meetingName
+instructions: ''
+name: 'Meeting Name'
+searchable: true
+settings:
+  byteLimit: null
+  charLimit: null
+  code: ''
+  columnType: null
+  initialRows: '4'
+  multiline: ''
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

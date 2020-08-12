@@ -55,9 +55,13 @@ var siGeo = new L.GeoJSON.AJAX('./lib/geojson/statenIsland.geojson');
 
 siGeo.on('data:loaded', function() {
     centerMap(siGeo);
+
+    let mapFrank = 'ckdrl3agu02vu19n5o868p9pq';
+    let mapClassic = 'ckdra9cus0rv11aqo0iawtcou'
+
     L.tileLayer('https://api.mapbox.com/styles/v1/{user}/{id}/tiles/{tileSize}/{z}/{x}/{y}?access_token={accessToken}', {
         user: 'cavidano',
-        id: 'ckdra9cus0rv11aqo0iawtcou',
+        id: mapClassic,
         accessToken: 'pk.eyJ1IjoiY2F2aWRhbm8iLCJhIjoiY2tkY3ZzdHUyMTB3azJ6b2JtbTNhODkybSJ9.zor-mM9NBBaRSuJKhwPh7g',
         tileSize: 256
     }).addTo(map);
@@ -194,35 +198,40 @@ function init() {
                 let address1 = locationAddress.split(/,(.+)/)[0];
                 let address2 = locationAddress.split(/,(.+)/)[1];
 
-                var contentPopUp = `<a href="#1" class="text-primary">
-                                        <strong>${locationName}</strong>
-                                    </a>
-                                    <p class="meeting__address">
-                                        ${address1}<br>
-                                        ${address2}
-                                    </p>
-                                    <p class="meeting__count">
-                                        ${locationMeetings.length} ${meetingCountLabel}
-                                    </p>`;
+                var contentPopUp = 
+                   `<a href="#1" class="text-primary">
+                        <strong>${locationName}</strong>
+                    </a>
+                    <p class="meeting__address">
+                        ${address1}<br>
+                        ${address2}
+                    </p>
+                    <p class="meeting__count">
+                        ${locationMeetings.length} ${meetingCountLabel}
+                    </p>`;
 
-                var contentSidebar = `<p class="meeting__title">
-                                        <strong>${locationName}</strong>
-                                      </p>
-                                      <p class="meeting__address">
-                                        ${address1}<br>
-                                        ${address2}
-                                      </p>
-                                      <hr class="margin-y-2">
-                                      <ul class="nav nav--divider location__metings">
-                                        ${locationMeetings.map(element => `
-                                        <li class="padding-1">
-                                            <span class="display-block">${element[2]}</span> 
-                                            <span class="display-block">${element[3]}</span>
-                                            <span class="display-block">${element[4]}</span>
-                                            <span class="display-block">${element[5]}</span>
-                                            <span class="display-block">${element[6]}</span>   
-                                        </li>`).join('')}
-                                      </ul>`;
+                var contentSidebar = 
+                   `<div class="data__location">
+                        <p class="meeting__title">
+                            <strong>${locationName}</strong>
+                        </p>
+                        <p class="meeting__address">
+                            ${address1}<br>
+                            ${address2}
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="data__meetings">
+                        <ul class="nav">
+                            ${locationMeetings.map(element => `
+                            <li>
+                                <span class="display-block"><a class="text-primary" href="#1"><strong>${element[2]}</strong></a></span> 
+                                <span class="display-block">${element[3]}</span>
+                                <span class="display-block">${element[4]} - ${element[5]}</span>
+                                <span class="display-block">${element[6]}</span>   
+                            </li>`).join('')}
+                        </ul>
+                    </div>`;
                                       
                 marker.bindPopup(contentPopUp);
 

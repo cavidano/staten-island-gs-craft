@@ -1,0 +1,65 @@
+fieldLayouts:
+  a309aedf-4772-446d-b57b-71f1a9322bde:
+    tabs:
+      -
+        elements:
+          -
+            instructions: null
+            label: Title
+            type: craft\fieldlayoutelements\EntryTitleField
+          -
+            fieldUid: b9e1eb55-9b04-4dc5-9808-5b69d45185a7
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 42880d21-6ced-473f-9e77-7a6b020ea6e3
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: bd601d24-c0a1-4d12-8bf2-24adecab2272
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 15a71ae4-55cb-464c-ac56-2a66a60f1281
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: a79f6e84-17be-4951-aeb7-0dd95b3e347b
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: a4df6700-8895-4174-a794-ad9501af9a11
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: edd48968-6b54-43c6-9cdc-6ad7b75ee5ea
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 3d194c66-9324-47b7-9c1e-49b95079b73a
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 9272f579-9617-4f4b-a76f-2427b8600071
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 8a0b3e1c-abc4-4a50-9740-196c9d963f89
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 073bfdeb-992d-41a8-8da1-de5c3685711c
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 03148561-a9f8-4367-9e37-1382c8218e56
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: 'Meeting Details'
+        sortOrder: 1
+handle: meetings
+hasTitleField: true
+name: Meetings
+section: 2c0ec0a6-8b7a-447e-bab1-9e854886b0e9
+sortOrder: 1
+titleFormat: ''
