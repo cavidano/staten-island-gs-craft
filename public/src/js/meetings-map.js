@@ -194,9 +194,16 @@ function init() {
                 let address1 = locationAddress.split(/,(.+)/)[0];
                 let address2 = locationAddress.split(/,(.+)/)[1];
 
-                var contentPopUp = '<a href="#1" class="text-primary"><strong>' + locationName + '</strong></a>' + '</p>' +
-                                   '<p class="meeting__address">' + address1 + '<br>' + address2 + '</p>' +
-                                   '<p class="meeting__count">' + locationMeetings.length + ' ' + meetingCountLabel + '</p>';
+                var contentPopUp = `<a href="#1" class="text-primary">
+                                        <strong>${locationName}</strong>
+                                    </a>
+                                    <p class="meeting__address">
+                                        ${address1}<br>
+                                        ${address2}
+                                    </p>
+                                    <p class="meeting__count">
+                                        ${locationMeetings.length} ${meetingCountLabel}
+                                    </p>`;
 
                 var contentSidebar = '<p class="meeting__title">' + locationName + '</p>' +
                         '<p class="meeting__address">' + address1 + '<br>' + address2 + '</p>' +
