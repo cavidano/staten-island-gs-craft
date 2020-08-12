@@ -205,9 +205,14 @@ function init() {
                                         ${locationMeetings.length} ${meetingCountLabel}
                                     </p>`;
 
-                var contentSidebar = '<p class="meeting__title">' + locationName + '</p>' +
-                        '<p class="meeting__address">' + address1 + '<br>' + address2 + '</p>' +
-                        '<hr>'
+                var contentSidebar = `<p class="meeting__title h6">
+                                        ${locationName}
+                                      </p>
+                                      <p class="meeting__address">
+                                        ${address1}<br>
+                                        ${address2}
+                                      </p>`;
+                        
 
                 marker.bindPopup(contentPopUp);
 
