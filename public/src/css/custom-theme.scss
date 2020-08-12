@@ -123,6 +123,16 @@ p:not([class]) {
     }
 }
 
+#data-loader{
+    padding: var(--s2);
+    font-size: var(--font-size-md);
+
+    p {
+        margin: unset;
+    }
+}
+
+
 .leaflet-popup-tip,
 .leaflet-popup-content-wrapper {
     box-shadow: unset;
@@ -132,7 +142,6 @@ p:not([class]) {
 .leaflet-popup-content-wrapper {
     border-radius: calc( var(--border-radius) * 1) ;
     box-shadow: 0 0 1em rgba( #000000, 0.125);
-    
 }
 
 .leaflet-popup-content {

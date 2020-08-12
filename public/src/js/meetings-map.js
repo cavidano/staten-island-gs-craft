@@ -160,7 +160,7 @@ function init() {
 
             let locationMeetings = itemsContainer.filter(item => item.includes(location));
 
-            let locationName = locationMeetings[0][2];
+            let locationName = locationMeetings[0][1];
 
             console.log("locationName ==> ", index, locationName);
 
@@ -205,15 +205,25 @@ function init() {
                                         ${locationMeetings.length} ${meetingCountLabel}
                                     </p>`;
 
-                var contentSidebar = `<p class="meeting__title h6">
-                                        ${locationName}
+                var contentSidebar = `<p class="meeting__title">
+                                        <strong>${locationName}</strong>
                                       </p>
                                       <p class="meeting__address">
                                         ${address1}<br>
                                         ${address2}
-                                      </p>`;
-                        
-
+                                      </p>
+                                      <hr class="margin-y-2">
+                                      <ul class="nav nav--divider location__metings">
+                                        ${locationMeetings.map(element => `
+                                        <li class="padding-1">
+                                            <span class="display-block">${element[2]}</span> 
+                                            <span class="display-block">${element[3]}</span>
+                                            <span class="display-block">${element[4]}</span>
+                                            <span class="display-block">${element[5]}</span>
+                                            <span class="display-block">${element[6]}</span>   
+                                        </li>`).join('')}
+                                      </ul>`;
+                                      
                 marker.bindPopup(contentPopUp);
 
                 //////////////////////////////////////////////
