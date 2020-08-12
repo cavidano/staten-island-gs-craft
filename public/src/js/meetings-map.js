@@ -299,4 +299,3 @@ toggleLocationButton.addEventListener('click', function () {
     map.invalidateSize(true);
 
 });
-
