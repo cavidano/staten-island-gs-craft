@@ -76,8 +76,6 @@ p:not([class]) {
     
     display: grid;
 
-    grid-template-areas: 
-        "map sidebar";
         
     #map-view__map-container {
         position: relative;
@@ -105,12 +103,8 @@ p:not([class]) {
         grid-area: 'sidebar';
 
         overflow-y: scroll;
-    }
 
-    #data-loader {
-        display: flex;
-        flex-direction: column-reverse;
-        justify-content: flex-end;
+        display: none;
     }
 
     #map-view__data-container {
@@ -118,7 +112,14 @@ p:not([class]) {
     }
 
     &.data-shown {
+        grid-template-areas: 
+            "map sidebar";
+
         grid-template-columns: 1fr var(--map-max-size);
+
+        #map-view__data-container {
+            display: block;
+        }
     }
 }
 

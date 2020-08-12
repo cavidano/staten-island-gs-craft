@@ -196,12 +196,16 @@ function init() {
 
                 var contentPopUp = '<a href="#1" class="text-primary"><strong>' + locationName + '</strong></a>' + '</p>' +
                                    '<p class="meeting__address">' + address1 + '<br>' + address2 + '</p>' +
-                                   '<p class="meeting__count">' + locationMeetings.length + ' ' + meetingCountLabel + '</p>'
-                
+                                   '<p class="meeting__count">' + locationMeetings.length + ' ' + meetingCountLabel + '</p>';
+
+                var contentSidebar = '<p class="meeting__title">' + locationName + '</p>' +
+                        '<p class="meeting__address">' + address1 + '<br>' + address2 + '</p>' +
+                        '<hr>'
+
                 marker.bindPopup(contentPopUp);
 
                 //////////////////////////////////////////////
-                // A. Desktop Markers
+                // A. Desktop Marker Action
                 //////////////////////////////////////////////
 
                 var mediaQuery = window.matchMedia('( max-width: 1000px )');
@@ -212,6 +216,8 @@ function init() {
                         return;
                     } else {
 
+                        var dataLoader = document.getElementById('data-loader');
+
                         marker.on('click', function (event) {
 
                             if (sidebarShown === false) {
@@ -220,13 +226,7 @@ function init() {
                                 map.invalidateSize(true);
                             }
 
-                            var id = L.Util.stamp(event.target);
-
-                            if (document.getElementById(id) != null) return;
-
-                            var dataLoader = L.DomUtil.create('div', 'dataLoader', document.getElementById('data-loader'));
-
-                            dataLoader.id = id;
+                            dataLoader.innerHTML = contentSidebar;
 
                         });
                     }
@@ -236,10 +236,6 @@ function init() {
                 mediaQuery.addListener(watchMediaQuery);
 
             });
-
-            /// Marker Sidebar
-
-
 
         }
 
