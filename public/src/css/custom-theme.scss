@@ -72,16 +72,13 @@ p:not([class]) {
 //////////////////////////////////////////////
 
 #map-view{
-    --map-max-size: 350px;
+    --map-max-size: 400px;
     
     display: grid;
 
     grid-template-areas: 
-        "map"
-        "sidebar";
+        "map sidebar";
         
-    grid-template-rows: 1fr 0;
-
     #map-view__map-container {
         position: relative;
         z-index: 8000;
@@ -115,26 +112,14 @@ p:not([class]) {
         flex-direction: column-reverse;
         justify-content: flex-end;
     }
-    
-    @include breakpoints-up(lg) {
 
-        #map-view__data-container {
-            overflow-y: scroll;
-        }
-
-        grid-template-rows: unset !important;
-        
-        grid-template-areas: 
-            "map sidebar";
-
-        grid-template-columns: 1fr 0;
-
-        &.data-shown {
-            grid-template-columns: 1fr var(--map-max-size);
-        }
-
+    #map-view__data-container {
+        overflow-y: scroll;
     }
 
+    &.data-shown {
+        grid-template-columns: 1fr var(--map-max-size);
+    }
 }
 
 .leaflet-popup-tip,
