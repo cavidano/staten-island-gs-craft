@@ -233,8 +233,8 @@ function init() {
                                     <strong>${element[3]}</strong>
                                 </span> 
                                 <span class="display-block"><a class="text-primary" href="#1">${element[2]}</a></span>
-                                <span class="display-block">${element[4]} - ${element[5]}</span>
-                                <span class="display-block">${element[6]}</span>   
+                                <span class="display-block margin-left-2">${element[4]} - ${element[5]}</span>
+                                <span class="display-block margin-left-2">${element[6]}</span>   
                             </li>`).join('')}
                         </ul>
                     </div>`;
