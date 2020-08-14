@@ -235,7 +235,7 @@ function init() {
                     </p>`;
 
                 var contentSidebar =
-                 
+
                    `<div class="data__location">
                         <p class="meeting__title">
                             <strong>${locationName}</strong>
@@ -256,13 +256,13 @@ function init() {
                         </ul>
                     </div>`;
 
-                    function initLocationMeetings(element) {
+                    function initLocationMeetings(meeting) {
 
-                        let weekDay = element[3];
-                        let meetingName = element[2];
-                        let meetingStartTime = element[4];
-                        let meetingEndTime = element[5];
-                        let meetingType = element[6];
+                        let weekDay = meeting.meetingWeekday;
+                        let meetingName = meeting.meetingName;
+                        let meetingStartTime = meeting.meetingStartTime;
+                        let meetingEndTime = meeting.meetingEndTime;
+                        let discussionType = meeting.discussionType;
 
                         return `
                         <li>
@@ -271,7 +271,7 @@ function init() {
                             </span> 
                             <span class="display-block"><a class="text-primary" href="#1">${meetingName}</a></span>
                             <span class="display-block margin-left-2">${meetingStartTime} - ${meetingEndTime}</span>
-                            <span class="display-block margin-left-2">${meetingType}</span>   
+                            <span class="display-block margin-left-2">${discussionType}</span>   
                         </li>`                        
                     }
 
