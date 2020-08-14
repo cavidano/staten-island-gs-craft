@@ -171,6 +171,12 @@ function init() {
         })
 
         locations = Array.from(new Set(locationsList));
+
+
+        itemsAsArrays.forEach(entry => {
+            weekdaysList.push(entry[3]);
+        });
+
         weekdays = Array.from(new Set(weekdaysList));
 
         console.log("locations ==> ", locations);
@@ -251,73 +257,34 @@ function init() {
                     </div>
                     <hr>
                     <div class="data__meetings">
-                        <ul class="nav">
-                            ${locationMeetings.map(initLocationMeetings).join('')}
-                        </ul>
+                        <div class="meeting__list">
+
+                            ${locationMeetings.map((meeting, index, array) => {
+
+                                var previousDay;
+                                var weekday = meeting.meetingWeekday;
+
+                                if(index > 1){ 
+                                    previousDay = array[index-1].meetingWeekday;
+                                }
+
+                                var meetingInfo = `
+                                <span class="display-block margin-left-2"><a class="text-primary" href="#1">${meeting.meetingName}</a></span>
+                                <span class="display-block margin-left-2">${meeting.meetingStartTime} - ${meeting.meetingEndTime}</span>
+                                <span class="display-block margin-left-2">${meeting.meetingType}</span>`
+
+                                if (weekday !== previousDay) {
+                                   return `
+                                        <span class="meeting__day"><strong>${weekday}</strong></span>
+                                        ${meetingInfo}`
+                                } else{
+                                    return `${meetingInfo}`
+                                }
+
+                            }).join('')}
+
+                        </div>
                     </div>`;
-
-                    function initLocationMeetings(meeting) {
-
-                        let weekDay = meeting.meetingWeekday;
-                        let meetingName = meeting.meetingName;
-                        let meetingStartTime = meeting.meetingStartTime;
-                        let meetingEndTime = meeting.meetingEndTime;
-                        let discussionType = meeting.discussionType;
-
-                        return `
-                        <li>
-                            <span class="display-block">
-                                <strong>${weekDay}</strong>
-                            </span> 
-                            <span class="display-block"><a class="text-primary" href="#1">${meetingName}</a></span>
-                            <span class="display-block margin-left-2">${meetingStartTime} - ${meetingEndTime}</span>
-                            <span class="display-block margin-left-2">${discussionType}</span>   
-                        </li>`                        
-                    }
-
-                    // var cool = function (ele){
-
-                    //     return 
-                        // el.forEach(meeting => {
-                        //     let weekDay = meeting[3];
-                        //     let meetingName = meeting[2];
-                        //     let meetingStartTime = meeting[4];
-                        //     let meetingEndTime = meeting[5];
-                        //     let meetingType = meeting[6];
-
-                        //     return `<li>COOL</li>`
-
-                        // });
-                    // }
-
-                    // function initLocationMeetings(element) {
-
-                    //     let currentWeekday = '';
-                    //     let weekDay = element[3];
-                    //     let meetingName = element[2];
-                    //     let meetingStartTime = element[4];
-                    //     let meetingEndTime = element[5];
-                    //     let meetingType = element[6];
-
-                    //     console.log(weekDay);
-
-
- 
-                    //     // example 1
-                    //     const html1 = `${weekDay !== currentWeekday ? `${weekDay}` : 'Cool'}`
-  
-                    //     currentWeekday = weekDay;  
-                        
-                    //     return `
-                    //     <li>
-                    //         <span class="display-block margin-bottom-1">
-                    //             <strong>${html1}</strong>
-                    //         </span> 
-                    //         <span class="display-block margin-left-2"><a class="text-primary" href="#1">${meetingName}</a></span>
-                    //         <span class="display-block margin-left-2">${meetingStartTime} - ${meetingEndTime}</span>
-                    //         <span class="display-block margin-left-2">${meetingType}</span>   
-                    //     </li>`                   
-                    // }
                                       
                 marker.bindPopup(contentPopUp);
 
