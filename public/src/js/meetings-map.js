@@ -117,7 +117,7 @@ function init() {
             // Get All Rows Excluding Column Headers
             if (dataRow[0] !== columnHeaderList[0]) {
 
-                let rowItem = dataRow;
+                let rowItem = Array.from(dataRow);
 
                 for (const [index, dataCell] of rowItem.entries()) {
 
@@ -138,23 +138,32 @@ function init() {
 
         });
 
+        // Remove Empty Placeholder in itemsContainer
         var itemsContainer = itemsContainer.filter(function (el) {
             return el != "";
         });
 
         console.log("itemsContainer ==> ", itemsContainer);
 
+        // Get Locations
+
         var locationsList = [];
+        var weekdaysList = [];
 
         for (const [index, item] of itemsContainer.entries()) {
             locationsList.push(item[0]);
+            weekdaysList.push(item[3]);
         }
 
         locations = Array.from(new Set(locationsList));
-        
-        console.log("locations ==> ", locations);
+        weekdays = Array.from(new Set(weekdaysList));
 
-        // Map it
+        console.log("locations ==> ", locations);
+        console.log("weekdays ==> ", weekdays);
+
+        //////////////////////////////////////////////
+        // Map Data
+        //////////////////////////////////////////////
 
         for (const [index, location] of locations.entries()) {
 
@@ -227,22 +236,77 @@ function init() {
                     <hr>
                     <div class="data__meetings">
                         <ul class="nav">
-                            ${locationMeetings.map(element =>
-                           `<li>
-                                <span class="display-block">
-                                    <strong>${element[3]}</strong>
-                                </span> 
-                                <span class="display-block"><a class="text-primary" href="#1">${element[2]}</a></span>
-                                <span class="display-block margin-left-2">${element[4]} - ${element[5]}</span>
-                                <span class="display-block margin-left-2">${element[6]}</span>   
-                            </li>`).join('')}
+                            ${locationMeetings.map(initLocationMeetings).join('')}
                         </ul>
                     </div>`;
+
+                    function initLocationMeetings(element) {
+
+                        let weekDay = element[3];
+                        let meetingName = element[2];
+                        let meetingStartTime = element[4];
+                        let meetingEndTime = element[5];
+                        let meetingType = element[6];
+
+                        return `
+                        <li>
+                            <span class="display-block">
+                                <strong>${weekDay}</strong>
+                            </span> 
+                            <span class="display-block"><a class="text-primary" href="#1">${meetingName}</a></span>
+                            <span class="display-block margin-left-2">${meetingStartTime} - ${meetingEndTime}</span>
+                            <span class="display-block margin-left-2">${meetingType}</span>   
+                        </li>`                        
+                    }
+
+                    // var cool = function (ele){
+
+                    //     return 
+                        // el.forEach(meeting => {
+                        //     let weekDay = meeting[3];
+                        //     let meetingName = meeting[2];
+                        //     let meetingStartTime = meeting[4];
+                        //     let meetingEndTime = meeting[5];
+                        //     let meetingType = meeting[6];
+
+                        //     return `<li>COOL</li>`
+
+                        // });
+                    // }
+
+                    // function initLocationMeetings(element) {
+
+                    //     let currentWeekday = '';
+                    //     let weekDay = element[3];
+                    //     let meetingName = element[2];
+                    //     let meetingStartTime = element[4];
+                    //     let meetingEndTime = element[5];
+                    //     let meetingType = element[6];
+
+                    //     console.log(weekDay);
+
+
+ 
+                    //     // example 1
+                    //     const html1 = `${weekDay !== currentWeekday ? `${weekDay}` : 'Cool'}`
+  
+                    //     currentWeekday = weekDay;  
+                        
+                    //     return `
+                    //     <li>
+                    //         <span class="display-block margin-bottom-1">
+                    //             <strong>${html1}</strong>
+                    //         </span> 
+                    //         <span class="display-block margin-left-2"><a class="text-primary" href="#1">${meetingName}</a></span>
+                    //         <span class="display-block margin-left-2">${meetingStartTime} - ${meetingEndTime}</span>
+                    //         <span class="display-block margin-left-2">${meetingType}</span>   
+                    //     </li>`                   
+                    // }
                                       
                 marker.bindPopup(contentPopUp);
 
                 //////////////////////////////////////////////
-                // A. Desktop Marker Action
+                // Desktop Marker Action
                 //////////////////////////////////////////////
 
                 var mediaQuery = window.matchMedia('( max-width: 1000px )');
