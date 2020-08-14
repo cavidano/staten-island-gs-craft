@@ -107,13 +107,12 @@ function init() {
             columnHeaderList.push(columnHeader);
         }
 
-        var itemsContainer = [""];
-        
-        var i = 0;
+        var itemsAsArrays = [""];
+        var itemsAsObjects = [];
 
         // Print Data Rows
-        dataList.forEach((dataRow) => {
-        
+        dataList.forEach((dataRow, i) => {
+
             // Get All Rows Excluding Column Headers
             if (dataRow[0] !== columnHeaderList[0]) {
 
@@ -124,36 +123,53 @@ function init() {
                     if (dataCell !== "") {
                         rowItem[index] = dataCell;
                     } else {
-                        if (itemsContainer.length > 1) {
-                            rowItem[index] = itemsContainer[i-1][index]
+                        if (itemsAsArrays.length > 1) {
+                            rowItem[index] = itemsAsArrays[i - 1][index]
                         }
                     }
                 }
 
-                itemsContainer.push(rowItem);
+                itemsAsArrays.push(rowItem);
 
-            } // end 
-
-            i++;
+            } // end for
 
         });
 
-        // Remove Empty Placeholder in itemsContainer
-        var itemsContainer = itemsContainer.filter(function (el) {
+        // Remove Empty Placeholder in itemsAsArrays
+        var itemsAsArrays = itemsAsArrays.filter(function (el) {
             return el != "";
         });
 
-        console.log("itemsContainer ==> ", itemsContainer);
+        console.log("itemsAsArrays ==> ", itemsAsArrays);
+
+        itemsAsArrays.forEach((rowItem) => {
+
+            let rowObject = {}
+            let keys = columnHeaderList;
+            let values = rowItem;
+
+            keys.forEach((key, i) => {
+                rowObject[key] = values[i];
+            });
+
+            itemsAsObjects.push(rowObject);
+
+        });
+
+        console.log("itemsAsObjects ==> ", itemsAsObjects);
+
+        // const myJSON = JSON.stringify(itemsAsObjects);
+        // console.log("JSON ==> ", myJSON);
 
         // Get Locations
 
         var locationsList = [];
         var weekdaysList = [];
 
-        for (const [index, item] of itemsContainer.entries()) {
-            locationsList.push(item[0]);
-            weekdaysList.push(item[3]);
-        }
+        itemsAsArrays.forEach(entry => {
+            locationsList.push(entry[0]);
+            weekdaysList.push(entry[3]);
+        })
 
         locations = Array.from(new Set(locationsList));
         weekdays = Array.from(new Set(weekdaysList));
@@ -171,7 +187,7 @@ function init() {
 
             let locationAddress = location;
 
-            let locationMeetings = itemsContainer.filter(item => item.includes(location));
+            let locationMeetings = itemsAsArrays.filter(item => item.includes(location));
 
             let locationName = locationMeetings[0][1];
 
@@ -340,7 +356,7 @@ function init() {
 
         }
 
-        const myJSON = JSON.stringify(itemsContainer);
+        const myJSON = JSON.stringify(itemsAsArrays);
         console.log("JSON ==> ", myJSON);
 
     }, function (reason) {
