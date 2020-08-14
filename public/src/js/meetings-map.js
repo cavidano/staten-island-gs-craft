@@ -168,28 +168,26 @@ function init() {
 
         itemsAsArrays.forEach(entry => {
             locationsList.push(entry[0]);
-            weekdaysList.push(entry[3]);
         })
 
         locations = Array.from(new Set(locationsList));
         weekdays = Array.from(new Set(weekdaysList));
 
         console.log("locations ==> ", locations);
-        console.log("weekdays ==> ", weekdays);
 
         //////////////////////////////////////////////
         // Map Data
         //////////////////////////////////////////////
 
-        for (const [index, location] of locations.entries()) {
+        locations.forEach((location, index) => {
 
             console.log("location ==> ", index, location);
 
             let locationAddress = location;
 
-            let locationMeetings = itemsAsArrays.filter(item => item.includes(location));
+            let locationMeetings = itemsAsObjects.filter(meeting => meeting.locationAddress === location);
 
-            let locationName = locationMeetings[0][1];
+            let locationName = locationMeetings[0].locationName;
 
             console.log("locationName ==> ", index, locationName);
 
@@ -224,6 +222,7 @@ function init() {
                 let address2 = locationAddress.split(/,(.+)/)[1];
 
                 var contentPopUp = 
+
                    `<a href="#1" class="text-primary">
                         <strong>${locationName}</strong>
                     </a>
@@ -235,7 +234,8 @@ function init() {
                         ${locationMeetings.length} ${meetingCountLabel}
                     </p>`;
 
-                var contentSidebar = 
+                var contentSidebar =
+                 
                    `<div class="data__location">
                         <p class="meeting__title">
                             <strong>${locationName}</strong>
@@ -354,10 +354,10 @@ function init() {
 
             });
 
-        }
+        });
 
-        const myJSON = JSON.stringify(itemsAsArrays);
-        console.log("JSON ==> ", myJSON);
+        // const myJSON = JSON.stringify(itemsAsArrays);
+        // console.log("JSON ==> ", myJSON);
 
     }, function (reason) {
         console.log('Error: ' + reason.result.error.message);
