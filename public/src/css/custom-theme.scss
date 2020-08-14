@@ -138,11 +138,39 @@ p:not([class]) {
         padding: var(--s2);
         font-size: var(--font-size-sm);
     }
+ 
+
 }
 
-.leaflet-tile{
-    // filter: saturate(75%);
+.meeting__day,
+.meeting__name,
+.meeting__time,
+.meeting__discussion {
+    display: block;
 }
+
+.meeting__day {
+    &:not(:first-child){
+        margin-top: 1em;
+    }
+}
+
+.meeting__name {
+    margin-top: 0.5em;
+    margin-bottom: 0.25;
+}
+
+
+.meeting__name,
+.meeting__time,
+.meeting__discussion {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+// .leaflet-tile{
+    // filter: saturate(75%);
+// }
 
 .leaflet-popup-tip,
 .leaflet-popup-content-wrapper {

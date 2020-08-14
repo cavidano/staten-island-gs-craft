@@ -97,7 +97,7 @@ function init() {
         // Set Response as Variable
         const dataList = response.result.values;
 
-        console.log("My Raw Data...", dataList);
+        // console.log("My Raw Data...", dataList);
 
         // Create Columns Array
         let columnHeaderList = [];
@@ -140,7 +140,7 @@ function init() {
             return el != "";
         });
 
-        console.log("itemsAsArrays ==> ", itemsAsArrays);
+        // console.log("itemsAsArrays ==> ", itemsAsArrays);
 
         itemsAsArrays.forEach((rowItem) => {
 
@@ -156,7 +156,7 @@ function init() {
 
         });
 
-        console.log("itemsAsObjects ==> ", itemsAsObjects);
+        // console.log("itemsAsObjects ==> ", itemsAsObjects);
 
         // const myJSON = JSON.stringify(itemsAsObjects);
         // console.log("JSON ==> ", myJSON);
@@ -179,7 +179,7 @@ function init() {
 
         weekdays = Array.from(new Set(weekdaysList));
 
-        console.log("locations ==> ", locations);
+        // console.log("locations ==> ", locations);
 
         //////////////////////////////////////////////
         // Map Data
@@ -187,7 +187,7 @@ function init() {
 
         locations.forEach((location, index) => {
 
-            console.log("location ==> ", index, location);
+            // console.log("location ==> ", index, location);
 
             let locationAddress = location;
 
@@ -195,9 +195,9 @@ function init() {
 
             let locationName = locationMeetings[0].locationName;
 
-            console.log("locationName ==> ", index, locationName);
+            // console.log("locationName ==> ", index, locationName);
 
-            console.log("locationMeetings ==> ", index, locationMeetings);
+            // console.log("locationMeetings ==> ", index, locationMeetings);
 
             // location meetings
 
@@ -257,21 +257,21 @@ function init() {
                     </div>
                     <hr>
                     <div class="data__meetings">
-                        <div class="meeting__list">
+                        <div class="meeting-list">
 
                             ${locationMeetings.map((meeting, index, array) => {
 
                                 var previousDay;
-                                var weekday = meeting.meetingWeekday;
+                                var weekday = meeting.meetingDay;
 
-                                if(index > 1){ 
-                                    previousDay = array[index-1].meetingWeekday;
+                                if(index >= 1){ 
+                                    previousDay = array[index-1].meetingDay;
                                 }
 
-                                var meetingInfo = `
-                                <span class="display-block margin-left-2"><a class="text-primary" href="#1">${meeting.meetingName}</a></span>
-                                <span class="display-block margin-left-2">${meeting.meetingStartTime} - ${meeting.meetingEndTime}</span>
-                                <span class="display-block margin-left-2">${meeting.meetingType}</span>`
+                                var meetingInfo =
+                                               `<span class="meeting__name"><em>${meeting.meetingName}</em></span>
+                                                <span class="meeting__time">${meeting.meetingStartTime} - ${meeting.meetingEndTime}</span>
+                                                <span class="meeting__discussion">${meeting.discussionType}</span>`
 
                                 if (weekday !== previousDay) {
                                    return `
@@ -327,7 +327,7 @@ function init() {
         // console.log("JSON ==> ", myJSON);
 
     }, function (reason) {
-        console.log('Error: ' + reason.result.error.message);
+        // console.log('Error: ' + reason.result.error.message);
     });
 };
 
