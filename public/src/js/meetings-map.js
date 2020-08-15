@@ -302,7 +302,6 @@ function init() {
                         return;
                     } else {
 
-                        // var sidebar = document.getElementById("map-view__data-container");
                         var dataLoader = document.getElementById("data-loader");
                         var dataOverview = document.getElementById("location-overview");
                         var dataDetail = document.getElementById("location-detail");
