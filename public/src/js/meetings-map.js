@@ -264,6 +264,7 @@ function init() {
                             ${locationMeetings.map((meeting, index, array) => {
 
                                 var previousDay;
+
                                 var weekday = meeting.meetingDay;
 
                                 if(index >= 1){ 
@@ -302,9 +303,8 @@ function init() {
                         return;
                     } else {
 
-                        var dataLoader = document.getElementById("data-loader");
-                        var dataOverview = document.getElementById("location-overview");
-                        var dataDetail = document.getElementById("location-detail");
+                        var dataOverview = document.getElementById("location-overview-loader");
+                        var dataDetail = document.getElementById("location-detail-loader");
 
                         marker.on('click', function (event) {
 
@@ -373,18 +373,4 @@ zoomInButton.addEventListener('click', function (event) {
 
 zoomOutButton.addEventListener('click', function (event) {
     map.zoomOut()
-});
-
-toggleLocationButton.addEventListener('click', function () {
-
-    if( sidebarShown === false){
-        mapTarget.classList.add("data-shown");
-        sidebarShown = true;
-    } else if ( sidebarShown === true) {
-        mapTarget.classList.remove("data-shown");
-        sidebarShown = false;
-    }
-
-    map.invalidateSize(true);
-
 });
