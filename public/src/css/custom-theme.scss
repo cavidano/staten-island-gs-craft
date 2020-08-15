@@ -101,13 +101,8 @@ p:not([class]) {
 
         grid-area: 'sidebar';
 
-        overflow-y: scroll;
 
         display: none;
-    }
-
-    #map-view__data-container {
-        overflow-y: scroll;
     }
 
     &.data-shown {
@@ -123,9 +118,29 @@ p:not([class]) {
 }
 
 #data-loader{
+    height: 100%;
+    overflow: hidden;
+
+    display: grid;
+
+    grid-template-rows: auto 1fr;
+
+    grid-template-areas: 
+            "overview"
+            "details";
 
     p {
         margin: unset;
+    }
+
+    #location-overview{
+        grid-area: "overview";
+    }
+
+
+    #location-detail{
+        grid-area: "details";
+        overflow-y: scroll;
     }
 
     .data__location {

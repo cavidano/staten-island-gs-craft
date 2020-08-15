@@ -227,7 +227,7 @@ function init() {
                 let address1 = locationAddress.split(/,(.+)/)[0];
                 let address2 = locationAddress.split(/,(.+)/)[1];
 
-                var contentPopUp = 
+                var contentlocationPopUp = 
 
                    `<a href="#1" class="text-primary">
                         <strong>${locationName}</strong>
@@ -240,9 +240,9 @@ function init() {
                         ${locationMeetings.length} ${meetingCountLabel}
                     </p>`;
 
-                var contentSidebar =
+                var contentLocationOverview =
 
-                   `<div class="data__location">
+                    `<div class="data__location">
                         <p class="meeting__title">
                             <strong>${locationName}</strong>
                         </p>
@@ -254,9 +254,11 @@ function init() {
                             <span class="fas fa-directions fa-lg btn__icon"></span>
                             <span class="btn__text">Directions</span>
                         </a>
-                    </div>
-                    <hr>
-                    <div class="data__meetings">
+                    </div>`;
+
+                var contentLocationDetail =
+
+                    `<div class="data__meetings">
                         <div class="meeting-list">
 
                             ${locationMeetings.map((meeting, index, array) => {
@@ -286,7 +288,7 @@ function init() {
                         </div>
                     </div>`;
                                       
-                marker.bindPopup(contentPopUp);
+                marker.bindPopup(contentlocationPopUp);
 
                 //////////////////////////////////////////////
                 // Desktop Marker Action
@@ -300,7 +302,10 @@ function init() {
                         return;
                     } else {
 
-                        var dataLoader = document.getElementById('data-loader');
+                        // var sidebar = document.getElementById("map-view__data-container");
+                        var dataLoader = document.getElementById("data-loader");
+                        var dataOverview = document.getElementById("location-overview");
+                        var dataDetail = document.getElementById("location-detail");
 
                         marker.on('click', function (event) {
 
@@ -310,7 +315,8 @@ function init() {
                                 map.invalidateSize(true);
                             }
 
-                            dataLoader.innerHTML = contentSidebar;
+                            dataOverview.innerHTML = contentLocationOverview;
+                            dataDetail.innerHTML = contentLocationDetail;
 
                         });
                     }
