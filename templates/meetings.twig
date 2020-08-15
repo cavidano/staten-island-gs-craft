@@ -35,13 +35,13 @@
             <ul class="nav font-size-md" id="map-controls">
 
                 <li>
-                    <button class="btn btn--icon-only toggle background-blur box-shadow-1" title="Zoom In" type="button" data-map-zoom-in>
+                    <button class="btn btn--icon-only background-blur box-shadow-1" title="Zoom In" type="button" data-map-zoom-in>
                         <span class="screen-reader-only">Toggle</span>
                         <span class="fas fa-plus" aria-hidden="true"></span>
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn--icon-only toggle background-blur box-shadow-1" title="Zoom Out" type="button" data-map-zoom-out>
+                    <button class="btn btn--icon-only background-blur box-shadow-1" title="Zoom Out" type="button" data-map-zoom-out>
                         <span class="screen-reader-only">Toggle</span>
                         <span class="fas fa-minus" aria-hidden="true"></span>
                     </button>
@@ -54,6 +54,12 @@
             </div>
 
             <div class="theme-white box-shadow-3" id="map-view__sidebar">
+                <div id="location-detail-toggle">
+                    <button class="btn btn--icon-only theme-primary box-shadow-1" title="Toggle Sidebar" type="button" data-toggle-locations>
+                        <span class="screen-reader-only">Toggle</span>
+                        <span class="fas fa-ellipsis-v" aria-hidden="true"></span>
+                    </button>
+                </div>
                 <div class="border-bottom" id="location-overview-loader"></div>
                 <div id="location-detail-loader"></div>
             </div>

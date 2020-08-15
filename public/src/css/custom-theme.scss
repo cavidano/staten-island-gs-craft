@@ -100,9 +100,12 @@ p:not([class]) {
     }
 }
 
-// #map-view__map {
-//     transition: width 0.1s ease-in;
-// }
+#location-detail-toggle {
+    position: absolute;
+    right: calc(100% + var(--s2));
+    top: var(--s2);
+
+}
 
 #map-view__sidebar {
     transition: right 0.2s ease-in;
@@ -119,7 +122,6 @@ p:not([class]) {
     width: var(--map-max-size);
 
     z-index: 12000;
-    overflow: hidden;
 
     position: absolute;
     top: 0;

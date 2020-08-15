@@ -374,3 +374,15 @@ zoomInButton.addEventListener('click', function (event) {
 zoomOutButton.addEventListener('click', function (event) {
     map.zoomOut()
 });
+
+toggleLocationButton.addEventListener('click', function () {
+
+    if( sidebarShown === false){
+        mapTarget.classList.add("data-shown");
+        sidebarShown = true;
+    } else if ( sidebarShown === true) {
+        mapTarget.classList.remove("data-shown");
+        sidebarShown = false;
+    }
+    
+});
