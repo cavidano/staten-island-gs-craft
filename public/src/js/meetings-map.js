@@ -185,7 +185,7 @@ function init() {
         // Map Data
         //////////////////////////////////////////////
 
-        locations.forEach((location, index) => {
+        locations.forEach((location) => {
 
             // console.log("location ==> ", index, location);
 
@@ -243,17 +243,27 @@ function init() {
                 var contentLocationOverview =
 
                     `<div class="data__location">
-                        <p class="meeting__title">
-                            <strong>${locationName}</strong>
+                        <p class="location__title font-size-rg">
+                            ${locationName}
                         </p>
-                        <p class="meeting__address margin-bottom-1">
+                        <p class="meeting__address font-size-sm margin-bottom-1">
                             ${address1}<br>
                             ${address2}
                         </p>
-                        <a class="btn btn--has-icon background-light text-primary rounded font-size-sm" href="http://maps.google.com/?q=${locationAddress}" target="_blank">
-                            <span class="fas fa-directions fa-lg btn__icon"></span>
-                            <span class="btn__text">Directions</span>
-                        </a>
+                        <ul class="nav nav--horizontal nav--divider border text-primary font-size-sm rounded">
+                        <li>
+                            <a class="btn btn--has-icon" href="http://maps.google.com/?q=${locationAddress}" target="_blank">
+                                <span class="fas fa-map-marker-alt fa-lg btn__icon"></span>
+                                <span class="btn__text">Directions</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="btn btn--has-icon" href="#1">
+                                <span class="far fa-arrow-alt-circle-right fa-lg btn__icon"></span>
+                                <span class="btn__text">Details</span>
+                            </a>
+                        </li>
+                        </ul>
                     </div>`;
 
                 var contentLocationDetail =
@@ -272,9 +282,9 @@ function init() {
                                 }
 
                                 var meetingInfo =
-                                               `<span class="meeting__name"><em>${meeting.meetingName}</em></span>
-                                                <span class="meeting__time">${meeting.meetingStartTime} - ${meeting.meetingEndTime}</span>
-                                                <span class="meeting__discussion">${meeting.discussionType}</span>`
+                                   `<span class="meeting__name"><em>${meeting.meetingName}</em></span>
+                                    <span class="meeting__time">${meeting.meetingStartTime} - ${meeting.meetingEndTime}</span>
+                                    <span class="meeting__discussion">${meeting.discussionType}</span>`
 
                                 if (weekday !== previousDay) {
                                    return `
@@ -332,7 +342,7 @@ function init() {
         // console.log("JSON ==> ", myJSON);
 
     }, function (reason) {
-        // console.log('Error: ' + reason.result.error.message);
+        console.log('Error: ' + reason.result.error.message);
     });
 };
 
@@ -367,15 +377,15 @@ map.on("zoomend", function () {
     }
 });
 
-zoomInButton.addEventListener('click', function (event) {
+zoomInButton.addEventListener('click', function() {
    map.zoomIn();
 });
 
-zoomOutButton.addEventListener('click', function (event) {
+zoomOutButton.addEventListener('click', function() {
     map.zoomOut()
 });
 
-toggleLocationButton.addEventListener('click', function () {
+toggleLocationButton.addEventListener('click', function() {
 
     if( sidebarShown === false){
         mapTarget.classList.add("data-shown");
@@ -384,5 +394,5 @@ toggleLocationButton.addEventListener('click', function () {
         mapTarget.classList.remove("data-shown");
         sidebarShown = false;
     }
-    
+
 });
