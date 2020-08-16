@@ -222,7 +222,7 @@ function init() {
                 marker = L.marker(coords, {
                     icon: meetingIcon,
                     riseOnHover: true
-                }).addTo(map);
+                }).addTo(markerLayer);
 
                 let address1 = locationAddress.split(/,(.+)/)[0];
                 let address2 = locationAddress.split(/,(.+)/)[1];
