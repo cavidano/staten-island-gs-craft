@@ -55,13 +55,13 @@ var siGeo = new L.GeoJSON.AJAX('./lib/geojson/statenIsland.geojson');
 
 siGeo.on('data:loaded', function() {
     centerMap(siGeo);
-
-    let mapFrank = 'ckdrl3agu02vu19n5o868p9pq';
+    
+    let mapCustom = 'ckdwypx770g1c19mlk4lbi835';
     let mapClassic = 'ckdra9cus0rv11aqo0iawtcou'
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{user}/{id}/tiles/{tileSize}/{z}/{x}/{y}?access_token={accessToken}', {
         user: 'cavidano',
-        id: mapClassic,
+        id: mapCustom,
         accessToken: 'pk.eyJ1IjoiY2F2aWRhbm8iLCJhIjoiY2tkY3ZzdHUyMTB3azJ6b2JtbTNhODkybSJ9.zor-mM9NBBaRSuJKhwPh7g',
         tileSize: 256
     }).addTo(map);
@@ -97,7 +97,7 @@ function init() {
         // Set Response as Variable
         const dataList = response.result.values;
 
-        // console.log("My Raw Data...", dataList);
+        console.log("My Raw Data...", dataList);
 
         // Create Columns Array
         let columnHeaderList = [];
@@ -140,7 +140,7 @@ function init() {
             return el != "";
         });
 
-        // console.log("itemsAsArrays ==> ", itemsAsArrays);
+        console.log("itemsAsArrays ==> ", itemsAsArrays);
 
         itemsAsArrays.forEach((rowItem) => {
 
@@ -156,8 +156,10 @@ function init() {
 
         });
 
-        // console.log("itemsAsObjects ==> ", itemsAsObjects);
+        console.log("itemsAsObjects ==> ", itemsAsObjects);
 
+        // itemsAsObjects = itemsAsObjects.filter(meeting => meeting.meetingDay === 'Sunday');
+        
         // const myJSON = JSON.stringify(itemsAsObjects);
         // console.log("JSON ==> ", myJSON);
 
@@ -171,7 +173,6 @@ function init() {
         })
 
         locations = Array.from(new Set(locationsList));
-
 
         itemsAsArrays.forEach(entry => {
             weekdaysList.push(entry[3]);
@@ -197,7 +198,7 @@ function init() {
 
             // console.log("locationName ==> ", index, locationName);
 
-            // console.log("locationMeetings ==> ", index, locationMeetings);
+            console.log("locationMeetings ==> ", locationMeetings);
 
             // location meetings
 
