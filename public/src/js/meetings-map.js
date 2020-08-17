@@ -158,7 +158,9 @@ function init() {
 
         console.log("itemsAsObjects ==> ", itemsAsObjects);
 
-        // itemsAsObjects = itemsAsObjects.filter(meeting => meeting.meetingDay === 'Sunday');
+        // itemsAsObjects = itemsAsObjects.filter(meeting => meeting.wheelchairAccess === 'TRUE');
+
+        // console.log("itemsAsObjects FILTERED ==> ", itemsAsObjects);
         
         // const myJSON = JSON.stringify(itemsAsObjects);
         // console.log("JSON ==> ", myJSON);
@@ -166,19 +168,12 @@ function init() {
         // Get Locations
 
         var locationsList = [];
-        var weekdaysList = [];
 
-        itemsAsArrays.forEach(entry => {
-            locationsList.push(entry[0]);
+        itemsAsObjects.forEach(entry => {
+            locationsList.push(entry.locationAddress);
         })
 
         locations = Array.from(new Set(locationsList));
-
-        itemsAsArrays.forEach(entry => {
-            weekdaysList.push(entry[3]);
-        });
-
-        weekdays = Array.from(new Set(weekdaysList));
 
         // console.log("locations ==> ", locations);
 
