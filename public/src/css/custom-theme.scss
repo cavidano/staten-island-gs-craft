@@ -59,6 +59,13 @@ In this file:
     }
 }
 
+.tabs {
+    [aria-selected="true"]{
+        text-decoration: underline;
+        font-weight: 700;
+    }
+}
+
 //////////////////////////////////////////////
 // D. Map
 //////////////////////////////////////////////
