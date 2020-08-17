@@ -177,9 +177,18 @@ function init() {
 
         // console.log("locations ==> ", locations);
 
+        var weekdayList = [];
+
+        itemsAsObjects.forEach(entry => {
+            weekdayList.push(entry.meetingDay);
+        });
+
+        weekdays = Array.from(new Set(weekdayList));
+
         //////////////////////////////////////////////
-        // Map Data
+        // Map and List Data
         //////////////////////////////////////////////
+
 
         locations.forEach((location) => {
 
@@ -195,7 +204,7 @@ function init() {
 
             console.log("locationMeetings ==> ", locationMeetings);
 
-            // location meetings
+            // Map View
 
             var coords, marker;
 
@@ -331,7 +340,39 @@ function init() {
                 mediaQuery.addListener(watchMediaQuery);
 
             });
+           
+        });
 
+        const listTarget = document.getElementById("list-loader");
+
+        weekdays.forEach((day) => {
+
+            let weekdayMeetings = document.createElement("div");
+
+            let weekday = day;
+
+            console.log("weekday ==> ", weekday);
+
+            let dailyMeetings = itemsAsObjects.filter(meeting => meeting.meetingDay === weekday);
+
+            console.log("dailyMeetings ==> ", dailyMeetings);
+
+            var contentMeetingList = `
+
+                <h3>${weekday}</h3>
+
+                <div class="data__meetings">
+                    <div class="meeting-list">
+                        ${dailyMeetings.map((meeting) => {
+                            return `
+                                <span class="meeting__time">${meeting.meetingStartTime} - ${meeting.meetingEndTime}</span>
+                                <span class="meeting__discussion">${meeting.discussionType}</span>`
+                        }).join('')}
+                    </div>
+                </div>`;
+                    
+            weekdayMeetings.innerHTML = contentMeetingList;
+            listTarget.appendChild(weekdayMeetings)
         });
 
     }, function (reason) {
