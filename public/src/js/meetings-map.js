@@ -158,7 +158,7 @@ function init() {
 
         console.log("itemsAsObjects ==> ", itemsAsObjects);
 
-        // itemsAsObjects = itemsAsObjects.filter(meeting => meeting.wheelchairAccess === 'TRUE');
+        // itemsAsObjects = itemsAsObjects.filter(meeting => meeting.meetingDay === 'Wednesday');
 
         // console.log("itemsAsObjects FILTERED ==> ", itemsAsObjects);
         
@@ -171,7 +171,7 @@ function init() {
 
         itemsAsObjects.forEach(entry => {
             locationsList.push(entry.locationAddress);
-        })
+        });
 
         locations = Array.from(new Set(locationsList));
 
@@ -183,9 +183,9 @@ function init() {
 
         locations.forEach((location) => {
 
-            // console.log("location ==> ", index, location);
-
             let locationAddress = location;
+
+            // console.log("location ==> ", index, location);
 
             let locationMeetings = itemsAsObjects.filter(meeting => meeting.locationAddress === location);
 
@@ -312,7 +312,7 @@ function init() {
                         var dataOverview = document.getElementById("location-overview-loader");
                         var dataDetail = document.getElementById("location-detail-loader");
 
-                        marker.on('click', function (event) {
+                        marker.on('click', () => {
 
                             if (sidebarShown === false) {
                                 mapTarget.classList.add('data-shown');
@@ -333,9 +333,6 @@ function init() {
             });
 
         });
-
-        // const myJSON = JSON.stringify(itemsAsArrays);
-        // console.log("JSON ==> ", myJSON);
 
     }, function (reason) {
         console.log('Error: ' + reason.result.error.message);
