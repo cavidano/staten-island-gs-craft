@@ -2,7 +2,7 @@
 
 {% block main %}
 
-    <main id="skip-header-content">
+    <main class="tabs" id="skip-header-content">
 
         <div class="theme-primary padding-y-2 padding-y-3--lg">
 
@@ -13,24 +13,22 @@
                 <div class="medium font-size-md">
                     <ul class="nav nav--divider nav--horizontal border">
                         <li>
-                            <a href="#1" aria-current="page">Map</a>
+                            <button aria-selected="true"
+                                    aria-controls="map-view"
+                                    id="tab-button-map-view"
+                                    role="tab">
+                                        Map
+                            </button>
                         </li>
                         <li>
-                            <a href="#1">List</a>
+                            <button aria-selected="false"
+                                    aria-controls="list-view"
+                                    id="tab-button-list-view" role="tab">
+                                        List
+                            </button>
                         </li>
                         <li>
-                            <a href="#1" data-toggle="dropdown">Filter</a>
-                            <ul>
-                                <li>
-                                    <a href="#1">Link</a>
-                                </li>
-                                <li>
-                                    <a href="#1">Link</a>
-                                </li>
-                                <li>
-                                    <a href="#1">Link</a>
-                                </li>
-                            </ul>
+                            <a href="#1">Filter</a>
                         </li>
                     </ul>
                 </div>
@@ -39,7 +37,7 @@
             
         </div>
 
-        <section id="map-view">
+        <section class="tabs__panel shown" id="map-view" aria-labelledby="tab-button-map-view" role="tabpanel">
 
             <h2 class="screen-reader-only">Map view of Data</h2>
 
@@ -75,6 +73,13 @@
                 <div class="box-shadow-1" id="location-overview-loader"></div>
                 <div id="location-detail-loader"></div>
             </div>
+
+        </section>
+
+        <section class="tabs__panel" id="list-view" aria-labelledby="tab-button-list-view" role="tabpanel">
+
+            <h2>List View</h2>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Libero quaerat numquam eligendi alias perferendis quasi architecto eos facilis maiores voluptas! Laudantium, a vero perferendis harum voluptatem aut esse fugiat tempore!</p>
 
         </section>
 
