@@ -27,7 +27,7 @@ In this file:
     --base-font-size: 20px;
 
     --base-font-weight-normal: 400;
-    --base-font-weight-bold: 900;
+    --base-font-weight-bold: 700;
 
     --primary: hsl(220, 70%, 40%);
     --white-link: var(--primary);
@@ -47,18 +47,10 @@ In this file:
 // C. Global Elements
 //////////////////////////////////////////////
 
-%serif {
-    font-family:'EB Garamond', serif;
-}
-
 .background-blur {
     background-color: transparent;
     backdrop-filter: blur(1rem) brightness(150%) saturate(75%);
     color: (var(--primary));
-}
-
-p:not([class]) {
-    @extend %serif !optional;
 }
 
 .card{
@@ -72,8 +64,8 @@ p:not([class]) {
 //////////////////////////////////////////////
 
 #map-view{
+    --map-max-size: 350px;
     position: relative;
-    --map-max-size: 325px;
 
     &.data-shown{
         #map-view__sidebar {
@@ -190,7 +182,7 @@ p:not([class]) {
     padding-right: 1em;
 }
 
-// .leaflet-tile{
+// .leaflet-tile {
 //     filter: saturate(90%);
 // }
 

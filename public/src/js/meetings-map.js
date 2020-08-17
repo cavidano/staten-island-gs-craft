@@ -239,8 +239,8 @@ function init() {
                 var contentLocationOverview =
 
                     `<div class="data__location">
-                        <p class="location__title font-size-rg">
-                            ${locationName}
+                        <p class="location__title font-size-md">
+                            <strong>${locationName}</strong>
                         </p>
                         <p class="meeting__address font-size-sm margin-bottom-1">
                             ${address1}<br>
