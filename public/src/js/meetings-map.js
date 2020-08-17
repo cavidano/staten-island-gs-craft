@@ -44,7 +44,7 @@ var Icon = L.Icon.extend({
         iconAnchor: [15, 45],
         shadowSize: [45, 22.5],
         shadowAnchor: [22.5, 22.5],
-        shadowUrl: myPath + './images/map-pin-shadow.svg',
+        shadowUrl: myPath + '/images/map-pin-shadow-2.svg',
         popupAnchor:  [0, -50]
     }
 });
