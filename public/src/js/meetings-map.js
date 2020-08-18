@@ -346,15 +346,15 @@ function init() {
 
         weekdays.forEach((day) => {
 
-            let weekdayMeetings = document.createElement("div");
-
             let weekday = day;
 
             console.log("weekday ==> ", weekday);
 
             let dailyMeetings = itemsAsObjects.filter(meeting => meeting.meetingDay === weekday);
 
-            console.log("dailyMeetings ==> ", dailyMeetings);
+            // console.log("dailyMeetings ==> ", dailyMeetings);
+
+            let weekdayMeetings = document.createElement("div");
 
             var contentMeetingList = `
 
@@ -383,39 +383,41 @@ function init() {
                         </thead>
 
                         <tbody>
-                            ${dailyMeetings.map((meeting) => {
-                                return `
-                                <tr>
-                                    <td class="">${meeting.meetingStartTime}-${meeting.meetingEndTime}</td>
-                                    <td>${meeting.meetingName}</td>
-                                    <td>
-                                        <span>123 Fake Street</span>
-                                        <span>Staten Island, NY</span>
-                                        <span>10310</span>
-                                        <span>
-                                            <a class="text-primary font-size-sm" href="#1">
-                                                <strong>Directions</strong>
-                                            </a>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <em>${meeting.discussionType}</em> 
-                                    </td>
-                                    <td class="text-align-right font-size-sm">
-                                        <a href="#1"><strong>Details</strong></a>
-                                    </td>
-                                </tr>`
-                            }).join('')}
+
+                        ${dailyMeetings.map((meeting) => {
+
+                            let locationAddress = meeting.locationAddress;
+                            let address1 = locationAddress.split(/,(.+)/)[0];
+                            let address2 = locationAddress.split(/,(.+)/)[1];
+
+                            return `
+                            <tr>
+                                <td class="">${meeting.meetingStartTime}-${meeting.meetingEndTime}</td>
+                                <td>${meeting.meetingName}</td>
+                                <td>
+                                    <strong>${meeting.locationName}</strong><br>
+                                    ${address1}<br>
+                                    ${address2}
+                                    <span>
+                                        <a class="text-primary font-size-sm" href="#1">
+                                            <strong>Directions</strong>
+                                        </a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <em>${meeting.discussionType}</em> 
+                                </td>
+                                <td class="text-align-right font-size-sm">
+                                    <a href="#1"><strong>Details</strong></a>
+                                </td>
+                            </tr>`
+
+                        }).join('')}
+                        
                         </tbody>
 
                     </table>
 
-                </div>
-
-                <div class="data__meetings">
-                    <div class="meeting-list">
-                        
-                    </div>
                 </div>`;
                     
             weekdayMeetings.innerHTML = contentMeetingList;
