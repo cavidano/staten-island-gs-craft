@@ -474,7 +474,7 @@ map.on("zoomend", function () {
     }
 });
 
-zoomInButton.addEventListener('click', function() {
+zoomInButton.addEventListener('click',() => {
    map.zoomIn();
 });
 
