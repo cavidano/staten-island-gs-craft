@@ -99,6 +99,21 @@
         
                 <ul>
                     <li>
+                        <a href="/meetings" {{ siteMacros.isActive("meetings") }}>
+                            <strong>Meetings</strong>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#1" {{ siteMacros.isActive("events") }}>
+                            <strong>Events</strong>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#1" {{ siteMacros.isActive("resources") }}>
+                            <strong>Resources</strong>
+                        </a>
+                    </li>
+                    <li>
                         <a href="#1" data-toggle="dropdown" {{ siteMacros.isActive("about") }}>
                           <strong>About</strong>  
                         </a>
@@ -119,21 +134,6 @@
                                 <a href="#1">Contact Us</a>
                             </li>
                         </ul>
-                    </li>
-                    <li>
-                        <a href="/meetings" {{ siteMacros.isActive("meetings") }}>
-                            <strong>Meetings</strong>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#1" {{ siteMacros.isActive("events") }}>
-                            <strong>Events</strong>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#1" {{ siteMacros.isActive("resources") }}>
-                            <strong>Resources</strong>
-                        </a>
                     </li>
                 </ul>
         

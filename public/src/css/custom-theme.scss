@@ -55,7 +55,7 @@ In this file:
 
 .card{
     h6, .h6{
-        margin-bottom: var(--s1);
+        margin-bottom: var(--s1); 
     }
 }
 
@@ -75,6 +75,17 @@ In this file:
             opacity: 0.125;
         }
     }
+}
+
+@include breakpoints-up(lg){
+
+    #global-header{
+        a[aria-current="page"]{
+            background-color: var(--primary);
+            color: white;
+        }
+    }
+    
 }
 
 //////////////////////////////////////////////

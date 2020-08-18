@@ -255,18 +255,18 @@ function init() {
                             ${address2}
                         </p>
                         <ul class="nav nav--horizontal nav--divider border text-primary font-size-sm rounded">
-                        <li>
-                            <a class="btn btn--has-icon" href="http://maps.google.com/?q=${locationAddress}" target="_blank">
-                                <span class="fas fa-map-marker-alt fa-lg btn__icon"></span>
-                                <span class="btn__text">Directions</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="btn btn--has-icon" href="#1">
-                                <span class="far fa-arrow-alt-circle-right fa-lg btn__icon"></span>
-                                <span class="btn__text">Details</span>
-                            </a>
-                        </li>
+                            <li>
+                                <a class="btn btn--has-icon" href="http://maps.google.com/?q=${locationAddress}" target="_blank">
+                                    <span class="fas fa-map-marker-alt fa-lg btn__icon"></span>
+                                    <span class="btn__text">Directions</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="btn btn--has-icon" href="#1">
+                                    <span class="far fa-arrow-alt-circle-right fa-lg btn__icon"></span>
+                                    <span class="btn__text">Details</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>`;
 
@@ -358,65 +358,79 @@ function init() {
 
             var contentMeetingList = `
 
-                <h3 class="font-weight-normal">${weekday}</h3>
+                <div class="margin-y-4">
 
-                <div class="theme-white margin-y-3">
+                    <h3 class="font-weight-normal">${weekday}</h3>
 
-                    <table class="table table--edge font-size-md border-top">
+                    <div class="theme-white margin-y-3">
 
-                        <caption id="table-caption-01" class="screen-reader-only">
-                            Staten Island A.A. Meetings
-                        </caption>
+                        <table class="table font-size-md box-shadow-1 rounded">
 
-                        <thead>
+                            <caption id="table-caption-01" class="screen-reader-only">
+                                Staten Island A.A. Meetings
+                            </caption>
 
-                            <tr>
-                                <th scope="col" style="width: 20%;">Time</th>
-                                <th scope="col" style="width: 25%;">Name</th>
-                                <th scope="col" style="width: 25%;">Address</th>
-                                <th scope="col" style="width: 15%;">Type</th>
-                                <th scope="col" style="width: 15%;">
-                                    <span class="screen-reader-only">Action</span>
-                                </th>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width: 20%;">Time</th>
+                                    <th scope="col" style="width: 25%;">Meeting</th>
+                                    <th scope="col" style="width: 25%;">Location</th>
+                                    <th scope="col" style="width: 15%;">Discussion</th>
+                                    <th scope="col" style="width: 15%;">Type</th>
+                                    <th scope="col" style="width: 15%;">
+                                        <span class="screen-reader-only">Action</span>
+                                    </th>
+                                </tr>
+                            </thead>
 
-                        </thead>
+                            <tbody>
 
-                        <tbody>
+                            ${dailyMeetings.map((meeting) => {
 
-                        ${dailyMeetings.map((meeting) => {
+                                let locationAddress = meeting.locationAddress;
+                                let address1 = locationAddress.split(/,(.+)/)[0];
+                                let address2 = locationAddress.split(/,(.+)/)[1];
 
-                            let locationAddress = meeting.locationAddress;
-                            let address1 = locationAddress.split(/,(.+)/)[0];
-                            let address2 = locationAddress.split(/,(.+)/)[1];
+                                return `
+                                <tr>
+                                    <td class="font-size-sm">
+                                    <strong>${meeting.meetingStartTime}-${meeting.meetingEndTime}</td></strong>
+                                    
+                                    <td>${meeting.meetingName}</td>
+                                    <td>
+                                        <em>${meeting.locationName}</em><br>
+                                        ${address1}<br>
+                                        ${address2}
+                                    </td>
+                                    <td>
+                                        <em>${meeting.discussionType}</em> 
+                                    </td>
+                                    <td>Steps &amp; Traditions</td>
+                                    <td>
+                                         <ul class="nav nav--gap-0 text-primary font-size-sm">
+                                            <li>
+                                                <a class="btn btn--has-icon" href="http://maps.google.com/?q=${locationAddress}" target="_blank">
+                                                    <span class="fas fa-map-marker-alt fa-lg btn__icon"></span>
+                                                    <span class="btn__text">Directions</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="btn btn--has-icon" href="#1">
+                                                    <span class="far fa-arrow-alt-circle-right fa-lg btn__icon"></span>
+                                                    <span class="btn__text">Details</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>`
 
-                            return `
-                            <tr>
-                                <td class="">${meeting.meetingStartTime}-${meeting.meetingEndTime}</td>
-                                <td>${meeting.meetingName}</td>
-                                <td>
-                                    <strong>${meeting.locationName}</strong><br>
-                                    ${address1}<br>
-                                    ${address2}
-                                    <span>
-                                        <a class="text-primary font-size-sm" href="#1">
-                                            <strong>Directions</strong>
-                                        </a>
-                                    </span>
-                                </td>
-                                <td>
-                                    <em>${meeting.discussionType}</em> 
-                                </td>
-                                <td class="text-align-right font-size-sm">
-                                    <a href="#1"><strong>Details</strong></a>
-                                </td>
-                            </tr>`
+                            }).join('')}
+                            
+                            </tbody>
 
-                        }).join('')}
-                        
-                        </tbody>
+                        </table>
 
-                    </table>
+                    </div>
 
                 </div>`;
                     
@@ -431,7 +445,7 @@ function init() {
 
 gapi.load('client', init);
 
-window.addEventListener('resize', setMapHeight);
+window.addEventListener('resize', setMapHeight, map.invalidateSize());
 
 //////////////////////////////////////////////
 // D. Custom Map Buttons
