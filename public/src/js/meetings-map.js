@@ -24,7 +24,7 @@ setMapHeight();
 // B. Leaflet Map
 //////////////////////////////////////////////
 
-var map = L.map('map-loader', {
+const map = L.map('map-loader', {
     center: [40.5795, -74.1502],
     setZoom: 14,
     minZoom: 10,
@@ -34,11 +34,11 @@ var map = L.map('map-loader', {
     zoomControl: false,
 });
 
-var myPath = ".";
+const myPath = ".";
 
 // Create custom pin
 
-var Icon = L.Icon.extend({
+const Icon = L.Icon.extend({
     options: {
         iconSize: [30, 45],
         iconAnchor: [15, 45],
@@ -51,7 +51,7 @@ var Icon = L.Icon.extend({
 
 // Load SI Bounds
 
-var siGeo = new L.GeoJSON.AJAX('./lib/geojson/statenIsland.geojson');
+const siGeo = new L.GeoJSON.AJAX('./lib/geojson/statenIsland.geojson');
 
 siGeo.on('data:loaded', function() {
     centerMap(siGeo);
@@ -74,12 +74,12 @@ function centerMap(myBounds){
 
 // Custom popup options
 
-var meetingIconSingle = new Icon( { iconUrl: myPath + '/images/map-pin-single.svg' });
-var meetingIconMultiple = new Icon({ iconUrl: myPath + '/images/map-pin-multiple.svg' });
+const meetingIconSingle = new Icon( { iconUrl: myPath + '/images/map-pin-single.svg' });
+const meetingIconMultiple = new Icon({ iconUrl: myPath + '/images/map-pin-multiple.svg' });
 
 // Create Markers
 
-var markerLayer = L.layerGroup([]).addTo(map);
+const markerLayer = L.layerGroup([]).addTo(map);
 
 //////////////////////////////////////////////
 // A. Get Spreadsheet Data
@@ -103,7 +103,7 @@ function init() {
         let columnHeaderList = [];
 
         // Create Column Headers Array
-        for (const columnHeader of dataList[0]) {
+        for (let columnHeader of dataList[0]) {
             columnHeaderList.push(columnHeader);
         }
 
@@ -118,7 +118,7 @@ function init() {
 
                 let rowItem = Array.from(dataRow);
 
-                for (const [index, dataCell] of rowItem.entries()) {
+                for (let [index, dataCell] of rowItem.entries()) {
 
                     if (dataCell !== "") {
                         rowItem[index] = dataCell;
