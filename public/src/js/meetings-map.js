@@ -189,7 +189,6 @@ function init() {
         // Map and List Data
         //////////////////////////////////////////////
 
-
         locations.forEach((location) => {
 
             let locationAddress = location;
@@ -359,15 +358,63 @@ function init() {
 
             var contentMeetingList = `
 
-                <h3>${weekday}</h3>
+                <h3 class="font-weight-normal">${weekday}</h3>
+
+                <div class="theme-white margin-y-3">
+
+                    <table class="table table--edge font-size-md border-top">
+
+                        <caption id="table-caption-01" class="screen-reader-only">
+                            Staten Island A.A. Meetings
+                        </caption>
+
+                        <thead>
+
+                            <tr>
+                                <th scope="col" style="width: 20%;">Time</th>
+                                <th scope="col" style="width: 25%;">Name</th>
+                                <th scope="col" style="width: 25%;">Address</th>
+                                <th scope="col" style="width: 15%;">Type</th>
+                                <th scope="col" style="width: 15%;">
+                                    <span class="screen-reader-only">Action</span>
+                                </th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+                            ${dailyMeetings.map((meeting) => {
+                                return `
+                                <tr>
+                                    <td class="">${meeting.meetingStartTime}-${meeting.meetingEndTime}</td>
+                                    <td>${meeting.meetingName}</td>
+                                    <td>
+                                        <span>123 Fake Street</span>
+                                        <span>Staten Island, NY</span>
+                                        <span>10310</span>
+                                        <span>
+                                            <a class="text-primary font-size-sm" href="#1">
+                                                <strong>Directions</strong>
+                                            </a>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <em>${meeting.discussionType}</em> 
+                                    </td>
+                                    <td class="text-align-right font-size-sm">
+                                        <a href="#1"><strong>Details</strong></a>
+                                    </td>
+                                </tr>`
+                            }).join('')}
+                        </tbody>
+
+                    </table>
+
+                </div>
 
                 <div class="data__meetings">
                     <div class="meeting-list">
-                        ${dailyMeetings.map((meeting) => {
-                            return `
-                                <span class="meeting__time">${meeting.meetingStartTime} - ${meeting.meetingEndTime}</span>
-                                <span class="meeting__discussion">${meeting.discussionType}</span>`
-                        }).join('')}
+                        
                     </div>
                 </div>`;
                     
