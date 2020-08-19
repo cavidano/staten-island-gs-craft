@@ -11,14 +11,15 @@ let sidebarShown = false;
 //////////////////////////////////////////////
 
 function setMapHeight() {
-    const windowHeight = window.innerHeight;
-    const mapTargetPos = mapTarget.offsetTop;
-    const adjustedHeight = windowHeight - mapTargetPos + "px";
+    let windowHeight = window.innerHeight;
+    let mapTargetPos = mapTarget.offsetTop;
+    let adjustedHeight = windowHeight - mapTargetPos + "px";
     
     mapTarget.style.height = adjustedHeight;
 }
 
 setMapHeight();
+window.addEventListener('resize', setMapHeight());
 
 //////////////////////////////////////////////
 // B. Leaflet Map
@@ -53,11 +54,11 @@ const Icon = L.Icon.extend({
 
 const siGeo = new L.GeoJSON.AJAX('./lib/geojson/statenIsland.geojson');
 
-siGeo.on('data:loaded', function() {
+siGeo.on('data:loaded', () => {
     centerMap(siGeo);
     
-    let mapCustom = 'ckdwypx770g1c19mlk4lbi835';
-    let mapClassic = 'ckdra9cus0rv11aqo0iawtcou'
+    const mapCustom = 'ckdwypx770g1c19mlk4lbi835';
+    const mapClassic = 'ckdra9cus0rv11aqo0iawtcou'
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{user}/{id}/tiles/{tileSize}/{z}/{x}/{y}?access_token={accessToken}', {
         user: 'cavidano',
@@ -201,7 +202,7 @@ function init() {
 
             // console.log("locationName ==> ", index, locationName);
 
-            console.log("locationMeetings ==> ", locationMeetings);
+            // console.log("locationMeetings ==> ", locationMeetings);
 
             // Map View
 
@@ -228,8 +229,7 @@ function init() {
                     riseOnHover: true
                 }).addTo(markerLayer);
 
-                let address1 = locationAddress.split(/,(.+)/)[0];
-                let address2 = locationAddress.split(/,(.+)/)[1];
+                formatAddress(locationAddress);
 
                 var contentlocationPopUp = 
 
@@ -286,13 +286,17 @@ function init() {
                                 }
 
                                 var meetingInfo =
-                                   `<span class="meeting__name"><em>${meeting.meetingName}</em></span>
+                                   `<span class="meeting__name">
+                                        <em>${meeting.meetingName}</em>
+                                    </span>
                                     <span class="meeting__time">${meeting.meetingStartTime} - ${meeting.meetingEndTime}</span>
                                     <span class="meeting__discussion">${meeting.discussionType}</span>`
 
                                 if (weekday !== previousDay) {
                                    return `
-                                        <span class="meeting__day"><strong>${weekday}</strong></span>
+                                        <span class="meeting__day">
+                                            <strong>${weekday}</strong>
+                                        </span>
                                         ${meetingInfo}`
                                 } else{
                                     return `${meetingInfo}`
@@ -373,11 +377,11 @@ function init() {
                             <thead>
                                 <tr>
                                     <th scope="col" style="width: 20%;">Time</th>
-                                    <th scope="col" style="width: 25%;">Meeting</th>
+                                    <th scope="col" style="width: 20%;">Meeting</th>
                                     <th scope="col" style="width: 25%;">Location</th>
                                     <th scope="col" style="width: 15%;">Discussion</th>
                                     <th scope="col" style="width: 15%;">Type</th>
-                                    <th scope="col" style="width: 15%;">
+                                    <th scope="col" style="width: 20%;">
                                         <span class="screen-reader-only">Action</span>
                                     </th>
                                 </tr>
@@ -388,13 +392,16 @@ function init() {
                             ${dailyMeetings.map((meeting) => {
 
                                 let locationAddress = meeting.locationAddress;
-                                let address1 = locationAddress.split(/,(.+)/)[0];
-                                let address2 = locationAddress.split(/,(.+)/)[1];
+
+                                formatAddress(locationAddress);
 
                                 return `
                                 <tr>
                                     <td class="font-size-sm">
-                                    <strong>${meeting.meetingStartTime}-${meeting.meetingEndTime}</td></strong>
+                                        <strong>
+                                            ${meeting.meetingStartTime}-${meeting.meetingEndTime}
+                                        </strong>
+                                    </td>
                                     
                                     <td>${meeting.meetingName}</td>
                                     <td>
@@ -445,7 +452,16 @@ function init() {
 
 gapi.load('client', init);
 
-window.addEventListener('resize', setMapHeight, map.invalidateSize());
+// Format Address
+
+var address1, address2;
+
+function formatAddress(address) {
+    address1 = address.split(/,(.+)/)[0];
+    address2 = address.split(/,(.+)/)[1];
+    // console.log("ADDRESS 1 :::: ", address1);
+    // console.log("ADDRESS 2 :::: ", address1);
+}
 
 //////////////////////////////////////////////
 // D. Custom Map Buttons
@@ -455,7 +471,7 @@ const zoomInButton = document.querySelector('[data-map-zoom-in]');
 const zoomOutButton = document.querySelector('[data-map-zoom-out]');
 const toggleLocationButton = document.querySelector('[data-toggle-locations]');
 
-map.on("zoomend", function () {
+map.on("zoomend", () => {
 
     let currentZoom = map.getZoom();
     let maxZoom = map.options.maxZoom;
@@ -478,11 +494,11 @@ zoomInButton.addEventListener('click',() => {
    map.zoomIn();
 });
 
-zoomOutButton.addEventListener('click', function() {
+zoomOutButton.addEventListener('click', () => {
     map.zoomOut()
 });
 
-toggleLocationButton.addEventListener('click', function() {
+toggleLocationButton.addEventListener('click', () => {
 
     if( sidebarShown === false){
         mapTarget.classList.add("data-shown");
