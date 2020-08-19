@@ -366,7 +366,7 @@ function init() {
 
                     <h2 class="font-weight-normal">${weekday}</h2>
 
-                    <div class="theme-white margin-y-3">
+                    <div class="table-scroll theme-white margin-y-3">
 
                         <table class="table font-size-md box-shadow-1 rounded">
 
@@ -379,8 +379,8 @@ function init() {
                                     <th scope="col" style="width: 20%;">Time</th>
                                     <th scope="col" style="width: 20%;">Meeting</th>
                                     <th scope="col" style="width: 20%;">Location</th>
-                                    <th scope="col" style="width: 25%;">Type</th>
-                                    <th scope="col" style="width: 15%;">
+                                    <th scope="col" style="width: 20%;">Type</th>
+                                    <th scope="col" style="width: 20%;">
                                         <span class="screen-reader-only">Action</span>
                                     </th>
                                 </tr>
