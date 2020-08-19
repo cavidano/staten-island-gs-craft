@@ -364,7 +364,7 @@ function init() {
 
                 <div class="margin-y-4">
 
-                    <h3 class="font-weight-normal">${weekday}</h3>
+                    <h2 class="font-weight-normal">${weekday}</h2>
 
                     <div class="theme-white margin-y-3">
 
@@ -378,10 +378,9 @@ function init() {
                                 <tr>
                                     <th scope="col" style="width: 20%;">Time</th>
                                     <th scope="col" style="width: 20%;">Meeting</th>
-                                    <th scope="col" style="width: 25%;">Location</th>
-                                    <th scope="col" style="width: 15%;">Discussion</th>
-                                    <th scope="col" style="width: 15%;">Type</th>
-                                    <th scope="col" style="width: 20%;">
+                                    <th scope="col" style="width: 20%;">Location</th>
+                                    <th scope="col" style="width: 25%;">Type</th>
+                                    <th scope="col" style="width: 15%;">
                                         <span class="screen-reader-only">Action</span>
                                     </th>
                                 </tr>
@@ -398,19 +397,27 @@ function init() {
                                 return `
                                 <tr>
                                     <td class="font-size-sm">
-                                        <strong>
-                                            ${meeting.meetingStartTime}-${meeting.meetingEndTime}
-                                        </strong>
+                                        <span>
+                                            <strong>${meeting.meetingStartTime.toLowerCase()} Start</strong>
+                                        </span>
+                                        <br>
+                                        <span>
+                                            ${meeting.meetingEndTime.toLowerCase()} End
+                                        </span>
                                     </td>
                                     
-                                    <td>${meeting.meetingName}</td>
                                     <td>
-                                        <em>${meeting.locationName}</em><br>
-                                        ${address1}<br>
-                                        ${address2}
+                                        <span class="display-block">
+                                            ${meeting.meetingName}</span>
+                                            <em>${meeting.discussionType}</em>
+                                        </span>
                                     </td>
                                     <td>
-                                        <em>${meeting.discussionType}</em> 
+                                        <em>${meeting.locationName}</em>
+                                        <span class="display-block font-size-sm">
+                                            ${address1}<br>
+                                            ${address2}
+                                        </span>
                                     </td>
                                     <td>Steps &amp; Traditions</td>
                                     <td>
