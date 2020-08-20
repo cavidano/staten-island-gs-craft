@@ -305,6 +305,7 @@ function init() {
                             }).join('')}
 
                         </div>
+
                     </div>`;
                                       
                 marker.bindPopup(contentlocationPopUp);
@@ -366,90 +367,86 @@ function init() {
 
                     <h2 class="font-weight-normal">${weekday}</h2>
 
-                    <div class="table-scroll theme-white margin-y-3">
+                    <table class="table table--stack--md theme-white font-size-md box-shadow-1 rounded">
 
-                        <table class="table font-size-md box-shadow-1 rounded">
+                        <caption id="table-caption-01" class="screen-reader-only">
+                            Staten Island A.A. Meetings
+                        </caption>
 
-                            <caption id="table-caption-01" class="screen-reader-only">
-                                Staten Island A.A. Meetings
-                            </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col" style="width: 20%;">Time</th>
+                                <th scope="col" style="width: 20%;">Meeting</th>
+                                <th scope="col" style="width: 20%;">Location</th>
+                                <th scope="col" style="width: 20%;">Type</th>
+                                <th scope="col" style="width: 20%;">
+                                    <span class="screen-reader-only">Action</span>
+                                </th>
+                            </tr>
+                        </thead>
 
-                            <thead>
-                                <tr>
-                                    <th scope="col" style="width: 20%;">Time</th>
-                                    <th scope="col" style="width: 20%;">Meeting</th>
-                                    <th scope="col" style="width: 20%;">Location</th>
-                                    <th scope="col" style="width: 20%;">Type</th>
-                                    <th scope="col" style="width: 20%;">
-                                        <span class="screen-reader-only">Action</span>
-                                    </th>
-                                </tr>
-                            </thead>
+                        <tbody>
 
-                            <tbody>
+                        ${dailyMeetings.map((meeting) => {
 
-                            ${dailyMeetings.map((meeting) => {
+                            let locationAddress = meeting.locationAddress;
 
-                                let locationAddress = meeting.locationAddress;
+                            formatAddress(locationAddress);
 
-                                formatAddress(locationAddress);
+                            return `
+                            <tr>
+                                <td class="font-size-sm">
+                                    <span>
+                                        <strong>${meeting.meetingStartTime.toLowerCase()} Start</strong>
+                                    </span>
+                                    <br>
+                                    <span>
+                                        ${meeting.meetingEndTime.toLowerCase()} End
+                                    </span>
+                                </td>
+                                
+                                <td>
+                                    <span class="display-block">
+                                        ${meeting.meetingName}</span>
+                                        <em>${meeting.discussionType}</em>
+                                    </span>
+                                </td>
+                                <td>
+                                    <em>${meeting.locationName}</em>
+                                    <span class="display-block font-size-sm">
+                                        ${address1}<br>
+                                        ${address2}
+                                    </span>
+                                </td>
+                                <td>Steps &amp; Traditions</td>
+                                <td>
+                                        <ul class="nav nav--gap-0 text-primary font-size-sm">
+                                        <li>
+                                            <a class="btn btn--has-icon" href="http://maps.google.com/?q=${locationAddress}" target="_blank">
+                                                <span class="fas fa-map-marker-alt fa-lg btn__icon"></span>
+                                                <span class="btn__text">Directions</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="btn btn--has-icon" href="#1">
+                                                <span class="far fa-arrow-alt-circle-right fa-lg btn__icon"></span>
+                                                <span class="btn__text">Details</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>`
 
-                                return `
-                                <tr>
-                                    <td class="font-size-sm">
-                                        <span>
-                                            <strong>${meeting.meetingStartTime.toLowerCase()} Start</strong>
-                                        </span>
-                                        <br>
-                                        <span>
-                                            ${meeting.meetingEndTime.toLowerCase()} End
-                                        </span>
-                                    </td>
-                                    
-                                    <td>
-                                        <span class="display-block">
-                                            ${meeting.meetingName}</span>
-                                            <em>${meeting.discussionType}</em>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <em>${meeting.locationName}</em>
-                                        <span class="display-block font-size-sm">
-                                            ${address1}<br>
-                                            ${address2}
-                                        </span>
-                                    </td>
-                                    <td>Steps &amp; Traditions</td>
-                                    <td>
-                                         <ul class="nav nav--gap-0 text-primary font-size-sm">
-                                            <li>
-                                                <a class="btn btn--has-icon" href="http://maps.google.com/?q=${locationAddress}" target="_blank">
-                                                    <span class="fas fa-map-marker-alt fa-lg btn__icon"></span>
-                                                    <span class="btn__text">Directions</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="btn btn--has-icon" href="#1">
-                                                    <span class="far fa-arrow-alt-circle-right fa-lg btn__icon"></span>
-                                                    <span class="btn__text">Details</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                </tr>`
+                        }).join('')}
+                        
+                        </tbody>
 
-                            }).join('')}
-                            
-                            </tbody>
-
-                        </table>
-
-                    </div>
+                    </table>
 
                 </div>`;
                     
             weekdayMeetings.innerHTML = contentMeetingList;
-            listTarget.appendChild(weekdayMeetings)
+            listTarget.appendChild(weekdayMeetings);
         });
 
     }, function (reason) {

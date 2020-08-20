@@ -269,10 +269,10 @@
                 }, 'google_translate_element');
             }
         </script>
-        
+                
         <!-- NYC Core Javascript -->
         <script src="https://cdn.jsdelivr.net/gh/CityOfNewYork/nyc-core-framework@new-version/dist/js/nyc_core.js"></script>
-        
+
         {% if 'meetings' in craft.app.request.segments(1) %}
 
         <!-- Leaflet JS -->
@@ -289,10 +289,10 @@
         <script src="/lib/js/esri-leaflet-geocoder-v2.3.3.js"></script>
 
         <!-- Meeting Map -->
-        <script defer src="/src/js/meetings-map.js"></script>
+        <script src="/src/js/meetings-map.js"></script>
         
         {% endif %}
-
+        
     </body>
 
 </html>
