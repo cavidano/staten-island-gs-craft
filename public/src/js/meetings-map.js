@@ -367,7 +367,7 @@ function init() {
 
                     <h2 class="font-weight-normal">${weekday}</h2>
 
-                    <table class="table table--stack--md theme-white font-size-md box-shadow-1 rounded">
+                    <table class="table table--stack--md font-size-md theme-white font-size-md box-shadow-1 rounded">
 
                         <caption id="table-caption-01" class="screen-reader-only">
                             Staten Island A.A. Meetings
@@ -444,13 +444,16 @@ function init() {
                     </table>
 
                 </div>`;
-                    
+
             weekdayMeetings.innerHTML = contentMeetingList;
             listTarget.appendChild(weekdayMeetings);
+
+            loadNycCoreJS();
+                    
         });
 
     }, function (reason) {
-        console.log('Error: ' + reason.result.error.message);
+        console.log("Error: ", reason.result.error.message);
     });
 };
 
@@ -463,8 +466,6 @@ var address1, address2;
 function formatAddress(address) {
     address1 = address.split(/,(.+)/)[0];
     address2 = address.split(/,(.+)/)[1];
-    // console.log("ADDRESS 1 :::: ", address1);
-    // console.log("ADDRESS 2 :::: ", address1);
 }
 
 //////////////////////////////////////////////
@@ -513,3 +514,14 @@ toggleLocationButton.addEventListener('click', () => {
     }
 
 });
+
+function loadNycCoreJS(){
+
+    const nycCoreJS = document.createElement('script');
+    nycCoreJS.src = 'https://cdn.jsdelivr.net/gh/CityOfNewYork/nyc-core-framework@new-version/dist/js/nyc_core.js';
+
+    // nycCoreJS.onload = () => {
+    // }
+
+    document.head.append(nycCoreJS);
+}
