@@ -367,7 +367,7 @@ function init() {
 
                     <h2 class="font-weight-normal">${weekday}</h2>
 
-                    <table class="table table--stack--md font-size-md theme-white font-size-md box-shadow-1 rounded">
+                    <table class="table table--stack--lg font-size-md theme-white font-size-md box-shadow-1 rounded margin-y-3">
 
                         <caption id="table-caption-01" class="screen-reader-only">
                             Staten Island A.A. Meetings
@@ -375,11 +375,11 @@ function init() {
 
                         <thead>
                             <tr>
-                                <th scope="col" style="width: 20%;">Time</th>
-                                <th scope="col" style="width: 20%;">Meeting</th>
-                                <th scope="col" style="width: 20%;">Location</th>
-                                <th scope="col" style="width: 20%;">Type</th>
-                                <th scope="col" style="width: 20%;">
+                                <th scope="col">Time</th>
+                                <th scope="col">Meeting Name</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">Types</th>
+                                <th scope="col">
                                     <span class="screen-reader-only">Action</span>
                                 </th>
                             </tr>
@@ -395,32 +395,27 @@ function init() {
 
                             return `
                             <tr>
-                                <td class="font-size-sm">
-                                    <span>
-                                        <strong>${meeting.meetingStartTime.toLowerCase()} Start</strong>
-                                    </span>
-                                    <br>
-                                    <span>
-                                        ${meeting.meetingEndTime.toLowerCase()} End
-                                    </span>
+                                <td>
+                                    <strong>${meeting.meetingStartTime.toLowerCase()}-${meeting.meetingEndTime.toLowerCase()}</strong>
                                 </td>
-                                
                                 <td>
                                     <span class="display-block">
                                         ${meeting.meetingName}</span>
-                                        <em>${meeting.discussionType}</em>
                                     </span>
                                 </td>
                                 <td>
                                     <em>${meeting.locationName}</em>
-                                    <span class="display-block font-size-sm">
+                                    <span class="display-block">
                                         ${address1}<br>
                                         ${address2}
                                     </span>
                                 </td>
-                                <td>Steps &amp; Traditions</td>
                                 <td>
-                                        <ul class="nav nav--gap-0 text-primary font-size-sm">
+                                    <span class="display-block">${meeting.discussionType}</span>
+                                    <span class="display-block">Steps &amp; Traditions</span> 
+                                </td>
+                                <td>
+                                    <ul class="nav nav--gap-0 font-size-sm text-primary margin-left-auto">
                                         <li>
                                             <a class="btn btn--has-icon" href="http://maps.google.com/?q=${locationAddress}" target="_blank">
                                                 <span class="fas fa-map-marker-alt fa-lg btn__icon"></span>
