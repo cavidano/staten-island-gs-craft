@@ -375,11 +375,11 @@ function init() {
 
                         <thead>
                             <tr>
-                                <th scope="col">Time</th>
-                                <th scope="col">Meeting Name</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Types</th>
-                                <th scope="col">
+                                <th scope="col" style="width: 20%;">Time</th>
+                                <th scope="col" style="width: 20%;">Meeting Name</th>
+                                <th scope="col" style="width: 25%;">Location</th>
+                                <th scope="col" style="width: 20%;">Types</th>
+                                <th scope="col" style="width: 15%;">
                                     <span class="screen-reader-only">Action</span>
                                 </th>
                             </tr>
@@ -396,7 +396,7 @@ function init() {
                             return `
                             <tr>
                                 <td>
-                                    <strong>${meeting.meetingStartTime.toLowerCase()}-${meeting.meetingEndTime.toLowerCase()}</strong>
+                                    ${meeting.meetingStartTime.toLowerCase()}-${meeting.meetingEndTime.toLowerCase()}
                                 </td>
                                 <td>
                                     <span class="display-block">
