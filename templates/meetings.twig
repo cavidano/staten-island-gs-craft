@@ -28,7 +28,11 @@
                             </button>
                         </li>
                         <li>
-                            <a href="#1">Filter</a>
+                            <button href="#1" role="button" data-toggle="collapse" data-target="#map-filter">
+
+                                Filter
+                                 
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -36,6 +40,28 @@
             </div>
             
         </div>
+
+        <form class="theme-dark collapse padding-y-3 font-size-md" id="map-filter">
+
+            <div class="container narrow form-entry">
+                <div class="form-entry__field">
+                    <div class="form-entry__field__input-wrap">
+                        <select class="form-entry__field__input" id="select-weekday" name="Weekday">
+                            <option value="Sunday">Sunday</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                        </select>
+                        <label class="form-entry__field__label" for="select-borough">Weekday</label>
+                    </div>
+                </div>
+            </div>
+            <!-- .form-entry -->
+            
+        </form>
 
         <section class="tabs__panel shown" id="map-view" aria-labelledby="tab-button-map-view" role="tabpanel">
 

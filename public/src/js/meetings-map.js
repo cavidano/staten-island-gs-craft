@@ -166,6 +166,8 @@ function init() {
         // const myJSON = JSON.stringify(itemsAsObjects);
         // console.log("JSON ==> ", myJSON);
 
+        
+
         // Get Locations
 
         var locationsList = [];
@@ -514,7 +516,7 @@ function loadNycCoreJS(){
     nycCoreJS.src = 'https://cdn.jsdelivr.net/gh/CityOfNewYork/nyc-core-framework@new-version/dist/js/nyc_core.js';
 
     nycCoreJS.onload = () => {
-        console.log("I AM LOADED!");
+        // console.log("I AM LOADED!");
     }
 
     document.head.append(nycCoreJS);
