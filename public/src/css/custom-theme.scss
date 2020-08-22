@@ -46,7 +46,7 @@ In this file:
     --wide-width: calc( var(--narrow-width) * 2);
 
     --nav--divider-padding-x: 1em;
-    --nav--divider-padding-y: 0.75em;
+    --nav--divider-padding-y: 0.675em;
 }
 
 //////////////////////////////////////////////
@@ -176,7 +176,6 @@ In this file:
         margin: unset;
     }
 }
-
 
 #list-view {
 

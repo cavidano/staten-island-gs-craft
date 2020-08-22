@@ -440,10 +440,10 @@ function init() {
 
             weekdayMeetings.innerHTML = contentMeetingList;
             listTarget.appendChild(weekdayMeetings);
-
-            loadNycCoreJS();
-                    
+            
         });
+
+        loadNycCoreJS();
 
     }, function (reason) {
         console.log("Error: ", reason.result.error.message);
@@ -513,8 +513,9 @@ function loadNycCoreJS(){
     const nycCoreJS = document.createElement('script');
     nycCoreJS.src = 'https://cdn.jsdelivr.net/gh/CityOfNewYork/nyc-core-framework@new-version/dist/js/nyc_core.js';
 
-    // nycCoreJS.onload = () => {
-    // }
+    nycCoreJS.onload = () => {
+        console.log("I AM LOADED!");
+    }
 
     document.head.append(nycCoreJS);
 }
