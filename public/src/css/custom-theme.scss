@@ -19,7 +19,7 @@ In this file:
 // B. Variables
 //////////////////////////////////////////////
 
-:root{
+:root {
 
     --body-max-width: 2200px;
     --base-font-family: 'Montserrat', sans-serif;
@@ -44,6 +44,9 @@ In this file:
 
     --medium-width: calc( var(--narrow-width) * 1.5);
     --wide-width: calc( var(--narrow-width) * 2);
+
+    --nav--divider-padding-x: 1em;
+    --nav--divider-padding-y: 0.75em;
 }
 
 //////////////////////////////////////////////
@@ -80,16 +83,16 @@ In this file:
     }
 }
 
-@include breakpoints-up(lg){
+// @include breakpoints-up(lg){
 
-    #global-header{
-        a[aria-current="page"]{
-            background-color: var(--primary);
-            color: white;
-        }
-    }
+//     #global-header{
+//         a[aria-current="page"]{
+//             background-color: var(--primary);
+//             color: white;
+//         }
+//     }
     
-}
+// }
 
 //////////////////////////////////////////////
 // D. Map
@@ -401,4 +404,21 @@ svg.current-color{
 
 footer{
     padding-top: 0.1px;
+}
+
+#article{
+    display: grid;
+    
+    grid-template-columns: 340px 1fr;
+
+    grid-template-areas:
+        "primary-content sidebar";
+
+    #sidebar {
+        grid-area: "sidebar";
+    }
+
+    #primary-content {
+        grid-area: "primary-content";
+    }
 }
