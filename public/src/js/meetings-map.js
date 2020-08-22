@@ -158,294 +158,314 @@ function init() {
         });
 
         console.log("itemsAsObjects ==> ", itemsAsObjects);
-
-        // itemsAsObjects = itemsAsObjects.filter(meeting => meeting.meetingDay === 'Wednesday');
-
-        // console.log("itemsAsObjects FILTERED ==> ", itemsAsObjects);
         
-        // const myJSON = JSON.stringify(itemsAsObjects);
-        // console.log("JSON ==> ", myJSON);
+        let weekdayMeetings;
 
-        
+        function displayMeetings(){
 
-        // Get Locations
+            if (weekdayMeetings !== undefined) {
+                listTarget.querySelectorAll('div').forEach(el => el.remove());
+                console.log("shoooooooooooooo", weekdayMeetings);
 
-        var locationsList = [];
+            } else {
+                console.log("Refreshhhhhhhhhhhhhhhhhhhhhhhhhed", weekdayMeetings);
+            }
 
-        itemsAsObjects.forEach(entry => {
-            locationsList.push(entry.locationAddress);
-        });
+            // Get Locations
 
-        locations = Array.from(new Set(locationsList));
+            let locationsList = [];
 
-        // console.log("locations ==> ", locations);
+            itemsAsObjects.forEach(entry => {
+                locationsList.push(entry.locationAddress);
+            });
 
-        var weekdayList = [];
+            locations = Array.from(new Set(locationsList));
 
-        itemsAsObjects.forEach(entry => {
-            weekdayList.push(entry.meetingDay);
-        });
+            // console.log("locations ==> ", locations);
 
-        weekdays = Array.from(new Set(weekdayList));
+            let weekdayList = [];
 
-        //////////////////////////////////////////////
-        // Map and List Data
-        //////////////////////////////////////////////
+            itemsAsObjects.forEach(entry => {
+                weekdayList.push(entry.meetingDay);
+            });
 
-        locations.forEach((location) => {
+            weekdays = Array.from(new Set(weekdayList));
 
-            let locationAddress = location;
+            //////////////////////////////////////////////
+            // Map and List Data
+            //////////////////////////////////////////////
 
-            // console.log("location ==> ", index, location);
+            locations.forEach((location) => {
 
-            let locationMeetings = itemsAsObjects.filter(meeting => meeting.locationAddress === location);
+                let locationAddress = location;
 
-            let locationName = locationMeetings[0].locationName;
+                // console.log("location ==> ", index, location);
 
-            // console.log("locationName ==> ", index, locationName);
+                let locationMeetings = itemsAsObjects.filter(meeting => meeting.locationAddress === location);
 
-            // console.log("locationMeetings ==> ", locationMeetings);
+                let locationName = locationMeetings[0].locationName;
 
-            // Map View
+                // console.log("locationName ==> ", index, locationName);
 
-            var coords, marker;
+                // console.log("locationMeetings ==> ", locationMeetings);
 
-            L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
+                // Map View
 
-                if (err) {
-                    return;
-                } else {
-                    coords = results.results[0].latlng;
-                }
+                let coords, marker;
 
-                if (locationMeetings.length > 1) {
-                    var meetingCountLabel = "Meetings";
-                    meetingIcon = meetingIconMultiple;
-                } else {
-                    var meetingCountLabel = "Meeting";
-                    meetingIcon = meetingIconSingle;
-                }
+                L.esri.Geocoding.geocode().address(locationAddress).run((err, results) => {
 
-                marker = L.marker(coords, {
-                    icon: meetingIcon,
-                    riseOnHover: true
-                }).addTo(markerLayer);
+                    if (err) {
+                        return;
+                    } else {
+                        coords = results.results[0].latlng;
+                    }
 
-                formatAddress(locationAddress);
+                    if (locationMeetings.length > 1) {
+                        var meetingCountLabel = "Meetings";
+                        meetingIcon = meetingIconMultiple;
+                    } else {
+                        var meetingCountLabel = "Meeting";
+                        meetingIcon = meetingIconSingle;
+                    }
 
-                var contentlocationPopUp = 
+                    marker = L.marker(coords, {
+                        icon: meetingIcon,
+                        riseOnHover: true
+                    }).addTo(markerLayer);
 
-                   `<a href="#1" class="text-primary">
-                        <strong>${locationName}</strong>
-                    </a>
-                    <p class="meeting__address">
-                        ${address1}<br>
-                        ${address2}
-                    </p>
-                    <p class="meeting__count">
-                        ${locationMeetings.length} ${meetingCountLabel}
-                    </p>`;
+                    formatAddress(locationAddress);
 
-                var contentLocationOverview =
+                    var contentlocationPopUp = 
 
-                    `<div class="data__location">
-                        <p class="location__title font-size-md">
+                    `<a href="#1" class="text-primary">
                             <strong>${locationName}</strong>
-                        </p>
-                        <p class="meeting__address font-size-sm margin-bottom-1">
+                        </a>
+                        <p class="meeting__address">
                             ${address1}<br>
                             ${address2}
                         </p>
-                        <ul class="nav nav--horizontal nav--divider border text-primary font-size-sm rounded">
-                            <li>
-                                <a class="btn btn--has-icon" href="http://maps.google.com/?q=${locationAddress}" target="_blank">
-                                    <span class="fas fa-map-marker-alt fa-lg btn__icon"></span>
-                                    <span class="btn__text">Directions</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="btn btn--has-icon" href="#1">
-                                    <span class="far fa-arrow-alt-circle-right fa-lg btn__icon"></span>
-                                    <span class="btn__text">Details</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>`;
+                        <p class="meeting__count">
+                            ${locationMeetings.length} ${meetingCountLabel}
+                        </p>`;
 
-                var contentLocationDetail =
+                    let contentLocationOverview =
 
-                    `<div class="data__meetings">
-                        <div class="meeting-list">
+                        `<div class="data__location">
+                            <p class="location__title font-size-md">
+                                <strong>${locationName}</strong>
+                            </p>
+                            <p class="meeting__address font-size-sm margin-bottom-1">
+                                ${address1}<br>
+                                ${address2}
+                            </p>
+                            <ul class="nav nav--horizontal nav--divider border text-primary font-size-sm rounded">
+                                <li>
+                                    <a class="btn btn--has-icon" href="http://maps.google.com/?q=${locationAddress}" target="_blank">
+                                        <span class="fas fa-map-marker-alt fa-lg btn__icon"></span>
+                                        <span class="btn__text">Directions</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn btn--has-icon" href="#1">
+                                        <span class="far fa-arrow-alt-circle-right fa-lg btn__icon"></span>
+                                        <span class="btn__text">Details</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>`;
 
-                            ${locationMeetings.map((meeting, index, array) => {
+                    let contentLocationDetail =
 
-                                var previousDay;
+                        `<div class="data__meetings">
+                            <div class="meeting-list">
 
-                                var weekday = meeting.meetingDay;
+                                ${locationMeetings.map((meeting, index, array) => {
 
-                                if(index >= 1){ 
-                                    previousDay = array[index-1].meetingDay;
-                                }
+                                    var previousDay;
 
-                                var meetingInfo =
-                                   `<span class="meeting__name">
-                                        <em>${meeting.meetingName}</em>
-                                    </span>
-                                    <span class="meeting__time">${meeting.meetingStartTime} - ${meeting.meetingEndTime}</span>
-                                    <span class="meeting__discussion">${meeting.discussionType}</span>`
+                                    var weekday = meeting.meetingDay;
 
-                                if (weekday !== previousDay) {
-                                   return `
-                                        <span class="meeting__day">
-                                            <strong>${weekday}</strong>
+                                    if(index >= 1){ 
+                                        previousDay = array[index-1].meetingDay;
+                                    }
+
+                                    var meetingInfo =
+                                    `<span class="meeting__name">
+                                            <em>${meeting.meetingName}</em>
                                         </span>
-                                        ${meetingInfo}`
-                                } else{
-                                    return `${meetingInfo}`
+                                        <span class="meeting__time">${meeting.meetingStartTime} - ${meeting.meetingEndTime}</span>
+                                        <span class="meeting__discussion">${meeting.discussionType}</span>`
+
+                                    if (weekday !== previousDay) {
+                                    return `
+                                            <span class="meeting__day">
+                                                <strong>${weekday}</strong>
+                                            </span>
+                                            ${meetingInfo}`
+                                    } else{
+                                        return `${meetingInfo}`
+                                    }
+
+                                }).join('')}
+
+                            </div>
+
+                        </div>`;
+                                        
+                    marker.bindPopup(contentlocationPopUp);
+
+                    //////////////////////////////////////////////
+                    // Desktop Marker Action
+                    //////////////////////////////////////////////
+
+                    var mediaQuery = window.matchMedia('( max-width: 1000px )');
+
+                    function watchMediaQuery(event) {
+
+                        if (event.matches) {
+                            return;
+                        } else {
+
+                            var dataOverview = document.getElementById("location-overview-loader");
+                            var dataDetail = document.getElementById("location-detail-loader");
+
+                            marker.on('click', () => {
+
+                                if (sidebarShown === false) {
+                                    mapTarget.classList.add('data-shown');
+                                    sidebarShown = true;
+                                    map.invalidateSize(true);
                                 }
+
+                                dataOverview.innerHTML = contentLocationOverview;
+                                dataDetail.innerHTML = contentLocationDetail;
+
+                            });
+                        }
+                    }
+
+                    watchMediaQuery(mediaQuery);
+                    mediaQuery.addListener(watchMediaQuery);
+
+                });
+            
+            });
+
+            weekdays.forEach((day) => {
+
+                let weekday = day;
+
+                console.log("weekday ==> ", weekday);
+
+                let dailyMeetings = itemsAsObjects.filter(meeting => meeting.meetingDay === weekday);
+
+                // console.log("dailyMeetings ==> ", dailyMeetings);
+
+                weekdayMeetings = document.createElement("div");
+
+                let contentMeetingList = `
+
+                    <div class="margin-y-4">
+
+                        <h2 class="font-weight-normal">${weekday}</h2>
+
+                        <table class="table table--stack--lg font-size-md theme-white font-size-md box-shadow-1 rounded margin-y-3">
+
+                            <caption id="table-caption-01" class="screen-reader-only">
+                                Staten Island A.A. Meetings
+                            </caption>
+
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width: 20%;">Time</th>
+                                    <th scope="col" style="width: 20%;">Meeting Name</th>
+                                    <th scope="col" style="width: 25%;">Location</th>
+                                    <th scope="col" style="width: 20%;">Types</th>
+                                    <th scope="col" style="width: 15%;">
+                                        <span class="screen-reader-only">Action</span>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                            ${dailyMeetings.map((meeting) => {
+
+                                let locationAddress = meeting.locationAddress;
+
+                                formatAddress(locationAddress);
+
+                                return `
+                                <tr>
+                                    <td>
+                                        ${meeting.meetingStartTime.toLowerCase()}-${meeting.meetingEndTime.toLowerCase()}
+                                    </td>
+                                    <td>
+                                        <span class="display-block">
+                                            ${meeting.meetingName}</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <em>${meeting.locationName}</em>
+                                        <span class="display-block">
+                                            ${address1}<br>
+                                            ${address2}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="display-block">${meeting.discussionType}</span>
+                                        <span class="display-block">Steps &amp; Traditions</span> 
+                                    </td>
+                                    <td>
+                                        <ul class="nav nav--gap-0 font-size-sm text-primary margin-left-auto">
+                                            <li>
+                                                <a class="btn btn--has-icon" href="http://maps.google.com/?q=${locationAddress}" target="_blank">
+                                                    <span class="fas fa-map-marker-alt fa-lg btn__icon"></span>
+                                                    <span class="btn__text">Directions</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="btn btn--has-icon" href="#1">
+                                                    <span class="far fa-arrow-alt-circle-right fa-lg btn__icon"></span>
+                                                    <span class="btn__text">Details</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>`
 
                             }).join('')}
+                            
+                            </tbody>
 
-                        </div>
+                        </table>
 
                     </div>`;
-                                      
-                marker.bindPopup(contentlocationPopUp);
 
-                //////////////////////////////////////////////
-                // Desktop Marker Action
-                //////////////////////////////////////////////
+                weekdayMeetings.innerHTML = contentMeetingList;
 
-                var mediaQuery = window.matchMedia('( max-width: 1000px )');
+                listTarget.appendChild(weekdayMeetings);
+                
+            });            
+        }
 
-                function watchMediaQuery(event) {
-
-                    if (event.matches) {
-                        return;
-                    } else {
-
-                        var dataOverview = document.getElementById("location-overview-loader");
-                        var dataDetail = document.getElementById("location-detail-loader");
-
-                        marker.on('click', () => {
-
-                            if (sidebarShown === false) {
-                                mapTarget.classList.add('data-shown');
-                                sidebarShown = true;
-                                map.invalidateSize(true);
-                            }
-
-                            dataOverview.innerHTML = contentLocationOverview;
-                            dataDetail.innerHTML = contentLocationDetail;
-
-                        });
-                    }
-                }
-
-                watchMediaQuery(mediaQuery);
-                mediaQuery.addListener(watchMediaQuery);
-
-            });
-           
-        });
-
-        weekdays.forEach((day) => {
-
-            let weekday = day;
-
-            console.log("weekday ==> ", weekday);
-
-            let dailyMeetings = itemsAsObjects.filter(meeting => meeting.meetingDay === weekday);
-
-            // console.log("dailyMeetings ==> ", dailyMeetings);
-
-            let weekdayMeetings = document.createElement("div");
-
-            var contentMeetingList = `
-
-                <div class="margin-y-4">
-
-                    <h2 class="font-weight-normal">${weekday}</h2>
-
-                    <table class="table table--stack--lg font-size-md theme-white font-size-md box-shadow-1 rounded margin-y-3">
-
-                        <caption id="table-caption-01" class="screen-reader-only">
-                            Staten Island A.A. Meetings
-                        </caption>
-
-                        <thead>
-                            <tr>
-                                <th scope="col" style="width: 20%;">Time</th>
-                                <th scope="col" style="width: 20%;">Meeting Name</th>
-                                <th scope="col" style="width: 25%;">Location</th>
-                                <th scope="col" style="width: 20%;">Types</th>
-                                <th scope="col" style="width: 15%;">
-                                    <span class="screen-reader-only">Action</span>
-                                </th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                        ${dailyMeetings.map((meeting) => {
-
-                            let locationAddress = meeting.locationAddress;
-
-                            formatAddress(locationAddress);
-
-                            return `
-                            <tr>
-                                <td>
-                                    ${meeting.meetingStartTime.toLowerCase()}-${meeting.meetingEndTime.toLowerCase()}
-                                </td>
-                                <td>
-                                    <span class="display-block">
-                                        ${meeting.meetingName}</span>
-                                    </span>
-                                </td>
-                                <td>
-                                    <em>${meeting.locationName}</em>
-                                    <span class="display-block">
-                                        ${address1}<br>
-                                        ${address2}
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="display-block">${meeting.discussionType}</span>
-                                    <span class="display-block">Steps &amp; Traditions</span> 
-                                </td>
-                                <td>
-                                    <ul class="nav nav--gap-0 font-size-sm text-primary margin-left-auto">
-                                        <li>
-                                            <a class="btn btn--has-icon" href="http://maps.google.com/?q=${locationAddress}" target="_blank">
-                                                <span class="fas fa-map-marker-alt fa-lg btn__icon"></span>
-                                                <span class="btn__text">Directions</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="btn btn--has-icon" href="#1">
-                                                <span class="far fa-arrow-alt-circle-right fa-lg btn__icon"></span>
-                                                <span class="btn__text">Details</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </td>
-                            </tr>`
-
-                        }).join('')}
-                        
-                        </tbody>
-
-                    </table>
-
-                </div>`;
-
-            weekdayMeetings.innerHTML = contentMeetingList;
-            listTarget.appendChild(weekdayMeetings);
-            
-        });
-
+        displayMeetings();
         loadNycCoreJS();
+        
+        // Filters
+
+        const selectElement = document.querySelector('#select-weekday');
+
+        selectElement.addEventListener('change', (event) => {
+            let myFilter = event.target.value;
+            console.log("myFilter: ", myFilter);
+            itemsAsObjects = itemsAsObjects.filter(meeting => meeting.meetingDay === myFilter);
+            displayMeetings();
+        });
+
+        // const myJSON = JSON.stringify(itemsAsObjects);
+        // console.log("JSON ==> ", myJSON);
 
     }, function (reason) {
         console.log("Error: ", reason.result.error.message);
