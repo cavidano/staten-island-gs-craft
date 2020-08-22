@@ -3,6 +3,7 @@
 //////////////////////////////////////////////
 
 const mapTarget = document.getElementById("map-view");
+const listTarget = document.getElementById("list-loader");
 
 let sidebarShown = false;
 
@@ -58,7 +59,6 @@ siGeo.on('data:loaded', () => {
     centerMap(siGeo);
     
     const mapCustom = 'ckdwypx770g1c19mlk4lbi835';
-    const mapClassic = 'ckdra9cus0rv11aqo0iawtcou'
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{user}/{id}/tiles/{tileSize}/{z}/{x}/{y}?access_token={accessToken}', {
         user: 'cavidano',
@@ -346,8 +346,6 @@ function init() {
             });
            
         });
-
-        const listTarget = document.getElementById("list-loader");
 
         weekdays.forEach((day) => {
 
