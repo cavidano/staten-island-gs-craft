@@ -160,14 +160,12 @@ function init() {
 
         function displayMeetings(displayList) {
 
-            markerLayer = L.layerGroup([]).addTo(map);
-
             if (weekdayMeetings !== undefined) {
                 listTarget.querySelectorAll('div').forEach(el => el.remove());
-                console.log("shoooooooooooooo", weekdayMeetings);
+                console.log("Additional Pass ::::::: ", weekdayMeetings);
                 map.removeLayer(markerLayer);
             } else {
-                console.log("Refreshhhhhhhhhhhhhhhhhhhhhhhhhed", weekdayMeetings);
+                console.log("First Pass ::::::: ", weekdayMeetings);
             }
 
             // Get Locations
@@ -193,6 +191,8 @@ function init() {
             //////////////////////////////////////////////
             // Map and List Data
             //////////////////////////////////////////////
+
+            markerLayer = L.layerGroup().addTo(map);
 
             locations.forEach((location) => {
 
@@ -231,7 +231,7 @@ function init() {
                     marker = L.marker(coords, {
                         icon: meetingIcon,
                         riseOnHover: true
-                    }).addTo(map);
+                    }).addTo(markerLayer);
 
                     formatAddress(locationAddress);
 
@@ -457,9 +457,10 @@ function init() {
         const selectElement = document.querySelector('#select-weekday');
 
         selectElement.addEventListener('change', (event) => {
-            let myFilter = event.target.value;
-            let dayFilter = itemsAsObjects.filter(meeting => meeting.meetingDay === myFilter);
-            displayMeetings(dayFilter);
+            let selectWeekday = event.target.value;
+            let weekdayFilter = itemsAsObjects.filter(meeting => meeting.meetingDay === selectWeekday);
+
+            displayMeetings(weekdayFilter);
         });
 
         // const myJSON = JSON.stringify(itemsAsObjects);
