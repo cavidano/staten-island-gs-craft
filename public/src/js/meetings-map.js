@@ -78,10 +78,6 @@ function centerMap(myBounds){
 const meetingIconSingle = new Icon( { iconUrl: myPath + '/images/map-pin-single.svg' });
 const meetingIconMultiple = new Icon({ iconUrl: myPath + '/images/map-pin-multiple.svg' });
 
-// Create Markers
-
-const markerLayer = L.layerGroup([]).addTo(map);
-
 //////////////////////////////////////////////
 // A. Get Spreadsheet Data
 //////////////////////////////////////////////
@@ -160,13 +156,16 @@ function init() {
         console.log("itemsAsObjects ==> ", itemsAsObjects);
         
         let weekdayMeetings;
+        let markerLayer;
 
-        function displayMeetings(){
+        function displayMeetings(displayList) {
+
+            markerLayer = L.layerGroup([]).addTo(map);
 
             if (weekdayMeetings !== undefined) {
                 listTarget.querySelectorAll('div').forEach(el => el.remove());
                 console.log("shoooooooooooooo", weekdayMeetings);
-
+                map.removeLayer(markerLayer);
             } else {
                 console.log("Refreshhhhhhhhhhhhhhhhhhhhhhhhhed", weekdayMeetings);
             }
@@ -175,7 +174,7 @@ function init() {
 
             let locationsList = [];
 
-            itemsAsObjects.forEach(entry => {
+            displayList.forEach(entry => {
                 locationsList.push(entry.locationAddress);
             });
 
@@ -185,7 +184,7 @@ function init() {
 
             let weekdayList = [];
 
-            itemsAsObjects.forEach(entry => {
+            displayList.forEach(entry => {
                 weekdayList.push(entry.meetingDay);
             });
 
@@ -201,7 +200,7 @@ function init() {
 
                 // console.log("location ==> ", index, location);
 
-                let locationMeetings = itemsAsObjects.filter(meeting => meeting.locationAddress === location);
+                let locationMeetings = displayList.filter(meeting => meeting.locationAddress === location);
 
                 let locationName = locationMeetings[0].locationName;
 
@@ -232,7 +231,7 @@ function init() {
                     marker = L.marker(coords, {
                         icon: meetingIcon,
                         riseOnHover: true
-                    }).addTo(markerLayer);
+                    }).addTo(map);
 
                     formatAddress(locationAddress);
 
@@ -358,7 +357,7 @@ function init() {
 
                 console.log("weekday ==> ", weekday);
 
-                let dailyMeetings = itemsAsObjects.filter(meeting => meeting.meetingDay === weekday);
+                let dailyMeetings = displayList.filter(meeting => meeting.meetingDay === weekday);
 
                 // console.log("dailyMeetings ==> ", dailyMeetings);
 
@@ -450,7 +449,7 @@ function init() {
             });            
         }
 
-        displayMeetings();
+        displayMeetings(itemsAsObjects);
         loadNycCoreJS();
         
         // Filters
@@ -459,9 +458,8 @@ function init() {
 
         selectElement.addEventListener('change', (event) => {
             let myFilter = event.target.value;
-            console.log("myFilter: ", myFilter);
-            itemsAsObjects = itemsAsObjects.filter(meeting => meeting.meetingDay === myFilter);
-            displayMeetings();
+            let dayFilter = itemsAsObjects.filter(meeting => meeting.meetingDay === myFilter);
+            displayMeetings(dayFilter);
         });
 
         // const myJSON = JSON.stringify(itemsAsObjects);
