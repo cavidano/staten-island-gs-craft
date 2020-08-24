@@ -454,13 +454,35 @@ function init() {
         
         // Filters
 
-        const selectElement = document.querySelector('#select-weekday');
+        const selectWeekday = document.querySelector('#select-weekday');
+        const selectDiscussion = document.querySelector('#select-discussion');
 
-        selectElement.addEventListener('change', (event) => {
-            let selectWeekday = event.target.value;
-            let weekdayFilter = itemsAsObjects.filter(meeting => meeting.meetingDay === selectWeekday);
+        let myFilteredArray = itemsAsObjects;
 
-            displayMeetings(weekdayFilter);
+        let filterWeekday = false;
+        let filterDiscussion = false;
+
+        selectWeekday.addEventListener('change', (event) => {
+            
+            filterWeekday = true;
+
+            let filterValue = event.target.value;
+            
+            myFilteredArray = itemsAsObjects.filter(meeting => meeting.meetingDay === filterValue);
+            console.log("myFilteredArray", myFilteredArray);
+            displayMeetings(myFilteredArray);
+
+        });
+
+        selectDiscussion.addEventListener('change', (event) => {
+            let filterValue = event.target.value;
+            myFilteredArray = itemsAsObjects.filter(meeting => meeting.discussionType === filterValue);
+
+            console.log("filterValue ==> ", filterValue);
+
+            displayMeetings(myFilteredArray);
+
+            console.log("myFilteredArray", myFilteredArray);
         });
 
         // const myJSON = JSON.stringify(itemsAsObjects);

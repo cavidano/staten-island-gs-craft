@@ -41,21 +41,42 @@
             
         </div>
 
-        <form class="collapse padding-y-3 font-size-md" id="map-filter">
+        <form class="theme-primary collapse padding-bottom-3 font-size-md" id="map-filter">
 
-            <div class="container narrow form-entry">
-                <div class="form-entry__field">
-                    <div class="form-entry__field__input-wrap">
-                        <select class="form-entry__field__input" id="select-weekday" name="Weekday">
-                            <option value="Sunday">Sunday</option>
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="Wednesday">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
-                            <option value="Saturday">Saturday</option>
-                        </select>
-                        <label class="form-entry__field__label" for="select-borough">Weekday</label>
+            <div class="container narrow">
+                <div class="grid grid--gap-2 grid--cells-6">
+
+                    <div class="grid__cell">
+                        <div class="form-entry">
+                            <div class="form-entry__field">
+                                <div class="form-entry__field__input-wrap">
+                                    <select class="form-entry__field__input" id="select-weekday" name="Weekday">
+                                        <option value="Sunday">Sunday</option>
+                                        <option value="Monday">Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">Wednesday</option>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday">Friday</option>
+                                        <option value="Saturday">Saturday</option>
+                                    </select>
+                                    <label class="form-entry__field__label" for="select-weekday">Weekday</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid__cell">
+                        <div class="form-entry">
+                            <div class="form-entry__field">
+                                <div class="form-entry__field__input-wrap">
+                                    <select class="form-entry__field__input" id="select-discussion" name="Discussion">
+                                        <option value="Open">Open</option>
+                                        <option value="Closed">Closed</option>
+                                    </select>
+                                    <label class="form-entry__field__label" for="select-discussion">Discussion</label>
+                                </div>
+                            </div>
+                        </div>                    
                     </div>
                 </div>
             </div>
