@@ -99,13 +99,17 @@ function init() {
         // Create Columns Array
         let columnHeaderList = [];
 
-        // Create Column Headers Array
-        for (let columnHeader of dataList[0]) {
+        dataList[0].forEach((columnHeader) => {
             columnHeaderList.push(columnHeader);
-        }
+        });
 
-        var itemsAsArrays = [""];
-        var itemsAsObjects = [];
+        console.log("Column Headers...", columnHeaderList);
+
+
+        let itemsAsArrays = [""];
+        let itemsAsObjects = [];
+
+        const cool = () => {
 
         // Print Data Rows
         dataList.forEach((dataRow, i) => {
@@ -133,7 +137,7 @@ function init() {
         });
 
         // Remove Empty Placeholder in itemsAsArrays
-        var itemsAsArrays = itemsAsArrays.filter(function (el) {
+        itemsAsArrays = itemsAsArrays.filter((el) => {
             return el != "";
         });
 
@@ -152,6 +156,10 @@ function init() {
             itemsAsObjects.push(rowObject);
 
         });
+
+        }; // cool
+
+        cool();
 
         console.log("itemsAsObjects ==> ", itemsAsObjects);
         
@@ -176,7 +184,7 @@ function init() {
                 locationsList.push(entry.locationAddress);
             });
 
-            locations = Array.from(new Set(locationsList));
+            const locations = Array.from(new Set(locationsList));
 
             // console.log("locations ==> ", locations);
 
@@ -186,7 +194,7 @@ function init() {
                 weekdayList.push(entry.meetingDay);
             });
 
-            weekdays = Array.from(new Set(weekdayList));
+            const weekdays = Array.from(new Set(weekdayList));
 
             //////////////////////////////////////////////
             // Map and List Data
@@ -220,11 +228,14 @@ function init() {
                         coords = results.results[0].latlng;
                     }
 
+                    let meetingIcon;
+                    let meetingCountLabel;
+
                     if (locationMeetings.length > 1) {
-                        var meetingCountLabel = "Meetings";
+                        meetingCountLabel = "Meetings";
                         meetingIcon = meetingIconMultiple;
                     } else {
-                        var meetingCountLabel = "Meeting";
+                        meetingCountLabel = "Meeting";
                         meetingIcon = meetingIconSingle;
                     }
 
@@ -235,9 +246,8 @@ function init() {
 
                     formatAddress(locationAddress);
 
-                    var contentlocationPopUp = 
-
-                    `<a href="#1" class="text-primary">
+                    var contentlocationPopUp = `
+                        <a href="#1" class="text-primary">
                             <strong>${locationName}</strong>
                         </a>
                         <p class="meeting__address">
@@ -248,9 +258,8 @@ function init() {
                             ${locationMeetings.length} ${meetingCountLabel}
                         </p>`;
 
-                    let contentLocationOverview =
-
-                        `<div class="data__location">
+                    let contentLocationOverview = `
+                        <div class="data__location">
                             <p class="location__title font-size-md">
                                 <strong>${locationName}</strong>
                             </p>
@@ -364,12 +373,11 @@ function init() {
                 weekdayMeetings = document.createElement("div");
 
                 let contentMeetingList = `
-
                     <div class="margin-y-4">
 
                         <h2 class="font-weight-normal">${weekday}</h2>
 
-                        <table class="table table--stack--lg font-size-md theme-white font-size-md box-shadow-1 rounded margin-y-3">
+                        <table class="table table--stack--lg theme-white box-shadow-1 rounded margin-y-3">
 
                             <caption id="table-caption-01" class="screen-reader-only">
                                 Staten Island A.A. Meetings
@@ -457,32 +465,46 @@ function init() {
         const selectWeekday = document.querySelector('#select-weekday');
         const selectDiscussion = document.querySelector('#select-discussion');
 
-        let myFilteredArray = itemsAsObjects;
+        let myFilteredArray;
 
-        let filterWeekday = false;
-        let filterDiscussion = false;
+        // let iveBeenFiltered = false;
+
+        // let filterWeekday = false;
+        // let filterDiscussion = false;
 
         selectWeekday.addEventListener('change', (event) => {
-            
-            filterWeekday = true;
 
+            let iveBeenFiltered = true;
+
+            if(iveBeenFiltered === true){
+                myFilteredArray = cool;
+            }
+            
             let filterValue = event.target.value;
             
             myFilteredArray = itemsAsObjects.filter(meeting => meeting.meetingDay === filterValue);
             console.log("myFilteredArray", myFilteredArray);
+
             displayMeetings(myFilteredArray);
 
         });
 
         selectDiscussion.addEventListener('change', (event) => {
+            
+            let iveBeenFiltered = true;
+
+            if (iveBeenFiltered === true) {
+                myFilteredArray = cool;
+            }
             let filterValue = event.target.value;
+            
             myFilteredArray = itemsAsObjects.filter(meeting => meeting.discussionType === filterValue);
 
             console.log("filterValue ==> ", filterValue);
 
             displayMeetings(myFilteredArray);
 
-            console.log("myFilteredArray", myFilteredArray);
+            console.log("myFilteredArray", itemsAsObjects);
         });
 
         // const myJSON = JSON.stringify(itemsAsObjects);
@@ -557,7 +579,7 @@ function loadNycCoreJS(){
     nycCoreJS.src = 'https://cdn.jsdelivr.net/gh/CityOfNewYork/nyc-core-framework@new-version/dist/js/nyc_core.js';
 
     nycCoreJS.onload = () => {
-        // console.log("I AM LOADED!");
+        console.log("I AM LOADED!");
     }
 
     document.head.append(nycCoreJS);
